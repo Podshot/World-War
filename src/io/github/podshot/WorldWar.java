@@ -1,6 +1,7 @@
 package io.github.podshot;
 
 import io.github.podshot.commands.WorldWarCommand;
+import io.github.podshot.events.GunEvents;
 
 import java.util.logging.Logger;
 
@@ -16,7 +17,7 @@ public class WorldWar extends JavaPlugin {
 		instance = this;
 		logger = this.getLogger();
 		this.getCommand("ww").setExecutor(new WorldWarCommand());
-		
+		this.getServer().getPluginManager().registerEvents(new GunEvents(), this);
 		
 	}
 	
