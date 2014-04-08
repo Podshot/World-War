@@ -9,8 +9,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.stirante.MoreProjectiles.projectile.OrbProjectile;
-
 public class GunEvents implements Listener {
 	
 	private ItemStack gunItemStack = ItemStackHandler.getGunItemStack();

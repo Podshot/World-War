@@ -23,6 +23,7 @@ public class ClassChooser {
 		soldierList.add(ChatColor.YELLOW + "partially used Armor, and a hand grenade.");
 		soldierList.add("");
 		soldierList.add(ChatColor.YELLOW + "This class makes up the backbone of any strong force");
+		
 		imSoldier.setLore(soldierList);
 		soldier.setItemMeta(imSoldier);
 		classChooser.setItem(0, soldier);
@@ -34,6 +35,12 @@ public class ClassChooser {
 		spyList.add(ChatColor.YELLOW + "Plantable Explosives, and Squad Objectives");
 		spyList.add("");
 		spyList.add(ChatColor.YELLOW + "Vital Class for Scouting and Objective targeting");
+		
+		imSpy.setLore(spyList);
+		imSpy.setDisplayName(ChatColor.GRAY + "Spy");	
+		spy.setItemMeta(imSpy);
+		classChooser.setItem(1, spy);
+		
 		return classChooser;
 	}
 

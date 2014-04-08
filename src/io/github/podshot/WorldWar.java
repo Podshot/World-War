@@ -32,11 +32,24 @@ public class WorldWar extends JavaPlugin {
 			pluginFolderF.mkdir();
 			this.saveDefaultConfig();
 		} else {
-			String playersPath = pluginFolderF + fileSep + "players.map";
-			File playersFile = new File(playersPath);
+			String playersTeamPath = pluginFolder + fileSep + "players-teams.map";
+			File playersTeamFile = new File(playersTeamPath);
 			
-			if (playersFile.exists()) {
-				Internals.playersTeamFile = MapSaving.load(playersPath);
+			if (playersTeamFile.exists()) {
+				Internals.playersTeamFile = MapSaving.load(playersTeamPath);
+			} else {
+				File newTeamFile = new File(pluginFolder + fileSep + "players-classes.map");
+				newTeamFile.mkdir();
+			}
+			
+			String playersClassPath = pluginFolder + fileSep + "players-classes.map";
+			File playersClassFile = new File(playersClassPath);
+			
+			if (playersClassFile.exists()) {
+				Internals.playersClassFile = MapSaving.load(playersClassPath);
+			} else {
+				File newClassFile = new File(pluginFolder + fileSep + "players-classes.map");
+				newClassFile.mkdir();
 			}
 		}
 		
@@ -44,7 +57,8 @@ public class WorldWar extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
-		MapSaving.save(Internals.playersTeamFile, pluginFolderF + fileSep + "players.map");
+		MapSaving.save(Internals.playersTeamFile, pluginFolder + fileSep + "players-teams.map");
+		MapSaving.save(Internals.playersClassFile, pluginFolder + fileSep + "players-classes.map");
 	}
 	
 	public static WorldWar getInstance() {
