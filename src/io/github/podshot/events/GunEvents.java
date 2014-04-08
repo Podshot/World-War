@@ -9,10 +9,13 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.stirante.MoreProjectiles.projectile.OrbProjectile;
+
 public class GunEvents implements Listener {
 	
 	private ItemStack gunItemStack = ItemStackHandler.getGunItemStack();
 
+	@SuppressWarnings("unused")
 	@EventHandler
 	public void onPlayerInteract(final PlayerInteractEvent e) {
 		if (!(e.getAction() == Action.RIGHT_CLICK_AIR)) {
@@ -24,6 +27,7 @@ public class GunEvents implements Listener {
 		}
 		
 		Snowball s = e.getPlayer().launchProjectile(Snowball.class);
+		
 	}
 
 }
