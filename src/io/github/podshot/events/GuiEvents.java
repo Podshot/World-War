@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class GuiEvents implements Listener {
 	
+	@SuppressWarnings("unused")
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent evt) {
 		Player player = (Player) evt.getWhoClicked();
