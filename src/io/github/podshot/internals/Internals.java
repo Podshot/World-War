@@ -6,5 +6,6 @@ public class Internals {
 
 	public static Properties playersTeamFile;
 	public static Properties playersClassFile;
+	public static boolean warDeclared;
 
 }

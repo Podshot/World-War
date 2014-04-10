@@ -10,12 +10,16 @@ import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import pgDev.bukkit.DisguiseCraft.DisguiseCraft;
+import pgDev.bukkit.DisguiseCraft.api.DisguiseCraftAPI;
+
 public class WorldWar extends JavaPlugin {
 	
 	public Logger logger;
 	private String fileSep;
 	private String pluginFolder;
 	private File pluginFolderF;
+	public DisguiseCraftAPI dcAPI;
 	private static WorldWar instance;
 
 	@Override
@@ -53,6 +57,8 @@ public class WorldWar extends JavaPlugin {
 			}
 		}
 		
+		this.setupDC();
+		
 	}
 	
 	@Override
@@ -63,6 +69,10 @@ public class WorldWar extends JavaPlugin {
 	
 	public static WorldWar getInstance() {
 		return instance;
+	}
+	
+	private void setupDC() {
+		dcAPI = DisguiseCraft.getAPI();
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import io.github.podshot.WorldWar;
 import io.github.podshot.files.BackUp;
+import io.github.podshot.internals.Internals;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -26,6 +27,8 @@ public class WarHandler {
 				plugin.logger.info("Backing up World: " + w.getName() + " to the folder Backup/" + w.getName());
 				BackUp.copyWorld(worldSource, target);
 			}
+			
+			Internals.warDeclared = true;
 		}
 	}
 
