@@ -20,6 +20,7 @@ import org.bukkit.util.Vector;
 
 import com.stirante.MoreProjectiles.TypedRunnable;
 import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
+import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
 import com.stirante.MoreProjectiles.projectile.CustomProjectile;
 import com.stirante.MoreProjectiles.projectile.ItemProjectile;
 import com.stirante.MoreProjectiles.projectile.OrbProjectile;
@@ -40,18 +41,17 @@ public class GunEvents implements Listener {
 		}
 
 		if (e.getItem().getItemMeta().getDisplayName() == "Standard Issue Rifle") {
-			Bukkit.getLogger().warning("Test Event Message");
-			Arrow a = e.getPlayer().launchProjectile(Arrow.class);
-			ItemProjectile ip = new ItemProjectile("item", e.getPlayer(), new ItemStack(Material.APPLE), 1.0F);
-			a.getWorld().playEffect(a.getLocation().getDirection().toLocation(a.getWorld()), Effect.SMOKE, 10);
+			//Bukkit.getLogger().warning("Test Event Message");
+			//Arrow a = e.getPlayer().launchProjectile(Arrow.class);
+			ItemProjectile ip = new ItemProjectile("bullet-rifle", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 3.0F);
 			e.setCancelled(true);
 		} else if (e.getItem() == pistolItemStack ) {
-			//CustomProjectile p = new OrbProjectile("bulletpistol", e.getPlayer(), 1.0F);
-			//p.getEntity().getWorld().playEffect(e.getPlayer.getLocation(), Effect.SMOKE, 10);
+			ItemProjectile ip = new ItemProjectile("bullet-pistol", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 3.0F);
 		}
 	}
 
-	public void onHit(CustomProjectileHitEvent e) {
+	@EventHandler
+	public void onHit(ItemProjectileHitEvent e) {
 		if (Internals.warDeclared) {
 			if (e.getHitType() == CustomProjectileHitEvent.HitType.ENTITY) {
 				e.getHitEntity().damage(3.0D, e.getProjectile().getShooter());
@@ -61,9 +61,9 @@ public class GunEvents implements Listener {
 						Player hitP = (Player) e.getHitEntity();
 						if (Internals.playersTeamFile.containsKey(hitP.getName())) {
 							if (Internals.playersTeamFile.get(hitP.getName()) == "Red") {
-								if (e.getProjectile().getProjectileName() == "bulletrifle") {
+								if (e.getProjectile().getProjectileName() == "bullet-rifle") {
 									hitP.damage(3.0D, shooter);
-								} else if (e.getProjectile().getProjectileName() == "bulletpistol") {
+								} else if (e.getProjectile().getProjectileName() == "bullet-pistol") {
 									hitP.damage(1.5D, shooter);
 								}
 							}
