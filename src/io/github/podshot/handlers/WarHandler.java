@@ -19,9 +19,11 @@ public class WarHandler {
 			for (World w : sources) {
 				File worldSource = w.getWorldFolder();
 				
-				File target = new File("Backup-" + w.getName() + "/");
+				File backupFolder = new File("Backups/");
+				backupFolder.mkdir();
+				File target = new File("Backups/" + w.getName() + "/");
 				target.mkdir();
-				plugin.logger.info("Backing up World: " + w.getName() + " to the folder Backup-" + w.getName());
+				plugin.logger.info("Backing up World: " + w.getName() + " to the folder Backup/" + w.getName());
 				BackUp.copyWorld(worldSource, target);
 			}
 		}
