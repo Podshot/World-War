@@ -4,7 +4,6 @@ import io.github.podshot.entities.DisguisePlayerAsVehicle;
 import io.github.podshot.internals.Internals;
 
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,7 +12,7 @@ import org.bukkit.metadata.MetadataValue;
 
 public class EntityEvents implements Listener {
 	private DisguisePlayerAsVehicle dpav;
-
+	
 	@EventHandler
 	public void onPlayerInteractEntityEvent(PlayerInteractEntityEvent evt) {
 		if (Internals.warDeclared) {
@@ -46,9 +45,5 @@ public class EntityEvents implements Listener {
 			}
 		}
 
-		if (evt.getRightClicked().getType() == EntityType.COW) {
-			dpav.addPlayerAsDragon(evt.getPlayer());
-			evt.setCancelled(true);
-		}
 	}
 }

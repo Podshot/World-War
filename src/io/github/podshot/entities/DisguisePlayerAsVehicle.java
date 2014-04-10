@@ -1,11 +1,11 @@
 package io.github.podshot.entities;
 
+import io.github.podshot.WorldWar;
+
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import pgDev.bukkit.DisguiseCraft.api.DisguiseCraftAPI;
-import pgDev.bukkit.DisguiseCraft.disguise.Disguise;
-import pgDev.bukkit.DisguiseCraft.disguise.DisguiseType;
-import io.github.podshot.WorldWar;
 
 public class DisguisePlayerAsVehicle {
 	private static WorldWar plugin = WorldWar.getInstance();
@@ -14,21 +14,21 @@ public class DisguisePlayerAsVehicle {
 	public void addPlayerAsBat(Player player) {
 		String name = player.getName();
 		if (!dcAPI.isDisguised(player)) {
-			new Disguise(dcAPI.newEntityID(), name, DisguiseType.Bat);
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "disguise Bat " + name);
 		}
 	}
-	
+
 	public void addPlayerAsBlaze(Player player) {
 		String name = player.getName();
 		if (!dcAPI.isDisguised(player)) {
-			new Disguise(dcAPI.newEntityID(), name, DisguiseType.Blaze);
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "disguise Blaze " + name);
 		}
 	}
 
 	public void addPlayerAsDragon(Player player) {
 		String name = player.getName();
 		if (!dcAPI.isDisguised(player)) {
-			new Disguise(dcAPI.newEntityID(), name, DisguiseType.EnderDragon);
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "disguise EnderDragon " + name);
 		}
 	}
 
