@@ -1,6 +1,7 @@
 package io.github.podshot;
 
 import io.github.podshot.commands.WorldWarCommand;
+import io.github.podshot.events.EntityEvents;
 import io.github.podshot.events.GunEvents;
 import io.github.podshot.files.Saving;
 
@@ -31,6 +32,7 @@ public class WorldWar extends JavaPlugin {
 		pluginFolderF = new File(pluginFolder);
 		this.getCommand("ww").setExecutor(new WorldWarCommand());
 		this.getServer().getPluginManager().registerEvents(new GunEvents(), this);
+		this.getServer().getPluginManager().registerEvents(new EntityEvents(), this);
 		
 		if (!pluginFolderF.exists()) {
 			pluginFolderF.mkdir();
