@@ -41,6 +41,19 @@ public class ClassChooser {
 		spy.setItemMeta(imSpy);
 		classChooser.setItem(1, spy);
 		
+		ItemStack engineer = new ItemStack(Material.IRON_SPADE);
+		ItemMeta imEngineer = engineer.getItemMeta();
+		List<String> engineerList = new ArrayList<String>();
+		engineerList.add(ChatColor.YELLOW + "Equipped with a Wrench, Portable Landmines,");
+		engineerList.add(ChatColor.YELLOW + "and a Shotgun loaded with Slug Shell");
+		engineerList.add("");
+		engineerList.add(ChatColor.YELLOW + "Essential Class for any Squadron of Vehicles");
+		
+		imEngineer.setLore(engineerList);
+		imEngineer.setDisplayName(ChatColor.GRAY + "Engineer");
+		engineer.setItemMeta(imEngineer);
+		classChooser.setItem(2, engineer);
+		
 		return classChooser;
 	}
 

@@ -1,15 +1,18 @@
 package io.github.podshot.events;
 
-import java.util.List;
-
 import io.github.podshot.WorldWar;
+import io.github.podshot.gui.ClassChooser;
 import io.github.podshot.internals.Internals;
+
+import java.util.List;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
@@ -48,5 +51,20 @@ public class PlayerEvents implements Listener {
 				Internals.playersTeamFile.setProperty(player.getName(), team);
 			}
 		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	@EventHandler
+	public void onPlayerDeath(PlayerDeathEvent evt) {
+		Player player = evt.getEntity();
+		player.getInventory().clear();
+		player.updateInventory();
+		evt.setDroppedExp(0);
+	}
+	
+	@EventHandler
+	public void onPlayerRespawn(PlayerRespawnEvent evt) {
+		Player player = evt.getPlayer();
+		player.openInventory(ClassChooser.getClassChooserGui());
 	}
 }

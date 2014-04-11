@@ -11,14 +11,15 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.metadata.MetadataValue;
 
 public class EntityEvents implements Listener {
-	private DisguisePlayerAsVehicle dpav;
-	
+
 	@EventHandler
 	public void onPlayerInteractEntityEvent(PlayerInteractEntityEvent evt) {
 		if (Internals.warDeclared) {
 			String vehicleType = null;
 			Player player = evt.getPlayer();
 			Entity ent = evt.getRightClicked();
+			DisguisePlayerAsVehicle.addPlayerAsDragon(player);
+			evt.setCancelled(true);
 			for (MetadataValue dat : ent.getMetadata("WorldWar.Vehicle")) {
 				if (dat.getOwningPlugin().getName().equals("World War")) {
 					vehicleType = dat.asString();
@@ -28,15 +29,15 @@ public class EntityEvents implements Listener {
 			if (vehicleType != null) {
 				switch(vehicleType) {
 				case "scout":
-					dpav.addPlayerAsBat(player);
+					DisguisePlayerAsVehicle.addPlayerAsBat(player);
 					evt.setCancelled(true);
 					break;
 				case "fighter":
-					dpav.addPlayerAsBlaze(player);
+					DisguisePlayerAsVehicle.addPlayerAsBlaze(player);
 					evt.setCancelled(true);
 					break;
 				case "bomber":
-					dpav.addPlayerAsDragon(player);
+					DisguisePlayerAsVehicle.addPlayerAsDragon(player);
 					evt.setCancelled(true);
 					break;
 				default:
