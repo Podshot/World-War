@@ -27,13 +27,12 @@ public class VehicleHandler implements Listener {
 
 		Player player = (Player) evt.getEntity();
 		Player damager = (Player) evt.getDamager();
-		double healthLeft = evt.getDamage();
+		Integer healthLeft = (int) evt.getDamage();
 		String vehicleType = null;
 		String damagerTeam = Internals.playersTeamFile.getProperty(damager.getName());
 		String damagedTeam = Internals.playersTeamFile.getProperty(player.getName());
 		if (damagerTeam == damagedTeam) {
 			evt.setCancelled(true);
-			player.getHealth();
 		}
 
 		for (MetadataValue val : player.getMetadata("WorldWar.Vehicle.Type")) {
