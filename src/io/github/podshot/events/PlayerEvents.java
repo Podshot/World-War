@@ -43,7 +43,7 @@ public class PlayerEvents implements Listener {
 			Player player = (Player) evt.getPlayer();
 			List<MetadataValue> values = player.getMetadata("WorldWar.Team");
 			for (MetadataValue val : values) {
-				if (val.getOwningPlugin().getName().equals("World War")) {
+				if (val.getOwningPlugin().getName().equals("WorldWar")) {
 					team = val.asString();
 				}
 			}
