@@ -51,7 +51,7 @@ public class WorldWar extends JavaPlugin {
 			if (playersTeamFile.exists()) {
 				Saving.loadTeamFile(playersTeamPath);
 			} else {
-				File newTeamFile = new File(pluginFolder + fileSep + "players-classes.map");
+				File newTeamFile = new File(pluginFolder + fileSep + "players-teams.map");
 				try {
 					newTeamFile.createNewFile();
 				} catch (IOException e) {
