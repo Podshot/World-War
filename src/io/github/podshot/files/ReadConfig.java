@@ -10,10 +10,8 @@ public class ReadConfig {
 
 	public void readConfig() {
 		FileConfiguration config = plugin.getConfig();
-		ConfigInternals.aatoe = config
-				.getBoolean("Allow-Anyone-To-Enter-Vehicles");
-		ConfigInternals.huolagw = config
-				.getBoolean("Hyped-Up-On-Lemonade-And-Gummy-Worms");
+		ConfigInternals.aatoe = config.getBoolean("Allow-Anyone-To-Enter-Vehicles");
+		ConfigInternals.huolagw = config.getBoolean("Hyped-Up-On-Lemonade-And-Gummy-Worms");
 	}
 
 }
