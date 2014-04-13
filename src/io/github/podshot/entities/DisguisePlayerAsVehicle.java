@@ -25,6 +25,7 @@ public class DisguisePlayerAsVehicle {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void addPlayerAsDragon(Player player) {
 		if (!dcAPI.isDisguised(player)) {
 			dcAPI.disguisePlayer(player, new Disguise(dcAPI.newEntityID(), DisguiseType.EnderDragon));
@@ -32,8 +33,10 @@ public class DisguisePlayerAsVehicle {
 			player.setFlying(true);
 			player.setFlySpeed(0.02F);
 			player.setHealth(30.0D);
-			player.getEyeLocation().getDirection();
+			player.getEyeLocation();
 			player.setMetadata("WorldWar.Vehicle.Type", new FixedMetadataValue(plugin, "Bomber"));
+			player.getInventory().clear();
+			player.updateInventory();
 		}
 	}
 }

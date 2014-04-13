@@ -6,11 +6,14 @@ import io.github.podshot.internals.Internals;
 
 import java.util.List;
 
+import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -66,5 +69,35 @@ public class PlayerEvents implements Listener {
 	public void onPlayerRespawn(PlayerRespawnEvent evt) {
 		Player player = evt.getPlayer();
 		player.openInventory(ClassChooser.getClassChooserGui());
+	}
+	
+	@EventHandler
+	public void onPlayerMoveEvent(PlayerMoveEvent evt) {
+		if (!Internals.warDeclared) {
+			return;
+		}
+		
+		for (Location loc : Internals.explosiveLocations) {
+			if (loc == evt.getPlayer().getLocation()) {
+				Block explosive = loc.getBlock();
+				String team = null;
+				String bTeam = null;
+				for (MetadataValue md : evt.getPlayer().getMetadata("WorldWar.Team")) {
+					if (md.getOwningPlugin().getName().equals("WorldWar")) {
+						team = md.asString();
+					}
+				}
+				List<MetadataValue> vals = explosive.getMetadata("WorldWar.Team");
+				for (MetadataValue val : vals) {
+					if (val.getOwningPlugin().getName().equals("WorldWar")) {
+						bTeam = val.asString();
+					}
+				}
+				
+				if (team != bTeam) {
+					
+				}
+			}
+		}
 	}
 }

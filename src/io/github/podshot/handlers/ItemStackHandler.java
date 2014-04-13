@@ -16,8 +16,20 @@ public class ItemStackHandler {
 	}
 
 	public static ItemStack getPistolitemStack() {
-		// TODO Auto-generated method stub
-		return null;
+		ItemStack pistol = new ItemStack(Material.STONE_HOE);
+		ItemMeta imPistol = pistol.getItemMeta();
+		
+		imPistol.setDisplayName("Pistol");
+		pistol.setItemMeta(imPistol);
+		return pistol;
 	}
-
+	
+	public static ItemStack getBombExplosiveItemStack() {
+		ItemStack explosive = new ItemStack(Material.WOOD_BUTTON);
+		ItemMeta imExplosive = explosive.getItemMeta();
+		
+		imExplosive.setDisplayName("Explosive Charge");
+		explosive.setItemMeta(imExplosive);
+		return explosive;
+	}
 }

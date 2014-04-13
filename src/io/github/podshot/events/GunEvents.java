@@ -29,7 +29,18 @@ public class GunEvents implements Listener {
 		// return;
 		// }
 		if (e.getAction() == Action.RIGHT_CLICK_AIR) {
+			String gunType = e.getItem().getItemMeta().getDisplayName().toString();
 
+			switch(gunType) {
+			case "Standard Issue Rifle":
+				ItemProjectile rBullet = new ItemProjectile("bullet-rifle", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 3.0F);
+				e.getItem().setDurability((short) (e.getItem().getDurability() - (short) 1));
+				break;
+			case "Pistol":
+				ItemProjectile pBullet = new ItemProjectile("bullet-pistol", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 3.0F);
+				e.getItem().setDurability((short) (e.getItem().getDurability() - (short) 1));
+				break;
+			}
 			if (e.getItem().getItemMeta().getDisplayName() == "Standard Issue Rifle") {
 				// Bukkit.getLogger().warning("Test Event Message");
 				// Arrow a = e.getPlayer().launchProjectile(Arrow.class);
