@@ -23,6 +23,10 @@ public class TestCommand implements CommandExecutor {
 				ret = true;
 				player.openInventory(ClassChooser.getClassChooserGui());
 			}
+			if (args[0].equalsIgnoreCase("damage")) {
+				ret = true;
+				player.damage(2.0D);
+			}
 		}
 		return ret;
 	}
