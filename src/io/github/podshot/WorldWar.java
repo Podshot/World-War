@@ -40,12 +40,9 @@ public class WorldWar extends JavaPlugin {
 		if (debug) {
 			this.getCommand("test").setExecutor(new TestCommand());
 		}
-		this.getServer().getPluginManager()
-				.registerEvents(new GunEvents(), this);
-		this.getServer().getPluginManager()
-				.registerEvents(new EntityEvents(), this);
-		this.getServer().getPluginManager()
-				.registerEvents(new GuiEvents(), this);
+		this.getServer().getPluginManager().registerEvents(new GunEvents(), this);
+		this.getServer().getPluginManager().registerEvents(new EntityEvents(), this);
+		this.getServer().getPluginManager().registerEvents(new GuiEvents(), this);
 		if (!pluginFolderF.exists()) {
 			pluginFolderF.mkdir();
 			generate = true;
@@ -55,15 +52,13 @@ public class WorldWar extends JavaPlugin {
 		if (generate) {
 			this.saveDefaultConfig();
 		} else {
-			String playersTeamPath = pluginFolder + fileSep
-					+ "players-teams.map";
+			String playersTeamPath = pluginFolder + fileSep + "players-teams.map";
 			File playersTeamFile = new File(playersTeamPath);
 
 			if (playersTeamFile.exists()) {
 				Saving.loadTeamFile(playersTeamPath);
 			} else {
-				File newTeamFile = new File(pluginFolder + fileSep
-						+ "players-teams.map");
+				File newTeamFile = new File(pluginFolder + fileSep + "players-teams.map");
 				try {
 					newTeamFile.createNewFile();
 				} catch (IOException e) {
@@ -72,15 +67,13 @@ public class WorldWar extends JavaPlugin {
 				}
 			}
 
-			String playersClassPath = pluginFolder + fileSep
-					+ "players-classes.map";
+			String playersClassPath = pluginFolder + fileSep + "players-classes.map";
 			File playersClassFile = new File(playersClassPath);
 
 			if (playersClassFile.exists()) {
 				Saving.loadClassFile(playersClassPath);
 			} else {
-				File newClassFile = new File(pluginFolder + fileSep
-						+ "players-classes.map");
+				File newClassFile = new File(pluginFolder + fileSep + "players-classes.map");
 				try {
 					newClassFile.createNewFile();
 				} catch (IOException e) {

@@ -42,8 +42,7 @@ public class Saving {
 				try {
 					outputTeam.close();
 				} catch (IOException ioe) {
-					plugin.logger
-							.warning("Could not close the Output Stream, a resource leak may occur!");
+					plugin.logger.warning("Could not close the Output Stream, a resource leak may occur!");
 					ioe.printStackTrace();
 				}
 			}
@@ -56,8 +55,7 @@ public class Saving {
 		try {
 			teamFile.load(new FileInputStream(playersTeamPath));
 		} catch (IOException e) {
-			plugin.logger
-					.severe("Encountered a IOException while reading the Team file!");
+			plugin.logger.severe("Encountered a IOException while reading the Team file!");
 			e.printStackTrace();
 		}
 		Internals.playersTeamFile = teamFile;
@@ -79,8 +77,7 @@ public class Saving {
 				try {
 					outputClass.close();
 				} catch (IOException ioe) {
-					plugin.logger
-							.warning("Could not close the Output Stream, a resource leak may occur!");
+					plugin.logger.warning("Could not close the Output Stream, a resource leak may occur!");
 					ioe.printStackTrace();
 				}
 			}
@@ -92,8 +89,7 @@ public class Saving {
 		try {
 			classFile.load(new FileInputStream(playerClassPath));
 		} catch (IOException e) {
-			plugin.logger
-					.severe("Encountered a IOException while reading the Class file!");
+			plugin.logger.severe("Encountered a IOException while reading the Class file!");
 			e.printStackTrace();
 		}
 		Internals.playersClassFile = classFile;

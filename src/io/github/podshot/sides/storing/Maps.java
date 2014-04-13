@@ -16,8 +16,7 @@ public class Maps {
 		// Player name, Team
 		String name = p.getName();
 		if (teamMap.containsKey(name)) {
-			plugin.logger.info("Player: " + name + " is now on the " + team
-					+ " side!");
+			plugin.logger.info("Player: " + name + " is now on the " + team + " side!");
 		} else {
 			teamMap.put(name, team);
 			p.sendMessage("You are now on the " + team + " side");

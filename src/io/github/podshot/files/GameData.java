@@ -16,8 +16,7 @@ public class GameData {
 
 	public static void init() {
 		props = new Properties();
-		File propsF = new File(plugin.getDataFolder() + plugin.fileSep
-				+ "GameData.props");
+		File propsF = new File(plugin.getDataFolder() + plugin.fileSep + "GameData.props");
 		if (!propsF.exists()) {
 			try {
 				propsF.createNewFile();
@@ -28,8 +27,7 @@ public class GameData {
 			writeNewProps();
 		}
 		try {
-			props.load(new FileInputStream(plugin.getDataFolder()
-					+ plugin.fileSep + "GameData.props"));
+			props.load(new FileInputStream(plugin.getDataFolder() + plugin.fileSep + "GameData.props"));
 		} catch (IOException e) {
 			plugin.logger.severe("Could not load Game Data File!");
 			e.printStackTrace();
@@ -42,8 +40,7 @@ public class GameData {
 		Properties pop = new Properties();
 		pop.setProperty("War-Declared", "false");
 		try {
-			output = new FileOutputStream(plugin.getDataFolder()
-					+ plugin.fileSep + "GameData.props");
+			output = new FileOutputStream(plugin.getDataFolder() + plugin.fileSep + "GameData.props");
 			pop.store(output, null);
 		} catch (IOException e) {
 			plugin.logger.severe("Could not create a Game Data File!");
@@ -53,8 +50,7 @@ public class GameData {
 				try {
 					output.close();
 				} catch (IOException ioe) {
-					plugin.logger
-							.warning("Could not close the Output Stream, a resource leak may occur!");
+					plugin.logger.warning("Could not close the Output Stream, a resource leak may occur!");
 					ioe.printStackTrace();
 				}
 			}
@@ -65,13 +61,12 @@ public class GameData {
 	public static void saveProps() {
 		Properties saving = new Properties();
 		if (Internals.warDeclared) {
-			saving.setProperty("War-Declared", "false");
-		} else {
 			saving.setProperty("War-Declared", "true");
+		} else {
+			saving.setProperty("War-Declared", "false");
 		}
 		try {
-			output = new FileOutputStream(plugin.getDataFolder()
-					+ plugin.fileSep + "GameData.props");
+			output = new FileOutputStream(plugin.getDataFolder() + plugin.fileSep + "GameData.props");
 			saving.store(output, null);
 		} catch (IOException e) {
 			plugin.logger.severe("Could not write to the Game Data File!");
@@ -81,8 +76,7 @@ public class GameData {
 				try {
 					output.close();
 				} catch (IOException ioe) {
-					plugin.logger
-							.warning("Could not close the Output Stream, a resource leak may occur!");
+					plugin.logger.warning("Could not close the Output Stream, a resource leak may occur!");
 					ioe.printStackTrace();
 				}
 			}

@@ -15,8 +15,7 @@ public class WarHandler {
 
 	public static void startWar(boolean b) {
 		if (b) {
-			Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-					"gamerule keepInventory true");
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "gamerule keepInventory true");
 			plugin.logger.info("Backing Up the world");
 			List<World> sources = Bukkit.getWorlds();
 			for (World w : sources) {
@@ -26,8 +25,7 @@ public class WarHandler {
 				backupFolder.mkdir();
 				File target = new File("Backups/" + w.getName() + "/");
 				target.mkdir();
-				plugin.logger.info("Backing up World: " + w.getName()
-						+ " to the folder Backup/" + w.getName());
+				plugin.logger.info("Backing up World: " + w.getName() + " to the folder Backup/" + w.getName());
 				BackUp.copyWorld(worldSource, target);
 			}
 

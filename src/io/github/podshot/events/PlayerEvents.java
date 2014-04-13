@@ -25,16 +25,12 @@ public class PlayerEvents implements Listener {
 	public void onPlayerJoinEvent(PlayerJoinEvent evt) {
 		if (Internals.warDeclared) {
 			if (Internals.playersTeamFile.contains(evt.getPlayer().getName())) {
-				if (Internals.playersTeamFile.getProperty(evt.getPlayer()
-						.getName()) == "Blue") {
+				if (Internals.playersTeamFile.getProperty(evt.getPlayer().getName()) == "Blue") {
 					Player player = evt.getPlayer();
-					player.setMetadata("WorldWar.Team", new FixedMetadataValue(
-							plugin, "Blue"));
-				} else if (Internals.playersTeamFile.getProperty(evt
-						.getPlayer().getName()) == "Red") {
+					player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Blue"));
+				} else if (Internals.playersTeamFile.getProperty(evt.getPlayer().getName()) == "Red") {
 					Player player = evt.getPlayer();
-					player.setMetadata("WorldWar.Team", new FixedMetadataValue(
-							plugin, "Red"));
+					player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Red"));
 				}
 			}
 		}

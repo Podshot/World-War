@@ -25,26 +25,20 @@ public class GuiEvents implements Listener {
 			if (clicked.getType() == Material.LEATHER_HELMET) {
 				evt.setCancelled(true);
 				player.closeInventory();
-				player.setMetadata("WorldWar.Class", new FixedMetadataValue(
-						plugin, "Soldier"));
-				player.sendMessage("[" + player.getName()
-						+ "] Choose class: Soldier");
+				player.setMetadata("WorldWar.Class", new FixedMetadataValue(plugin, "Soldier"));
+				player.sendMessage("[" + player.getName() + "] Choose class: Soldier");
 			}
 			if (clicked.getType() == Material.POTION) {
 				evt.setCancelled(true);
 				player.closeInventory();
-				player.setMetadata("WorldWar.Class", new FixedMetadataValue(
-						plugin, "Spy"));
-				player.sendMessage("[" + player.getName()
-						+ "] Choose class: Spy");
+				player.setMetadata("WorldWar.Class", new FixedMetadataValue(plugin, "Spy"));
+				player.sendMessage("[" + player.getName() + "] Choose class: Spy");
 			}
 			if (clicked.getType() == Material.IRON_SPADE) {
 				evt.setCancelled(true);
 				player.closeInventory();
-				player.setMetadata("WorldWar.Class", new FixedMetadataValue(
-						plugin, "Engineer"));
-				player.sendMessage("[" + player.getName()
-						+ "] Choose class: Engineer");
+				player.setMetadata("WorldWar.Class", new FixedMetadataValue(plugin, "Engineer"));
+				player.sendMessage("[" + player.getName() + "] Choose class: Engineer");
 			}
 			player.sendMessage("This is a debug message");
 		}
