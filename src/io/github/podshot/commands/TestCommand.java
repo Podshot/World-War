@@ -1,6 +1,7 @@
 package io.github.podshot.commands;
 
-import org.bukkit.Location;
+import io.github.podshot.gui.ClassChooser;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,11 +16,12 @@ public class TestCommand implements CommandExecutor {
 			Player player = (Player) sender;
 			if (args[0].equalsIgnoreCase("downward")) {
 				ret = true;
-				while (!player.isOnGround()) {
-					Location down = new Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ());
-					Location newDown = new Location(down.getWorld(), down.getX(), down.getY() - 1.0D, down.getY());
-					player.teleport(newDown);
-				}
+				player.setFlying(false);
+				player.setFlySpeed(1.0F);
+			}
+			if (args[0].equalsIgnoreCase("gui")) {
+				ret = true;
+				player.openInventory(ClassChooser.getClassChooserGui());
 			}
 		}
 		return ret;

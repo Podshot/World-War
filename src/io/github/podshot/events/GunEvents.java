@@ -36,19 +36,17 @@ public class GunEvents implements Listener {
 		//if (Internals.warDeclared) {
 		//return;
 		//}
-		if (e.getAction() != Action.RIGHT_CLICK_AIR) {
-			return;
-		}
-		
+		if (e.getAction() == Action.RIGHT_CLICK_AIR) {
 
-		if (e.getItem().getItemMeta().getDisplayName() == "Standard Issue Rifle") {
-			//Bukkit.getLogger().warning("Test Event Message");
-			//Arrow a = e.getPlayer().launchProjectile(Arrow.class);
-			ItemProjectile ip = new ItemProjectile("bullet-rifle", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 3.0F);
-			// TODO: Add this => e.getItem().setDurability((short)1);
-			e.setCancelled(true);
-		} else if (e.getItem() == pistolItemStack ) {
-			ItemProjectile ip = new ItemProjectile("bullet-pistol", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 3.0F);
+
+			if (e.getItem().getItemMeta().getDisplayName() == "Standard Issue Rifle") {
+				//Bukkit.getLogger().warning("Test Event Message");
+				//Arrow a = e.getPlayer().launchProjectile(Arrow.class);
+				ItemProjectile ip = new ItemProjectile("bullet-rifle", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 3.0F);
+				// TODO: Add this => e.getItem().setDurability((short)1);
+			} else if (e.getItem() == pistolItemStack ) {
+				ItemProjectile ip = new ItemProjectile("bullet-pistol", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 3.0F);
+			}
 		}
 	}
 
