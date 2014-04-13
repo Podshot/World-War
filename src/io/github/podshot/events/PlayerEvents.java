@@ -25,12 +25,16 @@ public class PlayerEvents implements Listener {
 	public void onPlayerJoinEvent(PlayerJoinEvent evt) {
 		if (Internals.warDeclared) {
 			if (Internals.playersTeamFile.contains(evt.getPlayer().getName())) {
-				if (Internals.playersTeamFile.getProperty(evt.getPlayer().getName()) == "Blue") {
-					Player player = (Player) evt.getPlayer();
-					player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin ,"Blue"));
-				} else if (Internals.playersTeamFile.getProperty(evt.getPlayer().getName()) == "Red") {
-					Player player = (Player) evt.getPlayer();
-					player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Red"));
+				if (Internals.playersTeamFile.getProperty(evt.getPlayer()
+						.getName()) == "Blue") {
+					Player player = evt.getPlayer();
+					player.setMetadata("WorldWar.Team", new FixedMetadataValue(
+							plugin, "Blue"));
+				} else if (Internals.playersTeamFile.getProperty(evt
+						.getPlayer().getName()) == "Red") {
+					Player player = evt.getPlayer();
+					player.setMetadata("WorldWar.Team", new FixedMetadataValue(
+							plugin, "Red"));
 				}
 			}
 		}
@@ -40,7 +44,7 @@ public class PlayerEvents implements Listener {
 	public void onPlayerQuitEvent(PlayerQuitEvent evt) {
 		if (Internals.warDeclared) {
 			String team = null;
-			Player player = (Player) evt.getPlayer();
+			Player player = evt.getPlayer();
 			List<MetadataValue> values = player.getMetadata("WorldWar.Team");
 			for (MetadataValue val : values) {
 				if (val.getOwningPlugin().getName().equals("WorldWar")) {
@@ -52,7 +56,7 @@ public class PlayerEvents implements Listener {
 			}
 		}
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent evt) {
@@ -61,7 +65,7 @@ public class PlayerEvents implements Listener {
 		player.updateInventory();
 		evt.setDroppedExp(0);
 	}
-	
+
 	@EventHandler
 	public void onPlayerRespawn(PlayerRespawnEvent evt) {
 		Player player = evt.getPlayer();

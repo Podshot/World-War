@@ -10,7 +10,8 @@ import org.bukkit.entity.Player;
 public class TestCommand implements CommandExecutor {
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
+	public boolean onCommand(CommandSender sender, Command cmd, String lbl,
+			String[] args) {
 		boolean ret = false;
 		if (sender instanceof Player) {
 			Player player = (Player) sender;

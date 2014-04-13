@@ -18,7 +18,7 @@ public class EntityEvents implements Listener {
 			String vehicleType = null;
 			Player player = evt.getPlayer();
 			Entity ent = evt.getRightClicked();
-			//DisguisePlayerAsVehicle.addPlayerAsDragon(player);
+			// DisguisePlayerAsVehicle.addPlayerAsDragon(player);
 			DisguisePlayerAsVehicle.addPlayerAsBlaze(player);
 			evt.setCancelled(true);
 			for (MetadataValue dat : ent.getMetadata("WorldWar.isVehicle")) {
@@ -28,7 +28,7 @@ public class EntityEvents implements Listener {
 			}
 
 			if (vehicleType != null) {
-				switch(vehicleType) {
+				switch (vehicleType) {
 				case "scout":
 					DisguisePlayerAsVehicle.addPlayerAsBat(player);
 					evt.setCancelled(true);

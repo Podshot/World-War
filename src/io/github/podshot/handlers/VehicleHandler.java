@@ -30,8 +30,10 @@ public class VehicleHandler implements Listener {
 		Integer healthLeft = (int) evt.getDamage();
 		int health = 20 - healthLeft;
 		String vehicleType = null;
-		String damagerTeam = Internals.playersTeamFile.getProperty(damager.getName());
-		String damagedTeam = Internals.playersTeamFile.getProperty(player.getName());
+		String damagerTeam = Internals.playersTeamFile.getProperty(damager
+				.getName());
+		String damagedTeam = Internals.playersTeamFile.getProperty(player
+				.getName());
 		if (damagerTeam == damagedTeam) {
 			evt.setCancelled(true);
 		}
@@ -42,7 +44,7 @@ public class VehicleHandler implements Listener {
 			}
 		}
 		if (vehicleType != null) {
-			switch(vehicleType) {
+			switch (vehicleType) {
 			case "Bomber":
 				if (health == 2) {
 					player.getVelocity().setY(1.0F);

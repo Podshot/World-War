@@ -25,20 +25,24 @@ public class GunEvents implements Listener {
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
 
-		//if (Internals.warDeclared) {
-		//return;
-		//}
+		// if (Internals.warDeclared) {
+		// return;
+		// }
 		if (e.getAction() == Action.RIGHT_CLICK_AIR) {
 
-
 			if (e.getItem().getItemMeta().getDisplayName() == "Standard Issue Rifle") {
-				//Bukkit.getLogger().warning("Test Event Message");
-				//Arrow a = e.getPlayer().launchProjectile(Arrow.class);
-				ItemProjectile ip = new ItemProjectile("bullet-rifle", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 3.0F);
+				// Bukkit.getLogger().warning("Test Event Message");
+				// Arrow a = e.getPlayer().launchProjectile(Arrow.class);
+				ItemProjectile ip = new ItemProjectile("bullet-rifle",
+						e.getPlayer(), new ItemStack(Material.STONE_BUTTON),
+						3.0F);
 				// TODO: Add this => e.getItem().setDurability((short)1);
-				e.getItem().setDurability((short) (e.getItem().getDurability() - (short) 1));
-			} else if (e.getItem() == pistolItemStack ) {
-				ItemProjectile ip = new ItemProjectile("bullet-pistol", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 3.0F);
+				e.getItem().setDurability(
+						(short) (e.getItem().getDurability() - (short) 1));
+			} else if (e.getItem() == pistolItemStack) {
+				ItemProjectile ip = new ItemProjectile("bullet-pistol",
+						e.getPlayer(), new ItemStack(Material.STONE_BUTTON),
+						3.0F);
 			}
 		}
 	}
@@ -50,7 +54,7 @@ public class GunEvents implements Listener {
 			return;
 		}
 		if (e.getHitType() == CustomProjectileHitEvent.HitType.ENTITY) {
-			//e.getHitEntity().damage(3.0D, e.getProjectile().getShooter());
+			// e.getHitEntity().damage(3.0D, e.getProjectile().getShooter());
 			Player shooter = (Player) e.getProjectile().getShooter();
 			if (e.getHitEntity().getType() == EntityType.PLAYER) {
 				if (Internals.playersTeamFile.get(shooter.getName()) == "Blue") {

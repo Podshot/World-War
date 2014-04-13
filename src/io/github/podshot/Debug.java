@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class Debug {
-	
+
 	public static void givePlayerRifle(Player p) {
 		ItemStack gun = ItemStackHandler.getGunItemStack();
 		p.getInventory().addItem(gun);

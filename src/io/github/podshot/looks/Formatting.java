@@ -5,22 +5,27 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 public enum Formatting {
-	BLACK("0"), DARK_BLUE("1"), DARK_GREEN("2"), DARK_AQUA("3"), DARK_RED("4"), PURPLE("5"), ORANGE("6"), GREY("7"), DARK_GREY("8"), BLUE("9"), GREEN("a"), AQUA("b"), RED("c"), PINK("d"), YELLOW("e"), WHITE("f"), RANDOM("k"), BOLD("l"), STRIKE("m"), UNDERLINED("n"), ITALICS("o"), RESET("r");
-	
+	BLACK("0"), DARK_BLUE("1"), DARK_GREEN("2"), DARK_AQUA("3"), DARK_RED("4"), PURPLE(
+			"5"), ORANGE("6"), GREY("7"), DARK_GREY("8"), BLUE("9"), GREEN("a"), AQUA(
+			"b"), RED("c"), PINK("d"), YELLOW("e"), WHITE("f"), RANDOM("k"), BOLD(
+			"l"), STRIKE("m"), UNDERLINED("n"), ITALICS("o"), RESET("r");
+
 	private final String value;
 	private static final String characterValue = "\u00a7";
 	private static final Map<String, String> translate;
-	private static final Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)" + String.valueOf("&") + "[0-9A-FK-OR]");
-	
+	private static final Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)"
+			+ String.valueOf("&") + "[0-9A-FK-OR]");
+
 	private Formatting(String value) {
 		this.value = characterValue + value;
 	}
-	
+
 	static {
 		translate = new HashMap<String, String>();
 		createMap();
 	}
-	
+
+	@Override
 	public String toString() {
 		return this.value;
 	}
@@ -49,19 +54,19 @@ public enum Formatting {
 		translate.put("&o", characterValue + "o");
 		translate.put("&r", characterValue + "r");
 	}
-	
+
 	public static String translateString(String value) {
 		for (String code : translate.keySet()) {
 			value = value.replace(code, translate.get(code));
 		}
 		return value;
 	}
-	
+
 	public static String stripColor(final String input) {
 		if (input == null) {
 			return null;
 		}
-		
+
 		return STRIP_COLOR_PATTERN.matcher(input).replaceAll("");
 	}
 }

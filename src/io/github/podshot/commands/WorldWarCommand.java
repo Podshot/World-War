@@ -14,7 +14,8 @@ public class WorldWarCommand implements CommandExecutor {
 	private WorldWar plugin = WorldWar.getInstance();
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	public boolean onCommand(CommandSender sender, Command cmd, String label,
+			String[] args) {
 		boolean ret = false;
 		if (label.equalsIgnoreCase("ww")) {
 			if (sender instanceof Player) {
