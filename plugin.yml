@@ -9,6 +9,9 @@ commands:
            usage: /<command> start
            permission: ww.start
            permussion-message: You don't have <permission>
+      test:
+           description: Test Command
+           usage: /<command> [arguments]
 
 permissions:
       ww.start:

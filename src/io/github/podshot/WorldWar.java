@@ -1,5 +1,6 @@
 package io.github.podshot;
 
+import io.github.podshot.commands.TestCommand;
 import io.github.podshot.commands.WorldWarCommand;
 import io.github.podshot.events.EntityEvents;
 import io.github.podshot.events.GunEvents;
@@ -25,6 +26,7 @@ public class WorldWar extends JavaPlugin {
 	public DisguiseCraftAPI dcAPI;
 	private boolean generate;
 	private static WorldWar instance;
+	public boolean debug = true;
 
 	@Override
 	public void onEnable() {
@@ -34,6 +36,9 @@ public class WorldWar extends JavaPlugin {
 		pluginFolder = this.getDataFolder() + fileSep;
 		pluginFolderF = new File(pluginFolder);
 		this.getCommand("ww").setExecutor(new WorldWarCommand());
+		if (debug) {
+			this.getCommand("test").setExecutor(new TestCommand());
+		}
 		this.getServer().getPluginManager().registerEvents(new GunEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new EntityEvents(), this);
 		if (!pluginFolderF.exists()) {
