@@ -80,6 +80,7 @@ public class PlayerEvents implements Listener {
 		for (Location loc : Internals.explosiveLocations) {
 			if (loc == evt.getPlayer().getLocation()) {
 				Block explosive = loc.getBlock();
+				evt.getPlayer().getWorld().createExplosion(loc, 0.0F);
 				String team = null;
 				String bTeam = null;
 				for (MetadataValue md : evt.getPlayer().getMetadata("WorldWar.Team")) {
@@ -95,7 +96,7 @@ public class PlayerEvents implements Listener {
 				}
 				
 				if (team != bTeam) {
-					
+					evt.getPlayer().getWorld().createExplosion(loc, 0.0F);
 				}
 			}
 		}

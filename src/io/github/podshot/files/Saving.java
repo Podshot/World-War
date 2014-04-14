@@ -11,6 +11,7 @@ import java.util.Properties;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.MetadataValue;
 
+@Deprecated
 public class Saving {
 	private static WorldWar plugin = WorldWar.getInstance();
 
@@ -23,16 +24,19 @@ public class Saving {
 		String val = null;
 		for (Player p : players) {
 			for (MetadataValue data : p.getMetadata("WorldWar.Team")) {
-				if (data.getOwningPlugin().getName().equals("World War")) {
+				if (data.getOwningPlugin().getName().equals("WorldWar")) {
 					val = data.asString();
+					if (val != null) {
+						playerTeamFile.setProperty(p.getName(), val);
+					}
 				}
 			}
-			if (val != null) {
-				playerTeamFile.setProperty(p.getName(), val);
-			}
+			//if (val != null) {
+			//playerTeamFile.setProperty(p.getName(), val);
+			//}
 		}
 		try {
-			outputTeam = new FileOutputStream("Player-Team.values");
+			outputTeam = new FileOutputStream(plugin.getDataFolder() + plugin.fileSep + "Player-Team.values");
 			playerTeamFile.store(outputTeam, null);
 		} catch (IOException ioe) {
 			plugin.logger.severe("Could not save Player Team File!");

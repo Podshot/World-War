@@ -2,11 +2,13 @@ package io.github.podshot;
 
 import io.github.podshot.commands.TestCommand;
 import io.github.podshot.commands.WorldWarCommand;
+import io.github.podshot.events.BlockEvents;
 import io.github.podshot.events.EntityEvents;
 import io.github.podshot.events.GuiEvents;
 import io.github.podshot.events.GunEvents;
 import io.github.podshot.files.GameData;
 import io.github.podshot.files.Saving;
+import io.github.podshot.internals.Internals;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,6 +45,7 @@ public class WorldWar extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new GunEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new EntityEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new GuiEvents(), this);
+		this.getServer().getPluginManager().registerEvents(new BlockEvents(), this);
 		if (!pluginFolderF.exists()) {
 			pluginFolderF.mkdir();
 			generate = true;
@@ -52,13 +55,13 @@ public class WorldWar extends JavaPlugin {
 		if (generate) {
 			this.saveDefaultConfig();
 		} else {
-			String playersTeamPath = pluginFolder + fileSep + "players-teams.map";
+			String playersTeamPath = pluginFolder + fileSep + "Players-Teams.map";
 			File playersTeamFile = new File(playersTeamPath);
 
 			if (playersTeamFile.exists()) {
 				Saving.loadTeamFile(playersTeamPath);
 			} else {
-				File newTeamFile = new File(pluginFolder + fileSep + "players-teams.map");
+				File newTeamFile = new File(pluginFolder + fileSep + "Players-Teams.map");
 				try {
 					newTeamFile.createNewFile();
 				} catch (IOException e) {
@@ -67,13 +70,13 @@ public class WorldWar extends JavaPlugin {
 				}
 			}
 
-			String playersClassPath = pluginFolder + fileSep + "players-classes.map";
+			String playersClassPath = pluginFolder + fileSep + "Players-Classes.map";
 			File playersClassFile = new File(playersClassPath);
 
 			if (playersClassFile.exists()) {
 				Saving.loadClassFile(playersClassPath);
 			} else {
-				File newClassFile = new File(pluginFolder + fileSep + "players-classes.map");
+				File newClassFile = new File(pluginFolder + fileSep + "Players-Classes.map");
 				try {
 					newClassFile.createNewFile();
 				} catch (IOException e) {
@@ -82,6 +85,8 @@ public class WorldWar extends JavaPlugin {
 				}
 			}
 		}
+
+		logger.info(Internals.playersTeamFile.getProperty("Podshot"));
 
 		this.setupDC();
 

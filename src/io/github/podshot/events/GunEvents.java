@@ -19,9 +19,9 @@ import com.stirante.MoreProjectiles.projectile.ItemProjectile;
 
 public class GunEvents implements Listener {
 
+	@SuppressWarnings("unused")
 	private ItemStack pistolItemStack = ItemStackHandler.getPistolitemStack();
 
-	@SuppressWarnings("unused")
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
 
@@ -30,17 +30,24 @@ public class GunEvents implements Listener {
 		// }
 		if (e.getAction() == Action.RIGHT_CLICK_AIR) {
 			String gunType = e.getItem().getItemMeta().getDisplayName().toString();
+			
+			if (e.getItem().getType() != Material.IRON_HOE) {
+				e.setCancelled(false);
+				return;
+			}
 
 			switch(gunType) {
 			case "Standard Issue Rifle":
+				@SuppressWarnings("unused")
 				ItemProjectile rBullet = new ItemProjectile("bullet-rifle", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 3.0F);
-				e.getItem().setDurability((short) (e.getItem().getDurability() - (short) 1));
 				break;
 			case "Pistol":
+				@SuppressWarnings("unused")
 				ItemProjectile pBullet = new ItemProjectile("bullet-pistol", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 3.0F);
 				e.getItem().setDurability((short) (e.getItem().getDurability() - (short) 1));
 				break;
 			}
+			/*
 			if (e.getItem().getItemMeta().getDisplayName() == "Standard Issue Rifle") {
 				// Bukkit.getLogger().warning("Test Event Message");
 				// Arrow a = e.getPlayer().launchProjectile(Arrow.class);
@@ -50,6 +57,7 @@ public class GunEvents implements Listener {
 			} else if (e.getItem() == pistolItemStack) {
 				ItemProjectile ip = new ItemProjectile("bullet-pistol", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 3.0F);
 			}
+			*/
 		}
 	}
 

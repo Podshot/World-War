@@ -18,9 +18,9 @@ public class BlockEvents implements Listener {
 
 	@EventHandler
 	public static void onBlockPlace(BlockPlaceEvent evt) {
-		if (!Internals.warDeclared) {
-			return;
-		}
+		//if (!Internals.warDeclared) {
+			//return;
+		//}
 		
 		Block placed = evt.getBlock();
 		Player placer = evt.getPlayer();

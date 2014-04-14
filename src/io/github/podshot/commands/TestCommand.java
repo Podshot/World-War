@@ -1,13 +1,17 @@
 package io.github.podshot.commands;
 
+import io.github.podshot.WorldWar;
 import io.github.podshot.gui.ClassChooser;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 
 public class TestCommand implements CommandExecutor {
+	
+	private static WorldWar plugin = WorldWar.getInstance();
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl,
@@ -27,6 +31,10 @@ public class TestCommand implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("damage")) {
 				ret = true;
 				player.damage(2.0D);
+			}
+			if (args[0].equalsIgnoreCase("meta")) {
+				ret = true;
+				player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, args[1].toString()));
 			}
 		}
 		return ret;
