@@ -28,26 +28,34 @@ public class GunEvents implements Listener {
 		// if (Internals.warDeclared) {
 		// return;
 		// }
-		if (e.getAction() == Action.RIGHT_CLICK_AIR) {
-			String gunType = e.getItem().getItemMeta().getDisplayName().toString();
-			
-			if (e.getItem().getType() != Material.IRON_HOE) {
-				e.setCancelled(false);
-				return;
-			}
 
-			switch(gunType) {
-			case "Standard Issue Rifle":
-				@SuppressWarnings("unused")
-				ItemProjectile rBullet = new ItemProjectile("bullet-rifle", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 3.0F);
-				break;
-			case "Pistol":
-				@SuppressWarnings("unused")
-				ItemProjectile pBullet = new ItemProjectile("bullet-pistol", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 3.0F);
-				e.getItem().setDurability((short) (e.getItem().getDurability() - (short) 1));
-				break;
+		if (e.getAction() == Action.LEFT_CLICK_AIR) {
+			if (e.getItem().getType() == Material.IRON_HOE) {
+				if (e.getItem().getItemMeta().getDisplayName().toString() == "Standard Issue Rifle") {
+					e.setCancelled(true);
+					e.getItem().setDurability((short) 0);
+				}
 			}
-			/*
+		}
+		if (e.getAction() == Action.RIGHT_CLICK_AIR) {
+			if (e.getItem().getType() == Material.IRON_HOE) {
+				String gunType = e.getItem().getItemMeta().getDisplayName().toString();
+
+				switch(gunType) {
+				case "Standard Issue Rifle":
+					if (e.getItem().getDurability() != 250) {
+						ItemProjectile rBullet = new ItemProjectile("bullet-rifle", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 2.0F);
+						rBullet.setIgnoreSomeBlocks(true);
+						e.getItem().setDurability((short) (e.getItem().getDurability() + 10));
+					}
+					break;
+				case "Pistol":
+					@SuppressWarnings("unused")
+					ItemProjectile pBullet = new ItemProjectile("bullet-pistol", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 3.0F);
+					e.getItem().setDurability((short) (e.getItem().getDurability() - (short) 1));
+					break;
+				}
+				/*
 			if (e.getItem().getItemMeta().getDisplayName() == "Standard Issue Rifle") {
 				// Bukkit.getLogger().warning("Test Event Message");
 				// Arrow a = e.getPlayer().launchProjectile(Arrow.class);
@@ -57,7 +65,8 @@ public class GunEvents implements Listener {
 			} else if (e.getItem() == pistolItemStack) {
 				ItemProjectile ip = new ItemProjectile("bullet-pistol", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 3.0F);
 			}
-			*/
+				 */
+			}
 		}
 	}
 
