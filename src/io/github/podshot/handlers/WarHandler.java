@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 
 public class WarHandler {
 	private static WorldWar plugin = WorldWar.getInstance();
@@ -16,6 +17,9 @@ public class WarHandler {
 	public static void startWar(boolean b) {
 		if (b) {
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "gamerule keepInventory true");
+			for (Player p : Bukkit.getOnlinePlayers()) {
+				p.saveData();
+			}
 			plugin.logger.info("Backing Up the world");
 			List<World> sources = Bukkit.getWorlds();
 			for (World w : sources) {

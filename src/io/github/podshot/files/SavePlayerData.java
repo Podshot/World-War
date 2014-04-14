@@ -16,9 +16,9 @@ public class SavePlayerData {
 	private static Properties classP;
 	private static Properties teamP;
 	
-	public void init() throws IOException {
-		teamPropF = new File(plugin.getDataFolder() + plugin.fileSep + "<team-file>.values");
-		classPropF = new File(plugin.getDataFolder() + plugin.fileSep + "<class-file>.values");
+	public static void init() throws IOException {
+		teamPropF = new File(plugin.getDataFolder() + plugin.fileSep + "Players-Team.values");
+		classPropF = new File(plugin.getDataFolder() + plugin.fileSep + "Players-Class.values");
 		//FIXME Rename files
 		classP = new Properties();
 		teamP = new Properties();

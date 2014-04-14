@@ -6,19 +6,19 @@ import io.github.podshot.events.BlockEvents;
 import io.github.podshot.events.EntityEvents;
 import io.github.podshot.events.GuiEvents;
 import io.github.podshot.events.GunEvents;
+import io.github.podshot.events.PlayerEvents;
 import io.github.podshot.files.GameData;
-import io.github.podshot.files.Saving;
-import io.github.podshot.internals.Internals;
+import io.github.podshot.files.SavePlayerData;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import pgDev.bukkit.DisguiseCraft.DisguiseCraft;
 import pgDev.bukkit.DisguiseCraft.api.DisguiseCraftAPI;
+//import io.github.podshot.files.Saving;
 
 public class WorldWar extends JavaPlugin {
 
@@ -41,6 +41,8 @@ public class WorldWar extends JavaPlugin {
 		this.getCommand("ww").setExecutor(new WorldWarCommand());
 		if (debug) {
 			this.getCommand("test").setExecutor(new TestCommand());
+			
+			this.getServer().getPluginManager().registerEvents(new PlayerEvents(), this);
 		}
 		this.getServer().getPluginManager().registerEvents(new GunEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new EntityEvents(), this);
@@ -54,39 +56,13 @@ public class WorldWar extends JavaPlugin {
 
 		if (generate) {
 			this.saveDefaultConfig();
-		} else {
-			String playersTeamPath = pluginFolder + fileSep + "Players-Teams.map";
-			File playersTeamFile = new File(playersTeamPath);
-
-			if (playersTeamFile.exists()) {
-				Saving.loadTeamFile(playersTeamPath);
-			} else {
-				File newTeamFile = new File(pluginFolder + fileSep + "Players-Teams.map");
-				try {
-					newTeamFile.createNewFile();
-				} catch (IOException e) {
-					logger.severe("Could not create Player Team Map file!");
-					e.printStackTrace();
-				}
-			}
-
-			String playersClassPath = pluginFolder + fileSep + "Players-Classes.map";
-			File playersClassFile = new File(playersClassPath);
-
-			if (playersClassFile.exists()) {
-				Saving.loadClassFile(playersClassPath);
-			} else {
-				File newClassFile = new File(pluginFolder + fileSep + "Players-Classes.map");
-				try {
-					newClassFile.createNewFile();
-				} catch (IOException e) {
-					logger.severe("Could not create Player Class Map file!");
-					e.printStackTrace();
-				}
-			}
 		}
-
-		logger.info(Internals.playersTeamFile.getProperty("Podshot"));
+		try {
+			SavePlayerData.init();
+		} catch (IOException e) {
+			logger.severe("Could not read or create Data Files");
+			e.printStackTrace();
+		}
 
 		this.setupDC();
 
@@ -94,8 +70,8 @@ public class WorldWar extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		Saving.savePlayerTeamFile(Bukkit.getOnlinePlayers());
-		Saving.savePlayerClassFile(Bukkit.getOnlinePlayers());
+//		Saving.savePlayerTeamFile(Bukkit.getOnlinePlayers());
+//		Saving.savePlayerClassFile(Bukkit.getOnlinePlayers());
 		GameData.saveProps();
 	}
 
