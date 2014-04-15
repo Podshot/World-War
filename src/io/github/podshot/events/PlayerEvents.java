@@ -1,9 +1,12 @@
 package io.github.podshot.events;
 
 import io.github.podshot.WorldWar;
+import io.github.podshot.files.SavePlayerData;
 import io.github.podshot.gui.ClassChooser;
+import io.github.podshot.gui.TeamChooser;
 import io.github.podshot.internals.Internals;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.bukkit.Location;
@@ -35,6 +38,9 @@ public class PlayerEvents implements Listener {
 					Player player = evt.getPlayer();
 					player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Red"));
 				}
+			} else {
+				Player player = evt.getPlayer();
+				player.openInventory(TeamChooser.getTeamChooserGui());
 			}
 		}
 		return;
@@ -51,8 +57,15 @@ public class PlayerEvents implements Listener {
 					team = val.asString();
 				}
 			}
+			//if (team != null) {
+			Internals.playersTeamFile.setProperty(player.getName(), team);
+			//}
 			if (team != null) {
-				Internals.playersTeamFile.setProperty(player.getName(), team);
+				try {
+					SavePlayerData.updateTeamFile(player.getName(), team);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return;
@@ -82,6 +95,13 @@ public class PlayerEvents implements Listener {
 	@EventHandler
 	public void onPlayerMoveEvent(PlayerMoveEvent evt) {
 		if (Internals.warDeclared) {
+
+			Player player = evt.getPlayer();
+			Location location = player.getLocation();
+			if (location.getY() > 256) {
+				Location newLoc = new Location(location.getWorld(), location.getX(), 256, location.getZ(), location.getYaw(), location.getPitch());
+				player.teleport(newLoc);
+			}
 
 			for (Location loc : Internals.explosiveLocations) {
 				if (loc == evt.getPlayer().getLocation()) {

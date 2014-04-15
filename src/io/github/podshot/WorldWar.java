@@ -14,6 +14,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import pgDev.bukkit.DisguiseCraft.DisguiseCraft;
@@ -72,6 +75,18 @@ public class WorldWar extends JavaPlugin {
 	public void onDisable() {
 //		Saving.savePlayerTeamFile(Bukkit.getOnlinePlayers());
 //		Saving.savePlayerClassFile(Bukkit.getOnlinePlayers());
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			String name = p.getName();
+			for (MetadataValue data : p.getMetadata("WorldWar.Team")) {
+				if (data.getOwningPlugin().getName().equals("WorldWar")) {
+					try {
+						SavePlayerData.updateTeamFile(name, data.asString());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 		GameData.saveProps();
 	}
 
