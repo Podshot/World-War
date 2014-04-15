@@ -86,7 +86,7 @@ public class GunEvents implements Listener {
 						if (Internals.playersTeamFile.containsKey(hitP.getName())) {
 							if (Internals.playersTeamFile.get(hitP.getName()) == "Blue") {
 								if (e.getProjectile().getProjectileName() == "bullet-rifle") {
-									hitP.damage(4.0D, shooter);
+									hitP.damage(2.0D, shooter);
 								} else if (e.getProjectile().getProjectileName() == "bullet-pistol") {
 									hitP.damage(2.0D, shooter);
 								}
@@ -94,7 +94,7 @@ public class GunEvents implements Listener {
 						}
 					}
 				} else {
-					hitE.damage(5.0D, shooter);
+					hitE.damage(2.0D, shooter);
 				}
 			}
 		} else {

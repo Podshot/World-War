@@ -18,8 +18,8 @@ public class EntityEvents implements Listener {
 			String vehicleType = null;
 			Player player = evt.getPlayer();
 			Entity ent = evt.getRightClicked();
-			DisguisePlayerAsVehicle.addPlayerAsDragon(player);
-			//DisguisePlayerAsVehicle.addPlayerAsBlaze(player);
+			//DisguisePlayerAsVehicle.addPlayerAsDragon(player);
+			DisguisePlayerAsVehicle.addPlayerAsBlaze(player);
 			evt.setCancelled(true);
 			for (MetadataValue dat : ent.getMetadata("WorldWar.isVehicle")) {
 				if (dat.getOwningPlugin().getName().equals("World War")) {

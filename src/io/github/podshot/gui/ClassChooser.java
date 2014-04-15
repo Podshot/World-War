@@ -32,7 +32,7 @@ public class ClassChooser {
 		ItemMeta imSpy = spy.getItemMeta();
 		List<String> spyList = new ArrayList<String>();
 		spyList.add(ChatColor.YELLOW + "Equipped with a Silenced Pistol, Cloaking device,");
-		spyList.add(ChatColor.YELLOW + "Plantable Explosives, and Squad Objectives");
+		spyList.add(ChatColor.YELLOW + "and Squad Objectives");
 		spyList.add("");
 		spyList.add(ChatColor.YELLOW + "Vital Class for Scouting and Objective targeting");
 
