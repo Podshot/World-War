@@ -33,7 +33,7 @@ public class GameData {
 			e.printStackTrace();
 		}
 
-		readProps();
+		Internals.warDeclared = readProps();
 	}
 
 	private static void writeNewProps() {
@@ -82,13 +82,17 @@ public class GameData {
 		}
 	}
 
-	public static void readProps() {
+	public static boolean readProps() {
+		boolean ret = false;
 		String war = props.getProperty("War-Declared");
 		if (war.equalsIgnoreCase("true")) {
-			Internals.warDeclared = true;
+			//Internals.warDeclared = true;
+			ret = true;
 		} else {
-			Internals.warDeclared = false;
+			//Internals.warDeclared = false;
+			ret = false;
 		}
+		return ret;
 	}
 
 }

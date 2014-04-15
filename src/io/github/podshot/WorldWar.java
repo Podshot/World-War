@@ -42,12 +42,12 @@ public class WorldWar extends JavaPlugin {
 		if (debug) {
 			this.getCommand("test").setExecutor(new TestCommand());
 			
-			this.getServer().getPluginManager().registerEvents(new PlayerEvents(), this);
 		}
 		this.getServer().getPluginManager().registerEvents(new GunEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new EntityEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new GuiEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new BlockEvents(), this);
+		this.getServer().getPluginManager().registerEvents(new PlayerEvents(), this);
 		if (!pluginFolderF.exists()) {
 			pluginFolderF.mkdir();
 			generate = true;
