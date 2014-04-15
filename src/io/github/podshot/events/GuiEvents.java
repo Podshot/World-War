@@ -2,6 +2,7 @@ package io.github.podshot.events;
 
 import io.github.podshot.WorldWar;
 import io.github.podshot.gui.ClassChooser;
+import io.github.podshot.handlers.ClassHandler;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -27,6 +28,7 @@ public class GuiEvents implements Listener {
 				player.closeInventory();
 				player.setMetadata("WorldWar.Class", new FixedMetadataValue(plugin, "Soldier"));
 				player.sendMessage("[" + player.getName() + "] Choose class: Soldier");
+				ClassHandler.giveSoldierInventory(player);
 			}
 			if (clicked.getType() == Material.POTION) {
 				evt.setCancelled(true);

@@ -36,9 +36,8 @@ public class PlayerEvents implements Listener {
 					player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Red"));
 				}
 			}
-		} else {
-			return;
 		}
+		return;
 	}
 
 	@EventHandler
@@ -55,9 +54,8 @@ public class PlayerEvents implements Listener {
 			if (team != null) {
 				Internals.playersTeamFile.setProperty(player.getName(), team);
 			}
-		} else {
-			return;
 		}
+		return;
 	}
 
 	@SuppressWarnings("deprecation")
@@ -68,9 +66,8 @@ public class PlayerEvents implements Listener {
 			player.getInventory().clear();
 			player.updateInventory();
 			evt.setDroppedExp(0);
-		} else {
-			return;
 		}
+		return;
 	}
 
 	@EventHandler
@@ -78,9 +75,8 @@ public class PlayerEvents implements Listener {
 		if (Internals.warDeclared) {
 			Player player = evt.getPlayer();
 			player.openInventory(ClassChooser.getClassChooserGui());
-		} else {
-			return;
 		}
+		return;
 	}
 
 	@EventHandler
@@ -110,8 +106,7 @@ public class PlayerEvents implements Listener {
 					}
 				}
 			}
-		} else {
-			return;
 		}
+		return;
 	}
 }

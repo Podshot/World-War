@@ -32,7 +32,7 @@ public class DisguisePlayerAsVehicle {
 			player.setAllowFlight(true);
 			player.setFlying(true);
 			player.setFlySpeed(0.02F);
-			player.setHealth(30.0D);
+			player.setHealth(20.0D);
 			player.getEyeLocation();
 			player.setMetadata("WorldWar.Vehicle.Type", new FixedMetadataValue(plugin, "Bomber"));
 			player.getInventory().clear();
