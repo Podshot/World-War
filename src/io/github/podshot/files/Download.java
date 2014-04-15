@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 
+@Deprecated
 public class Download {
 
 	public static void downloadFile(String link, String dir) throws IOException {
