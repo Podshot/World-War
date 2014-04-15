@@ -10,7 +10,7 @@ public class Internals {
 
 	public static Properties playersTeamFile;
 	public static Properties playersClassFile;
-	public static boolean warDeclared;
+	public static boolean warDeclared = false;
 	public static List<Location> explosiveLocations = new ArrayList<Location>();
 
 }

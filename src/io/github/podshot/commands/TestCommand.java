@@ -8,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
 
 public class TestCommand implements CommandExecutor {
 	
@@ -34,6 +35,14 @@ public class TestCommand implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("meta")) {
 				ret = true;
 				player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, args[1].toString()));
+			}
+			if (args[0].equalsIgnoreCase("getmeta")) {
+				ret = true;
+				for (MetadataValue val : player.getMetadata("WorldWar.Team")) {
+					if (val.getOwningPlugin().getName().equals("WorldWar")) {
+						player.sendMessage("Meta Data Value: " + val.asString());
+					}
+				}
 			}
 		}
 		return ret;

@@ -37,11 +37,10 @@ public class GameData {
 	}
 
 	private static void writeNewProps() {
-		Properties pop = new Properties();
-		pop.setProperty("War-Declared", "false");
+		props.setProperty("War-Declared", "false");
 		try {
 			output = new FileOutputStream(plugin.getDataFolder() + plugin.fileSep + "GameData.props");
-			pop.store(output, null);
+			props.store(output, null);
 		} catch (IOException e) {
 			plugin.logger.severe("Could not create a Game Data File!");
 			e.printStackTrace();
@@ -59,7 +58,7 @@ public class GameData {
 	}
 
 	public static void saveProps() {
-		Properties saving = new Properties();
+		Properties saving = props;
 		if (Internals.warDeclared) {
 			saving.setProperty("War-Declared", "true");
 		} else {

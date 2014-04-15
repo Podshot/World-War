@@ -36,6 +36,8 @@ public class PlayerEvents implements Listener {
 					player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Red"));
 				}
 			}
+		} else {
+			return;
 		}
 	}
 
@@ -53,52 +55,63 @@ public class PlayerEvents implements Listener {
 			if (team != null) {
 				Internals.playersTeamFile.setProperty(player.getName(), team);
 			}
+		} else {
+			return;
 		}
 	}
 
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent evt) {
-		Player player = evt.getEntity();
-		player.getInventory().clear();
-		player.updateInventory();
-		evt.setDroppedExp(0);
+		if (Internals.warDeclared) {
+			Player player = evt.getEntity();
+			player.getInventory().clear();
+			player.updateInventory();
+			evt.setDroppedExp(0);
+		} else {
+			return;
+		}
 	}
 
 	@EventHandler
 	public void onPlayerRespawn(PlayerRespawnEvent evt) {
-		Player player = evt.getPlayer();
-		player.openInventory(ClassChooser.getClassChooserGui());
-	}
-	
-	@EventHandler
-	public void onPlayerMoveEvent(PlayerMoveEvent evt) {
-		if (!Internals.warDeclared) {
+		if (Internals.warDeclared) {
+			Player player = evt.getPlayer();
+			player.openInventory(ClassChooser.getClassChooserGui());
+		} else {
 			return;
 		}
-		
-		for (Location loc : Internals.explosiveLocations) {
-			if (loc == evt.getPlayer().getLocation()) {
-				Block explosive = loc.getBlock();
-				evt.getPlayer().getWorld().createExplosion(loc, 0.0F);
-				String team = null;
-				String bTeam = null;
-				for (MetadataValue md : evt.getPlayer().getMetadata("WorldWar.Team")) {
-					if (md.getOwningPlugin().getName().equals("WorldWar")) {
-						team = md.asString();
-					}
-				}
-				List<MetadataValue> vals = explosive.getMetadata("WorldWar.Team");
-				for (MetadataValue val : vals) {
-					if (val.getOwningPlugin().getName().equals("WorldWar")) {
-						bTeam = val.asString();
-					}
-				}
-				
-				if (team != bTeam) {
+	}
+
+	@EventHandler
+	public void onPlayerMoveEvent(PlayerMoveEvent evt) {
+		if (Internals.warDeclared) {
+
+			for (Location loc : Internals.explosiveLocations) {
+				if (loc == evt.getPlayer().getLocation()) {
+					Block explosive = loc.getBlock();
 					evt.getPlayer().getWorld().createExplosion(loc, 0.0F);
+					String team = null;
+					String bTeam = null;
+					for (MetadataValue md : evt.getPlayer().getMetadata("WorldWar.Team")) {
+						if (md.getOwningPlugin().getName().equals("WorldWar")) {
+							team = md.asString();
+						}
+					}
+					List<MetadataValue> vals = explosive.getMetadata("WorldWar.Team");
+					for (MetadataValue val : vals) {
+						if (val.getOwningPlugin().getName().equals("WorldWar")) {
+							bTeam = val.asString();
+						}
+					}
+
+					if (team != bTeam) {
+						evt.getPlayer().getWorld().createExplosion(loc, 0.0F);
+					}
 				}
 			}
+		} else {
+			return;
 		}
 	}
 }
