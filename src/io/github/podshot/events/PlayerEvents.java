@@ -21,11 +21,10 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
-import org.bukkit.plugin.Plugin;
 
 public class PlayerEvents implements Listener {
 
-	private Plugin plugin = WorldWar.getInstance();
+	private WorldWar plugin = WorldWar.getInstance();
 
 	@EventHandler
 	public void onPlayerJoinEvent(PlayerJoinEvent evt) {
@@ -58,12 +57,13 @@ public class PlayerEvents implements Listener {
 				}
 			}
 			//if (team != null) {
-			Internals.playersTeamFile.setProperty(player.getName(), team);
+			//Internals.playersTeamFile.setProperty(player.getName(), team);
 			//}
 			if (team != null) {
 				try {
 					SavePlayerData.updateTeamFile(player.getName(), team);
 				} catch (IOException e) {
+					plugin.logger.severe("Could not save team data for Player: \"" + player.getName() + "\"");
 					e.printStackTrace();
 				}
 			}

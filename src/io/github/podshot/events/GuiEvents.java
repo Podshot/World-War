@@ -2,6 +2,7 @@ package io.github.podshot.events;
 
 import io.github.podshot.WorldWar;
 import io.github.podshot.gui.ClassChooser;
+import io.github.podshot.gui.TeamChooser;
 import io.github.podshot.handlers.ClassHandler;
 
 import org.bukkit.Material;
@@ -43,6 +44,18 @@ public class GuiEvents implements Listener {
 				player.sendMessage("[" + player.getName() + "] Choose class: Engineer");
 			}
 			player.sendMessage("This is a debug message");
+		}
+		
+		if (inv.getName().equals(TeamChooser.getTeamChooserGui().getName())) {
+			if (clicked.getType() == Material.WOOL) {
+				evt.setCancelled(true);
+				player.closeInventory();
+				if (clicked.getDurability() == (short) 11) {
+					player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Blue"));
+				} else if (clicked.getDurability() == (short) 14) {
+					player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Red"));
+				}
+			}
 		}
 	}
 }
