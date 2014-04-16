@@ -9,6 +9,7 @@ import io.github.podshot.events.GunEvents;
 import io.github.podshot.events.PlayerEvents;
 import io.github.podshot.files.GameData;
 import io.github.podshot.files.SavePlayerData;
+import io.github.podshot.structures.FlagHolder;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +19,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.xern.jogy34.xernutilities.handlers.ExtraConfigHandler;
 
 import pgDev.bukkit.DisguiseCraft.DisguiseCraft;
 import pgDev.bukkit.DisguiseCraft.api.DisguiseCraftAPI;
@@ -44,7 +47,6 @@ public class WorldWar extends JavaPlugin {
 		this.getCommand("ww").setExecutor(new WorldWarCommand());
 		if (debug) {
 			this.getCommand("test").setExecutor(new TestCommand());
-			
 		}
 		this.getServer().getPluginManager().registerEvents(new GunEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new EntityEvents(), this);
@@ -56,6 +58,8 @@ public class WorldWar extends JavaPlugin {
 			generate = true;
 		}
 		GameData.init();
+		ExtraConfigHandler.initalize(this);
+		FlagHolder.createFiles();
 
 		if (generate) {
 			this.saveDefaultConfig();
@@ -82,6 +86,7 @@ public class WorldWar extends JavaPlugin {
 					try {
 						SavePlayerData.updateTeamFile(name, data.asString());
 					} catch (IOException e) {
+						this.logger.severe("Could not save team data for Player: \"" + name + "\"");
 						e.printStackTrace();
 					}
 				}
