@@ -39,11 +39,13 @@ public class ClassHandler {
 		inv.addItem(ItemStackHandler.getGunItemStack());
 		
 		ItemStack helmet = NbtFactory.getCraftItemStack(new ItemStack(Material.IRON_HELMET));
-		NbtCompound tags = NbtFactory.fromItemTag(helmet);
-		tags.putPath("Unbreakable", (byte) 1);
+		NbtCompound Htags = NbtFactory.fromItemTag(helmet);
+		Htags.putPath("Unbreakable", (byte) 1);
 		p.getEquipment().setHelmet(helmet);
 		
-		ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
+		ItemStack chestplate = NbtFactory.getCraftItemStack(new ItemStack(Material.LEATHER_CHESTPLATE));
+		NbtCompound Ctags = NbtFactory.fromItemTag(chestplate);
+		Ctags.putPath("Unbreakable", (byte) 1);
 		LeatherArmorMeta lamChest = (LeatherArmorMeta) chestplate.getItemMeta();
 		if (team.equalsIgnoreCase("Blue")) {
 			lamChest.setColor(Color.BLUE);		
@@ -54,8 +56,10 @@ public class ClassHandler {
 		p.getEquipment().setChestplate(chestplate);
 		
 		
-		ItemStack legging = new ItemStack(Material.LEATHER_LEGGINGS);
+		ItemStack legging = NbtFactory.getCraftItemStack(new ItemStack(Material.LEATHER_LEGGINGS));
 		LeatherArmorMeta lamLegging = (LeatherArmorMeta) legging.getItemMeta();
+		NbtCompound Ltags = NbtFactory.fromItemTag(legging);
+		Ltags.putPath("Unbreakable", (byte) 1);
 		if (team.equalsIgnoreCase("Blue")) {
 			lamLegging.setColor(Color.BLUE);
 		} else if (team.equalsIgnoreCase("Red")) {
@@ -65,8 +69,10 @@ public class ClassHandler {
 		p.getEquipment().setLeggings(legging);
 		
 		
-		ItemStack boots = new ItemStack(Material.LEATHER_BOOTS);
+		ItemStack boots = NbtFactory.getCraftItemStack(new ItemStack(Material.LEATHER_BOOTS));
 		LeatherArmorMeta lamBoots = (LeatherArmorMeta) boots.getItemMeta();
+		NbtCompound Btags = NbtFactory.fromItemTag(boots);
+		Btags.putPath("Unbreakable", (byte) 1);
 		if (team.equalsIgnoreCase("Blue")) {
 			lamBoots.setColor(Color.BLUE);
 		} else if (team.equalsIgnoreCase("Red")) {
@@ -90,10 +96,59 @@ public class ClassHandler {
 		}
 		p.sendMessage("Team is: " + team);
 		
-		
 		cleanInventory(p);
+		Inventory inv = p.getInventory();
+		inv.addItem(ItemStackHandler.getPistolItemStack());
 		
+		ItemStack helmet = NbtFactory.getCraftItemStack(new ItemStack(Material.LEATHER_HELMET));
+		NbtCompound Htags = NbtFactory.fromItemTag(helmet);
+		Htags.putPath("Unbreakable", (byte) 1);
+		LeatherArmorMeta lamHelm = (LeatherArmorMeta) helmet.getItemMeta();
+		if (team.equalsIgnoreCase("Blue")) {
+			lamHelm.setColor(Color.RED);
+		} else if (team.equalsIgnoreCase("Red")) {
+			lamHelm.setColor(Color.BLUE);
+		}
+		helmet.setItemMeta(lamHelm);
+		p.getEquipment().setHelmet(helmet);
+		
+		ItemStack chestplate = NbtFactory.getCraftItemStack(new ItemStack(Material.LEATHER_CHESTPLATE));
+		NbtCompound Ctags = NbtFactory.fromItemTag(chestplate);
+		Ctags.putPath("Unbreakab;e", (byte) 1);
+		LeatherArmorMeta lamChest = (LeatherArmorMeta) chestplate.getItemMeta();
+		if (team.equalsIgnoreCase("Blue")) {
+			lamChest.setColor(Color.BLUE);
+		} else if (team.equalsIgnoreCase("Red")) {
+			lamChest.setColor(Color.RED);
+		}
+		chestplate.setItemMeta(lamChest);
+		p.getEquipment().setChestplate(chestplate);
+		
+		ItemStack legging = NbtFactory.getCraftItemStack(new ItemStack(Material.LEATHER_LEGGINGS));
+		NbtCompound Ltags = NbtFactory.fromItemTag(legging);
+		Ltags.putPath("Unbreakable", (byte) 1);
+		LeatherArmorMeta lamLeg = (LeatherArmorMeta) legging.getItemMeta();
+		if (team.equalsIgnoreCase("Blue")) {
+			lamLeg.setColor(Color.BLUE);
+		} else if (team.equalsIgnoreCase("Red")) {
+			lamLeg.setColor(Color.RED);
+		}
+		legging.setItemMeta(lamLeg);
+		p.getEquipment().setLeggings(legging);
+		
+		ItemStack boots = NbtFactory.getCraftItemStack(new ItemStack(Material.LEATHER_BOOTS));
+		NbtCompound Btags = NbtFactory.fromItemTag(boots);
+		Btags.putPath("Unbreakable", (byte) 1);
+		LeatherArmorMeta lamBoots = (LeatherArmorMeta) boots.getItemMeta();
+		if (team.equalsIgnoreCase("Blue")) {
+			lamBoots.setColor(Color.BLUE);
+		} else if (team.equalsIgnoreCase("Red")) {
+			lamBoots.setColor(Color.RED);
+		}
+		boots.setItemMeta(lamBoots);
+		p.getEquipment().setBoots(boots);
+		
+		updateInv(p);
 		
 	}
-
 }

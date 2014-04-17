@@ -36,6 +36,7 @@ public class GuiEvents implements Listener {
 				player.closeInventory();
 				player.setMetadata("WorldWar.Class", new FixedMetadataValue(plugin, "Spy"));
 				player.sendMessage("[" + player.getName() + "] Choose class: Spy");
+				ClassHandler.giveSpyInventory(player);
 			}
 			if (clicked.getType() == Material.IRON_SPADE) {
 				evt.setCancelled(true);

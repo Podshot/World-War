@@ -15,7 +15,7 @@ public class ItemStackHandler {
 		return gun;
 	}
 
-	public static ItemStack getPistolitemStack() {
+	public static ItemStack getPistolItemStack() {
 		ItemStack pistol = new ItemStack(Material.STONE_HOE);
 		ItemMeta imPistol = pistol.getItemMeta();
 		

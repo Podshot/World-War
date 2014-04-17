@@ -20,7 +20,7 @@ import com.stirante.MoreProjectiles.projectile.ItemProjectile;
 public class GunEvents implements Listener {
 
 	@SuppressWarnings("unused")
-	private ItemStack pistolItemStack = ItemStackHandler.getPistolitemStack();
+	private ItemStack pistolItemStack = ItemStackHandler.getPistolItemStack();
 
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
