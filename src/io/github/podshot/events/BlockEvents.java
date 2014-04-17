@@ -19,6 +19,7 @@ public class BlockEvents implements Listener {
 
 	private static WorldWar plugin = WorldWar.getInstance();
 
+	@Deprecated
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent evt) {
 		//if (!Internals.warDeclared) {
@@ -31,9 +32,8 @@ public class BlockEvents implements Listener {
 			String team = Internals.playersTeamFile.getProperty(placer.getName());
 			placed.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, team));
 			Internals.explosiveLocations.add(new Location(evt.getBlock().getWorld(), evt.getBlock().getX(), evt.getBlock().getY(), evt.getBlock().getZ()));
-		} else {
-			return;
 		}
+		return;
 	}
 
 	@EventHandler

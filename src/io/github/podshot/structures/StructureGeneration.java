@@ -68,7 +68,7 @@ public class StructureGeneration {
 		int z1 = loc.getBlockZ();
 		
 		int x2 = x1 + 9;
-		int y2 = y1 + 9;
+		int y2 = y1 + 5;
 		int z2 = z1 + 9;
 		
 		World world = loc.getWorld();
