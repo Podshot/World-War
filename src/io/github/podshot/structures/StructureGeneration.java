@@ -60,5 +60,27 @@ public class StructureGeneration {
 	public void generateBasePlatform(Location loc) {
 		
 	}
+	
+	public void generateAirAtBase(Location loc) {
+		
+		int x1 = loc.getBlockX();
+		int y1 = loc.getBlockY();
+		int z1 = loc.getBlockZ();
+		
+		int x2 = x1 + 9;
+		int y2 = y1 + 9;
+		int z2 = z1 + 9;
+		
+		World world = loc.getWorld();
+		
+		for (int xPoint = x1; xPoint <= x2; xPoint++) {
+			for (int yPoint = y1; yPoint <= y2; yPoint++) {
+				for (int zPoint = z1; zPoint <= z2; zPoint++) {
+					Block currentB = world.getBlockAt(xPoint, yPoint, zPoint);
+					currentB.setType(Material.AIR);
+				}
+			}
+		}
+	}
 
 }
