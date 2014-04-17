@@ -9,7 +9,7 @@ import io.github.podshot.events.GunEvents;
 import io.github.podshot.events.PlayerEvents;
 import io.github.podshot.files.GameData;
 import io.github.podshot.files.SavePlayerData;
-import io.github.podshot.structures.FlagHolder;
+import io.github.podshot.structures.StructureYAML;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,7 +59,7 @@ public class WorldWar extends JavaPlugin {
 		}
 		GameData.init();
 		ExtraConfigHandler.initalize(this);
-		FlagHolder.createFiles();
+		StructureYAML.createFiles();
 
 		if (generate) {
 			this.saveDefaultConfig();
