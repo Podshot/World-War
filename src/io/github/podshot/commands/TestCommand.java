@@ -2,7 +2,9 @@ package io.github.podshot.commands;
 
 import io.github.podshot.WorldWar;
 import io.github.podshot.gui.ClassChooser;
+import io.github.podshot.structures.StructureGeneration;
 
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -43,6 +45,11 @@ public class TestCommand implements CommandExecutor {
 						player.sendMessage("Meta Data Value: " + val.asString());
 					}
 				}
+			}
+			if (args[0].equalsIgnoreCase("gen")) {
+				ret = true;
+				Location loc = new Location(player.getWorld(), Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]));
+				StructureGeneration.generateFlag(loc, "Blue");
 			}
 		}
 		return ret;
