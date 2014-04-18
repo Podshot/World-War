@@ -35,6 +35,7 @@ public class StructureGeneration {
 			flag.setData(DyeColor.RED.getData());
 			flag.setMetadata("WorldWar.TeamFlag", new FixedMetadataValue(plugin, "Red"));
 		}
+		StructureYAML.setFlagLocation(flagLoc, team);
 		
 		// Flag Post
 		flagLoc.setY(flagLoc.getY() - 1);
