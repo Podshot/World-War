@@ -2,6 +2,7 @@ package io.github.podshot.structures;
 
 import io.github.podshot.WorldWar;
 
+import org.bukkit.Chunk;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,6 +16,14 @@ public class StructureGeneration {
 	
 	@SuppressWarnings("deprecation")
 	public static void generateFlag(Location flagLoc, String team) {
+		// World Generation Checks
+		World world = flagLoc.getWorld();
+		
+		Chunk flagChunk = world.getChunkAt(flagLoc.getBlockX(), flagLoc.getBlockZ());
+		flagChunk.load(true);
+		// Generates flag at highets point
+		int newY = world.getHighestBlockYAt(flagLoc.getBlockX(), flagLoc.getBlockZ()) + 2;
+		flagLoc.setY(newY);
 		// Flag Block
 		Block flag = flagLoc.getBlock();
 		if (team == "Blue") {
@@ -44,12 +53,11 @@ public class StructureGeneration {
 		int y2 = y1;
 		int z2 = z1 + 2;
 		
-		World w = flagLoc.getWorld();
 		
 		for (int xPoint = x1; xPoint <= x2; xPoint++) {
 			for (int yPoint = y1; yPoint <= y2; yPoint++) {
 				for (int zPoint = z1; zPoint <= z2; zPoint++) {
-					Block currentB = w.getBlockAt(xPoint, yPoint, zPoint);
+					Block currentB = world.getBlockAt(xPoint, yPoint, zPoint);
 					currentB.setType(Material.GLOWSTONE);
 				}
 			}

@@ -4,6 +4,7 @@ import io.github.podshot.WorldWar;
 import io.github.podshot.internals.Internals;
 
 import org.bukkit.ChatColor;
+import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -36,6 +37,7 @@ public class BlockEvents implements Listener {
 		return;
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public  void onBlockBreak(BlockBreakEvent evt) {
 		if (Internals.warDeclared) {
@@ -43,6 +45,7 @@ public class BlockEvents implements Listener {
 				String teamFlag = null;
 				String teamCapturer = null;
 				Block wool = evt.getBlock();
+				Location blockLoc = wool.getLocation();
 				Player capturer = evt.getPlayer();
 				for (MetadataValue val : wool.getMetadata("WorldWar.TeamFlag")) {
 					if (val.getOwningPlugin().getName().equals("WorldWar")) {
@@ -54,11 +57,25 @@ public class BlockEvents implements Listener {
 						teamCapturer = data.asString();
 					}
 				}
+				
+				plugin.logger.info("Flag Capturer: " + teamCapturer);
+				plugin.logger.info("Team Flag: " + teamFlag);
 
-				if (teamFlag != null || teamCapturer != null) {
-					if (teamFlag != teamCapturer) {
+				if (teamFlag != null && teamCapturer != null) {
+					if (!(teamFlag.equals(teamCapturer))) {
 						plugin.getServer().broadcastMessage("Team: " + ChatColor.GOLD + teamCapturer + ChatColor.RESET + " has captured the " + ChatColor.GOLD + teamFlag + ChatColor.RESET + " Flag!");
 						plugin.getServer().broadcastMessage("The flag was captured by " + ChatColor.GOLD + capturer.getName());
+					} else {
+						Block newFlag = blockLoc.getBlock();
+						newFlag.setType(Material.WOOL);
+						if (teamFlag == "Blue") {
+							newFlag.setData(DyeColor.BLUE.getData());
+							newFlag.setMetadata("WorldWar.TeamFlag", new FixedMetadataValue(plugin, "Blue"));
+						} else if (teamFlag == "Red") {
+							newFlag.setData(DyeColor.RED.getData());
+							newFlag.setMetadata("WorldWar.TeamFlag", new FixedMetadataValue(plugin, "Red"));
+						}
+						capturer.sendMessage(ChatColor.RED + "You cannot capture your own flag!");
 					}
 				}
 			}

@@ -17,16 +17,19 @@ public class WorldWarCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		boolean ret = false;
 		if (label.equalsIgnoreCase("ww")) {
-			plugin.logger.info("Hi");
-			if (args[0].equalsIgnoreCase("start")) {
-				if (sender.hasPermission("worldwar.war.start")) {
-					ret = true;
-					WarHandler.startWar(true);
-				}
-			} else if (args[0].equalsIgnoreCase("debug")) {
-				if (sender.hasPermission("worldwar.war.debug")) {
-					if (args[1].equalsIgnoreCase("rifle")) {
-						Debug.givePlayerRifle((Player) sender);
+			if (sender instanceof Player) {
+				Player player = (Player) sender;
+				plugin.logger.info("Hi");
+				if (args[0].equalsIgnoreCase("start")) {
+					if (player.hasPermission("worldwar.war.start")) {
+						ret = true;
+						WarHandler.startWar(player.getWorld());
+					}
+				} else if (args[0].equalsIgnoreCase("debug")) {
+					if (player.hasPermission("worldwar.war.debug")) {
+						if (args[1].equalsIgnoreCase("rifle")) {
+							Debug.givePlayerRifle((Player) sender);
+						}
 					}
 				}
 			}
