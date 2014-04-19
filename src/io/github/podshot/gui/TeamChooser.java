@@ -26,8 +26,7 @@ public class TeamChooser {
 		blue.setItemMeta(imBlue);
 		gui.setItem(1, blue);
 		
-		return gui ;
-		
+		return gui;
 	}
 
 }

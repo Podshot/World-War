@@ -21,7 +21,7 @@ public class StructureGeneration {
 		
 		Chunk flagChunk = world.getChunkAt(flagLoc.getBlockX(), flagLoc.getBlockZ());
 		flagChunk.load(true);
-		// Generates flag at highets point
+		// Generates flag at highest point
 		int newY = world.getHighestBlockYAt(flagLoc.getBlockX(), flagLoc.getBlockZ()) + 2;
 		flagLoc.setY(newY);
 		// Flag Block
