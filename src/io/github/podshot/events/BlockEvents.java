@@ -2,6 +2,7 @@ package io.github.podshot.events;
 
 import io.github.podshot.WorldWar;
 import io.github.podshot.internals.Internals;
+import io.github.podshot.structures.StructureYAML;
 
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
@@ -40,12 +41,11 @@ public class BlockEvents implements Listener {
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public  void onBlockBreak(BlockBreakEvent evt) {
-		if (Internals.warDeclared) {
+		//if (Internals.warDeclared) {
 			if (evt.getBlock().getType() == Material.WOOL) {
 				String teamFlag = null;
 				String teamCapturer = null;
 				Block wool = evt.getBlock();
-				Location blockLoc = wool.getLocation();
 				Player capturer = evt.getPlayer();
 				for (MetadataValue val : wool.getMetadata("WorldWar.TeamFlag")) {
 					if (val.getOwningPlugin().getName().equals("WorldWar")) {
@@ -66,20 +66,24 @@ public class BlockEvents implements Listener {
 						plugin.getServer().broadcastMessage("Team: " + ChatColor.GOLD + teamCapturer + ChatColor.RESET + " has captured the " + ChatColor.GOLD + teamFlag + ChatColor.RESET + " Flag!");
 						plugin.getServer().broadcastMessage("The flag was captured by " + ChatColor.GOLD + capturer.getName());
 					} else {
-						Block newFlag = blockLoc.getBlock();
-						newFlag.setType(Material.WOOL);
-						if (teamFlag == "Blue") {
-							newFlag.setData(DyeColor.BLUE.getData());
-							newFlag.setMetadata("WorldWar.TeamFlag", new FixedMetadataValue(plugin, "Blue"));
+						if (teamFlag.equals("Blue")) {
+							Location blueLoc = StructureYAML.getFlagPostition("Blue");
+							Block bFlag = blueLoc.getBlock();
+							bFlag.setType(Material.WOOL);
+							bFlag.setData(DyeColor.BLUE.getData());
+							bFlag.setMetadata("WorldWar.TeamFlag", new FixedMetadataValue(plugin, "Blue"));
 						} else if (teamFlag == "Red") {
-							newFlag.setData(DyeColor.RED.getData());
-							newFlag.setMetadata("WorldWar.TeamFlag", new FixedMetadataValue(plugin, "Red"));
+							Location redLoc = StructureYAML.getFlagPostition("Red");
+							Block rFlag = redLoc.getBlock();
+							rFlag.setType(Material.WOOL);
+							rFlag.setData(DyeColor.RED.getData());
+							rFlag.setMetadata("WorldWar.TeamFlag", new FixedMetadataValue(plugin, "Red"));
 						}
 						capturer.sendMessage(ChatColor.RED + "You cannot capture your own flag!");
 					}
 				}
 			}
-		}
+		//}
 		return;
 	}
 
