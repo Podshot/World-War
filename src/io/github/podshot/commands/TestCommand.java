@@ -5,15 +5,18 @@ import io.github.podshot.gui.ClassChooser;
 import io.github.podshot.structures.StructureGeneration;
 
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 
 public class TestCommand implements CommandExecutor {
-	
+
 	private static WorldWar plugin = WorldWar.getInstance();
 
 	@Override
@@ -49,6 +52,22 @@ public class TestCommand implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("gen")) {
 				ret = true;
 				Location loc = new Location(player.getWorld(), Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]));
+				StructureGeneration.generateFlag(loc, "Blue");
+			}
+			if (args[0].equalsIgnoreCase("spawn")) {
+				ret = true;
+				Location loc = player.getLocation();
+				World world = loc.getWorld();
+				@SuppressWarnings("unused")
+				Entity e = world.spawnEntity(loc, EntityType.COW);
+			}
+			if (args[0].equalsIgnoreCase("fly")) {
+				ret = true;
+				player.setFlySpeed(0.5F);
+			}
+			if (args[0].equalsIgnoreCase("flag")) {
+				ret = true;
+				Location loc = new Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY() - 5, player.getLocation().getZ());
 				StructureGeneration.generateFlag(loc, "Blue");
 			}
 		}
