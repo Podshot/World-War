@@ -9,6 +9,7 @@ import io.github.podshot.events.GunEvents;
 import io.github.podshot.events.PlayerEvents;
 import io.github.podshot.files.GameData;
 import io.github.podshot.files.SavePlayerData;
+import io.github.podshot.internals.Internals;
 import io.github.podshot.structures.StructureYAML;
 
 import java.io.File;
@@ -16,7 +17,10 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -72,7 +76,20 @@ public class WorldWar extends JavaPlugin {
 		}
 
 		this.setupDC();
+		if (Internals.warDeclared) {
+			this.setMetaData();
+		}
 
+	}
+
+	private void setMetaData() {
+		Location blueFlag = StructureYAML.getFlagPostition("Blue");
+		Block blue = this.getServer().getWorld(blueFlag.getWorld().getName()).getBlockAt(blueFlag);
+		blue.setMetadata("WorldWar.TeamFlag", new FixedMetadataValue(instance, "Blue"));
+		
+		Location redFlag = StructureYAML.getFlagPostition("Red");
+		Block red = this.getServer().getWorld(redFlag.getWorld().getName()).getBlockAt(redFlag);
+		red.setMetadata("WorldWar.TeamFlag", new FixedMetadataValue(instance, "Red"));
 	}
 
 	@Override

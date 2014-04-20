@@ -29,11 +29,11 @@ public class PlayerEvents implements Listener {
 	@EventHandler
 	public void onPlayerJoinEvent(PlayerJoinEvent evt) {
 		if (Internals.warDeclared) {
-			if (Internals.playersTeamFile.contains(evt.getPlayer().getName())) {
-				if (Internals.playersTeamFile.getProperty(evt.getPlayer().getName()) == "Blue") {
+			if (SavePlayerData.getTeamProperties().contains(evt.getPlayer().getName().toString())) {
+				if (SavePlayerData.getTeamProperties().getProperty(evt.getPlayer().getName().toString()) == "Blue") {
 					Player player = evt.getPlayer();
 					player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Blue"));
-				} else if (Internals.playersTeamFile.getProperty(evt.getPlayer().getName()) == "Red") {
+				} else if (SavePlayerData.getTeamProperties().getProperty(evt.getPlayer().getName().toString()) == "Red") {
 					Player player = evt.getPlayer();
 					player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Red"));
 				}
@@ -61,7 +61,7 @@ public class PlayerEvents implements Listener {
 			//}
 			if (team != null) {
 				try {
-					SavePlayerData.updateTeamFile(player.getName(), team);
+					SavePlayerData.updateTeamFile(player.getName().toString(), team);
 				} catch (IOException e) {
 					plugin.logger.severe("Could not save team data for Player: \"" + player.getName() + "\"");
 					e.printStackTrace();

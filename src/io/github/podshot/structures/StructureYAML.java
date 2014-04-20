@@ -4,6 +4,7 @@ import io.github.podshot.WorldWar;
 
 import java.io.File;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -45,12 +46,14 @@ public class StructureYAML {
 		ExtraConfigHandler.saveConfig(plugin.fileSep + "Structures" + plugin.fileSep + "Structures");
 	}
 
-	public static String getFlagPostition(String team) {
+	public static Location getFlagPostition(String team) {
 		FileConfiguration config = ExtraConfigHandler.getConfig(plugin.fileSep + "Structures" + plugin.fileSep + "Structures");
 		int x = config.getInt("Structure.Flag." + team + ".X");
 		int y = config.getInt("Structure.Flag." + team + ".Y");
 		int z = config.getInt("Structure.Flag." + team + ".Z");
-		String loc = x + ":" + y + ":" + z;
+		String name = config.getString("Structure.Flag." + team + ".World");
+		World world = Bukkit.getWorld(name);
+		Location loc = new Location(world, x, y, z);
 		return loc;
 	}
 	
