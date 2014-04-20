@@ -39,12 +39,14 @@ public class SavePlayerData {
 		classP.setProperty(name, value);
 		FileOutputStream outputC = new FileOutputStream(classPropF);
 		classP.store(outputC, null);
+		init();
 	}
 	
 	public static void updateTeamFile(String name, String value) throws IOException {
 		teamP.setProperty(name, value);
 		FileOutputStream outputT = new FileOutputStream(teamPropF);
 		teamP.store(outputT, null);
+		init();
 	}
 	
 	public static Properties getTeamProperties() {
