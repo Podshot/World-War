@@ -46,6 +46,7 @@ public class SavePlayerData {
 		teamP.setProperty(name, value);
 		FileOutputStream outputT = new FileOutputStream(teamPropF);
 		teamP.store(outputT, null);
+		outputT.close();
 		init();
 	}
 	
