@@ -42,6 +42,7 @@ public class EntityEvents implements Listener {
 				break;
 			}
 			evt.setCancelled(true);
+			ent.despawn();
 		}
 		return;
 	}
