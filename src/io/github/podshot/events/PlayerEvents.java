@@ -1,14 +1,14 @@
 package io.github.podshot.events;
 
 import io.github.podshot.WorldWar;
-import io.github.podshot.files.SavePlayerData;
+import io.github.podshot.files.PlayerYAML;
 import io.github.podshot.gui.ClassChooser;
 import io.github.podshot.gui.TeamChooser;
 import io.github.podshot.internals.Internals;
 
-import java.io.IOException;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -27,21 +27,30 @@ public class PlayerEvents implements Listener {
 	private WorldWar plugin = WorldWar.getInstance();
 
 	@EventHandler
-	public void onPlayerJoinEvent(PlayerJoinEvent evt) {
-		if (Internals.warDeclared) {
-			if (SavePlayerData.getTeamProperties().contains(evt.getPlayer().getName().toString())) {
-				if (SavePlayerData.getTeamProperties().getProperty(evt.getPlayer().getName().toString()) == "Blue") {
-					Player player = evt.getPlayer();
-					player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Blue"));
-				} else if (SavePlayerData.getTeamProperties().getProperty(evt.getPlayer().getName().toString()) == "Red") {
-					Player player = evt.getPlayer();
-					player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Red"));
+	public void onPlayerJoinEvent(final PlayerJoinEvent pevt) {
+		Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+			private PlayerJoinEvent evt = pevt;
+			@Override
+			public void run() {
+				if (Internals.warDeclared) {
+					plugin.logger.info("Cheking to see if username is already stored");
+					if (PlayerYAML.getPlayerTeam(evt.getPlayer().getName().toString()) == "Blue") {
+						plugin.logger.info("Player's team is Blue");
+						Player player = evt.getPlayer();
+						player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Blue"));
+					} else if (PlayerYAML.getPlayerTeam(evt.getPlayer().getName().toString()) == "Red") {
+						plugin.logger.info("Player's team is Red");
+						Player player = evt.getPlayer();
+						player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Red"));
+					} else {
+						plugin.logger.info("Name is not present in the player file");
+						Player player = evt.getPlayer();
+						player.openInventory(TeamChooser.getTeamChooserGui());
+						evt.getPlayer().sendMessage("You are logged in");
+					}
 				}
-			} else {
-				Player player = evt.getPlayer();
-				player.openInventory(TeamChooser.getTeamChooserGui());
 			}
-		}
+		}, 40L);
 		return;
 	}
 
@@ -50,22 +59,20 @@ public class PlayerEvents implements Listener {
 		if (Internals.warDeclared) {
 			String team = null;
 			Player player = evt.getPlayer();
+			String name = player.getName().toString();
 			List<MetadataValue> values = player.getMetadata("WorldWar.Team");
 			for (MetadataValue val : values) {
 				if (val.getOwningPlugin().getName().equals("WorldWar")) {
 					team = val.asString();
 				}
 			}
+			plugin.logger.info("Saving player");
 			//if (team != null) {
 			//Internals.playersTeamFile.setProperty(player.getName(), team);
 			//}
 			if (team != null) {
-				try {
-					SavePlayerData.updateTeamFile(player.getName().toString(), team);
-				} catch (IOException e) {
-					plugin.logger.severe("Could not save team data for Player: \"" + player.getName() + "\"");
-					e.printStackTrace();
-				}
+				plugin.logger.info("Team is not \"null\" saving data");
+				PlayerYAML.setPlayerToTeam(name, team);
 			}
 		}
 		return;
