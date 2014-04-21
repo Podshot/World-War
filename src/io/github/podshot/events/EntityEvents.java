@@ -2,51 +2,47 @@ package io.github.podshot.events;
 
 import io.github.podshot.entities.DisguisePlayerAsVehicle;
 import io.github.podshot.internals.Internals;
+import net.citizensnpcs.api.event.NPCRightClickEvent;
+import net.citizensnpcs.api.npc.NPC;
 
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.metadata.MetadataValue;
 
 public class EntityEvents implements Listener {
 
 	@EventHandler
-	public void onPlayerInteractEntityEvent(PlayerInteractEntityEvent evt) {
+	public void onPlayerClickOnNPC(NPCRightClickEvent evt) {
 		if (Internals.warDeclared) {
-			String vehicleType = null;
-			Player player = evt.getPlayer();
-			Entity ent = evt.getRightClicked();
+			Player player = evt.getClicker().getPlayer();
+			NPC ent = evt.getNPC();
 			//DisguisePlayerAsVehicle.addPlayerAsDragon(player);
-			DisguisePlayerAsVehicle.addPlayerAsBlaze(player);
+			//DisguisePlayerAsVehicle.addPlayerAsBlaze(player);
 			evt.setCancelled(true);
+			/*
 			for (MetadataValue dat : ent.getMetadata("WorldWar.isVehicle")) {
 				if (dat.getOwningPlugin().getName().equals("World War")) {
 					vehicleType = dat.asString();
 				}
 			}
+			 */
+			String name = ent.getName().toString();
 
-			if (vehicleType != null) {
-				switch (vehicleType) {
-				case "scout":
-					DisguisePlayerAsVehicle.addPlayerAsBat(player);
-					evt.setCancelled(true);
-					break;
-				case "fighter":
-					DisguisePlayerAsVehicle.addPlayerAsBlaze(player);
-					evt.setCancelled(true);
-					break;
-				case "bomber":
-					DisguisePlayerAsVehicle.addPlayerAsDragon(player);
-					evt.setCancelled(true);
-					break;
-				default:
-					break;
-				}
+			switch (name) {
+			case "Scout Plane":
+				DisguisePlayerAsVehicle.addPlayerAsBat(player);
+				break;
+			case "Fighter Plane":
+				DisguisePlayerAsVehicle.addPlayerAsBlaze(player);
+				break;
+			case "Bomber":
+				DisguisePlayerAsVehicle.addPlayerAsDragon(player);
+				break;
+			default:
+				break;
 			}
-		} else {
-			return;
+			evt.setCancelled(true);
 		}
+		return;
 	}
 }

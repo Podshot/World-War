@@ -10,6 +10,7 @@ World War currently requires a few libraries to get running.
 * [MoreProjectiles](http://forums.bukkit.org/threads/lib-1-7-moreprojectiles.171927/)
 * [DisguiseCraft](http://dev.bukkit.org/bukkit-plugins/disguisecraft/)
 * [Bukkit 1.7.5-R0.1-20140402/231158-6](http://dl.dropboxusercontent.com/s/ok9llar7nvja9uy/bukkit-1.7.5-R0.1-20140402.231158-6.jar)
+* [Citizens 2.0.12 (Alpha 3)](http://dev.bukkit.org/bukkit-plugins/citizens/files/)
 
 *This Bukkit API build is hosted by me to continue Bukkit version compatibility*
 * Built using JDK 1.7

@@ -3,13 +3,14 @@ package io.github.podshot.commands;
 import io.github.podshot.WorldWar;
 import io.github.podshot.gui.ClassChooser;
 import io.github.podshot.structures.StructureGeneration;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.npc.NPCRegistry;
 
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -57,9 +58,10 @@ public class TestCommand implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("spawn")) {
 				ret = true;
 				Location loc = player.getLocation();
-				World world = loc.getWorld();
-				@SuppressWarnings("unused")
-				Entity e = world.spawnEntity(loc, EntityType.COW);
+				NPCRegistry registry = CitizensAPI.getNPCRegistry();
+				NPC npc = registry.createNPC(EntityType.COW, "NPC-Cow");
+				npc.spawn(loc);
+				npc.getNavigator().setTarget(loc);
 			}
 			if (args[0].equalsIgnoreCase("fly")) {
 				ret = true;
