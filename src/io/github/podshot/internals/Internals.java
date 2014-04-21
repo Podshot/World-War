@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import org.bukkit.Location;
 
+@SuppressWarnings("deprecation")
 public class Internals {
 
 	public static Properties playersTeamFile = SavePlayerData.getTeamProperties();

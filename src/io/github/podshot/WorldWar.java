@@ -8,12 +8,11 @@ import io.github.podshot.events.GuiEvents;
 import io.github.podshot.events.GunEvents;
 import io.github.podshot.events.PlayerEvents;
 import io.github.podshot.files.GameData;
-import io.github.podshot.files.SavePlayerData;
+import io.github.podshot.files.PlayerYAML;
 import io.github.podshot.internals.Internals;
 import io.github.podshot.structures.StructureYAML;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -24,10 +23,10 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.xern.jogy34.xernutilities.handlers.ExtraConfigHandler;
-
 import pgDev.bukkit.DisguiseCraft.DisguiseCraft;
 import pgDev.bukkit.DisguiseCraft.api.DisguiseCraftAPI;
+
+import com.xern.jogy34.xernutilities.handlers.ExtraConfigHandler;
 //import io.github.podshot.files.Saving;
 
 public class WorldWar extends JavaPlugin {
@@ -64,15 +63,10 @@ public class WorldWar extends JavaPlugin {
 		GameData.init();
 		ExtraConfigHandler.initalize(this);
 		StructureYAML.createFiles();
+		PlayerYAML.createFile();
 
 		if (generate) {
 			this.saveDefaultConfig();
-		}
-		try {
-			SavePlayerData.init();
-		} catch (IOException e) {
-			logger.severe("Could not read or create Data Files");
-			e.printStackTrace();
 		}
 
 		this.setupDC();
@@ -84,28 +78,23 @@ public class WorldWar extends JavaPlugin {
 
 	private void setMetaData() {
 		Location blueFlag = StructureYAML.getFlagPostition("Blue");
-		Block blue = this.getServer().getWorld(blueFlag.getWorld().getName()).getBlockAt(blueFlag);
+		Block blue = blueFlag.getBlock();
 		blue.setMetadata("WorldWar.TeamFlag", new FixedMetadataValue(instance, "Blue"));
-		
+
 		Location redFlag = StructureYAML.getFlagPostition("Red");
-		Block red = this.getServer().getWorld(redFlag.getWorld().getName()).getBlockAt(redFlag);
+		Block red = redFlag.getBlock();
 		red.setMetadata("WorldWar.TeamFlag", new FixedMetadataValue(instance, "Red"));
 	}
 
 	@Override
 	public void onDisable() {
-//		Saving.savePlayerTeamFile(Bukkit.getOnlinePlayers());
-//		Saving.savePlayerClassFile(Bukkit.getOnlinePlayers());
+		//		Saving.savePlayerTeamFile(Bukkit.getOnlinePlayers());
+		//		Saving.savePlayerClassFile(Bukkit.getOnlinePlayers());
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			String name = p.getName();
 			for (MetadataValue data : p.getMetadata("WorldWar.Team")) {
 				if (data.getOwningPlugin().getName().equals("WorldWar")) {
-					try {
-						SavePlayerData.updateTeamFile(name, data.asString());
-					} catch (IOException e) {
-						this.logger.severe("Could not save team data for Player: \"" + name + "\"");
-						e.printStackTrace();
-					}
+					PlayerYAML.setPlayerToTeam(name, data.asString());
 				}
 			}
 		}

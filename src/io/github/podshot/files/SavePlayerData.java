@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+@Deprecated
 public class SavePlayerData {
 	
 	private static WorldWar plugin = WorldWar.getInstance();
@@ -48,9 +49,16 @@ public class SavePlayerData {
 		teamP.store(outputT, null);
 		outputT.close();
 		init();
+		plugin.logger.info("Saved player data");
 	}
 	
 	public static Properties getTeamProperties() {
 		return teamP;
+	}
+
+	public static void shutdown() throws IOException {
+		FileOutputStream out = new FileOutputStream(teamPropF);
+		teamP.store(out, null);
+		out.close();
 	}
 }

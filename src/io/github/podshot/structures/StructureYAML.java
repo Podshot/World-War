@@ -52,7 +52,8 @@ public class StructureYAML {
 		int y = config.getInt("Structure.Flag." + team + ".Y");
 		int z = config.getInt("Structure.Flag." + team + ".Z");
 		String name = config.getString("Structure.Flag." + team + ".World");
-		World world = Bukkit.getWorld(name);
+		plugin.logger.info("World Name: " + name);
+		World world = Bukkit.getServer().getWorld(name);
 		Location loc = new Location(world, x, y, z);
 		return loc;
 	}
