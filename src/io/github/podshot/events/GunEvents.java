@@ -13,8 +13,12 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.stirante.MoreProjectiles.Particles;
+import com.stirante.MoreProjectiles.TypedRunnable;
 import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
 import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
+import com.stirante.MoreProjectiles.projectile.BlockProjectile;
+import com.stirante.MoreProjectiles.projectile.CustomProjectile;
 import com.stirante.MoreProjectiles.projectile.ItemProjectile;
 
 public class GunEvents implements Listener {
@@ -40,23 +44,34 @@ public class GunEvents implements Listener {
 			}
 		}
 		if (e.getAction() == Action.RIGHT_CLICK_AIR) {
+			String gunType = e.getItem().getItemMeta().getDisplayName().toString();
 			if (e.getItem().getType() == Material.IRON_HOE) {
-				String gunType = e.getItem().getItemMeta().getDisplayName().toString();
-				e.setCancelled(true);
-
-				switch(gunType) {
-				case "Standard Issue Rifle":
+				if (gunType == "Standard Issue Rifle") {
 					if (e.getItem().getDurability() <= 249) {
 						ItemProjectile rBullet = new ItemProjectile("bullet-rifle", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 2.0F);
 						rBullet.setIgnoreSomeBlocks(true);
 						e.getItem().setDurability((short) (e.getItem().getDurability() + 10));
+						e.setCancelled(true);
 					}
-					break;
-				case "Pistol":
-					@SuppressWarnings("unused")
+				}
+			}
+			if (e.getItem().getType() == Material.WOOD_HOE) {
+				if (gunType == "Pistol") {
 					ItemProjectile pBullet = new ItemProjectile("bullet-pistol", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 3.0F);
+					pBullet.setIgnoreSomeBlocks(true);
 					e.getItem().setDurability((short) (e.getItem().getDurability() - (short) 1));
-					break;
+					e.setCancelled(true);
+				}
+			}
+			if (e.getItem().getType() == Material.DIAMOND_HOE) {
+				if (gunType == "Rocket Launcher") {
+					CustomProjectile rocket = new BlockProjectile("rocket", e.getPlayer(), 0, 0, 1.0F);
+					rocket.addTypedRunnable(new TypedRunnable<BlockProjectile>() {
+						public void run(BlockProjectile o) {
+							Particles.LARGE_SMOKE.display(o.getEntity().getLocation(), 0, 0, 0, 0, 2);
+						}
+					});
+					e.setCancelled(true);
 				}
 			}
 		}
