@@ -27,9 +27,9 @@ public class PlayerEvents implements Listener {
 	private WorldWar plugin = WorldWar.getInstance();
 
 	@EventHandler
-	public void onPlayerJoinEvent(final PlayerJoinEvent pevt) {
+	public void onPlayerJoinEvent(final PlayerJoinEvent e) {
 		Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
-			private PlayerJoinEvent evt = pevt;
+			private PlayerJoinEvent evt = e;
 			@Override
 			public void run() {
 				if (Internals.warDeclared) {
@@ -42,7 +42,7 @@ public class PlayerEvents implements Listener {
 						plugin.logger.info("Player's team is Red");
 						Player player = evt.getPlayer();
 						player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Red"));
-					} else {
+					} else  {
 						plugin.logger.info("Name is not present in the player file");
 						Player player = evt.getPlayer();
 						player.openInventory(TeamChooser.getTeamChooserGui());
