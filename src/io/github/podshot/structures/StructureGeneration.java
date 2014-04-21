@@ -66,8 +66,31 @@ public class StructureGeneration {
 		
 	}
 	
-	public void generateBasePlatform(Location loc) {
+	public void generateVehiclePlatform(Location loc) {
+		World world = loc.getWorld();
 		
+		int newY = world.getHighestBlockYAt(loc.getBlockX(), loc.getBlockZ()) + 2;
+		loc.setY(newY);
+		
+		int x1 = loc.getBlockX();
+		int y1 = loc.getBlockY();
+		int z1 = loc.getBlockZ();
+		
+		int x2 = x1 + 2;
+		int y2 = y1;
+		int z2 = z1 + 2;
+		
+		
+		for (int xPoint = x1; xPoint <= x2; xPoint++) {
+			for (int yPoint = y1; yPoint <= y2; yPoint++) {
+				for (int zPoint = z1; zPoint <= z2; zPoint++) {
+					Block currentB = world.getBlockAt(xPoint, yPoint, zPoint);
+					currentB.setType(Material.OBSIDIAN);
+				}
+			}
+		}
+		
+		loc.getBlock().setType(Material.SPONGE);
 	}
 	
 	public void generateAirAtBase(Location loc) {
