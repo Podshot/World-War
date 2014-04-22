@@ -17,7 +17,6 @@ import com.stirante.MoreProjectiles.Particles;
 import com.stirante.MoreProjectiles.TypedRunnable;
 import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
 import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
-import com.stirante.MoreProjectiles.projectile.BlockProjectile;
 import com.stirante.MoreProjectiles.projectile.CustomProjectile;
 import com.stirante.MoreProjectiles.projectile.ItemProjectile;
 
@@ -46,10 +45,11 @@ public class GunEvents implements Listener {
 		if (e.getAction() == Action.RIGHT_CLICK_AIR) {
 			String gunType = e.getItem().getItemMeta().getDisplayName().toString();
 			if (e.getItem().getType() == Material.IRON_HOE) {
-				if (gunType == "Standard Issue Rifle") {
+				if (gunType.equals("Standard Issue Rifle")) {
 					if (e.getItem().getDurability() <= 249) {
 						ItemProjectile rBullet = new ItemProjectile("bullet-rifle", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 2.0F);
 						rBullet.setIgnoreSomeBlocks(true);
+						rBullet.boundingBox.shrink(1.5D, 1.5D, 1.5D);
 						e.getItem().setDurability((short) (e.getItem().getDurability() + 10));
 						e.setCancelled(true);
 					}
@@ -64,11 +64,12 @@ public class GunEvents implements Listener {
 				}
 			}
 			if (e.getItem().getType() == Material.DIAMOND_HOE) {
-				if (gunType == "Rocket Launcher") {
-					CustomProjectile rocket = new BlockProjectile("rocket", e.getPlayer(), 0, 0, 1.0F);
-					rocket.addTypedRunnable(new TypedRunnable<BlockProjectile>() {
-						public void run(BlockProjectile o) {
-							Particles.LARGE_SMOKE.display(o.getEntity().getLocation(), 0, 0, 0, 0, 2);
+				if (gunType.equals("Rocket Launcher")) {
+					CustomProjectile rocket = new ItemProjectile("rocket", e.getPlayer(), new ItemStack(Material.AIR), 2.0F);
+					rocket.addTypedRunnable(new TypedRunnable<ItemProjectile>() {
+						public void run(ItemProjectile o) {
+							Particles.LARGE_SMOKE.display(o.getEntity().getLocation(), 0, 0, 0, 0, 5);
+							Particles.FLAME.display(o.getEntity().getLocation(), 0, 0, 0, 0, 2);
 						}
 					});
 					e.setCancelled(true);
@@ -112,8 +113,10 @@ public class GunEvents implements Listener {
 					hitE.damage(2.0D, shooter);
 				}
 			}
-		} else {
-			return;
+			if (e.getProjectile().getProjectileName().equals("rocket")) {
+				e.getProjectile().getEntity().getWorld().createExplosion(e.getProjectile().getEntity().getLocation(), 0.0F);
+			}
 		}
+		return;
 	}
 }

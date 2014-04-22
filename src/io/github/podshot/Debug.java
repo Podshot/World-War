@@ -12,4 +12,9 @@ public class Debug {
 		p.getInventory().addItem(gun);
 	}
 
+	public static void givePlayerlauncher(Player sender) {
+		ItemStack launcher = ItemStackHandler.getLauncherStack();
+		sender.getInventory().addItem(launcher);
+	}
+
 }

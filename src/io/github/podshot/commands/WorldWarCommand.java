@@ -30,6 +30,9 @@ public class WorldWarCommand implements CommandExecutor {
 						if (args[1].equalsIgnoreCase("rifle")) {
 							Debug.givePlayerRifle((Player) sender);
 						}
+						if (args[1].equalsIgnoreCase("launcher")) {
+							Debug.givePlayerlauncher((Player) sender);
+						}
 					}
 				}
 			}

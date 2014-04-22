@@ -32,4 +32,13 @@ public class ItemStackHandler {
 		explosive.setItemMeta(imExplosive);
 		return explosive;
 	}
+
+	public static ItemStack getLauncherStack() {
+		ItemStack launcher = new ItemStack(Material.DIAMOND_HOE);
+		ItemMeta imLauncher = launcher.getItemMeta();
+		
+		imLauncher.setDisplayName("Rocket Launcher");
+		launcher.setItemMeta(imLauncher);
+		return launcher;
+	}
 }
