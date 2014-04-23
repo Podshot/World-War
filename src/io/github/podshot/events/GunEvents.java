@@ -37,7 +37,8 @@ public class GunEvents implements Listener {
 				String gunName = e.getItem().getItemMeta().getDisplayName().toString();
 				e.getPlayer().sendMessage("Item Name: " + gunName);
 				if (gunName.equals("Standard Issue Rifle")) {
-					e.getItem().setDurability((short) 0);
+					e.getItem().setDurability((short) 50);
+					e.getPlayer().setExp(25.0F);
 				}
 				e.setCancelled(true);
 			}
@@ -50,21 +51,19 @@ public class GunEvents implements Listener {
 		}
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if (e.getItem().getType() == Material.MONSTER_EGG) {
-				e.setCancelled(true);
-				
+				e.setCancelled(true);	
 			}
 		}
 		if (e.getAction() == Action.RIGHT_CLICK_AIR) {
 			String gunType = e.getItem().getItemMeta().getDisplayName().toString();
 			if (e.getItem().getType() == Material.MONSTER_EGG) {
 				if (gunType.equals("Standard Issue Rifle")) {
-					if (e.getItem().getDurability() <= 249) {
-						ItemProjectile rBullet = new ItemProjectile("bullet-rifle", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 2.0F);
-						rBullet.setIgnoreSomeBlocks(true);
-						rBullet.boundingBox.shrink(1.5D, 1.5D, 1.5D);
-						e.getItem().setDurability((short) (e.getItem().getDurability() + 10));
-						e.setCancelled(true);
-					}
+					ItemProjectile rBullet = new ItemProjectile("bullet-rifle", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 2.0F);
+					rBullet.setIgnoreSomeBlocks(true);
+					rBullet.boundingBox.shrink(1.5D, 1.5D, 1.5D);
+					e.getPlayer().setExp(e.getPlayer().getExp() - 1.0F);
+					//e.getItem().setDurability((short) (e.getItem().getDurability() + 10));
+					e.setCancelled(true);
 				}
 			}
 			if (e.getItem().getType() == Material.WOOD_HOE) {
