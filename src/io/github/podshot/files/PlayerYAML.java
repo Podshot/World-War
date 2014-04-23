@@ -32,6 +32,7 @@ public class PlayerYAML {
 		FileConfiguration config = ExtraConfigHandler.getConfig(plugin.fileSep + "Teams");
 		
 		String team = config.getString("Player.Teams." + name.toString());
+		plugin.logger.info("Player: \"" + name + "\" is on " + team + " Team");
 		return team;		
 	}
 

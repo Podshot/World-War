@@ -22,6 +22,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 
+@SuppressWarnings("unused")
 public class PlayerEvents implements Listener {
 
 	private WorldWar plugin = WorldWar.getInstance();
@@ -33,20 +34,21 @@ public class PlayerEvents implements Listener {
 			@Override
 			public void run() {
 				if (Internals.warDeclared) {
+					String memberOfTeam = PlayerYAML.getPlayerTeam(evt.getPlayer().getName().toString());
 					plugin.logger.info("Cheking to see if username is already stored");
-					if (PlayerYAML.getPlayerTeam(evt.getPlayer().getName().toString()) == "Blue") {
+					if (memberOfTeam.equals("Blue")) {
 						plugin.logger.info("Player's team is Blue");
 						Player player = evt.getPlayer();
 						player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Blue"));
-					} else if (PlayerYAML.getPlayerTeam(evt.getPlayer().getName().toString()) == "Red") {
+					} else if (memberOfTeam.equals("Red")) {
 						plugin.logger.info("Player's team is Red");
 						Player player = evt.getPlayer();
 						player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Red"));
-					} else  {
-						plugin.logger.info("Name is not present in the player file");
-						Player player = evt.getPlayer();
-						player.openInventory(TeamChooser.getTeamChooserGui());
-						evt.getPlayer().sendMessage("You are logged in");
+					//} else  {
+						//plugin.logger.info("Name is not present in the player file");
+						//Player player = evt.getPlayer();
+						//player.openInventory(TeamChooser.getTeamChooserGui());
+						//evt.getPlayer().sendMessage("You are logged in");
 					}
 				}
 			}
