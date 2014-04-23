@@ -41,6 +41,7 @@ public class GunEvents implements Listener {
 				}
 				e.setCancelled(true);
 			}
+			return;
 		}
 		if (e.getAction() == Action.RIGHT_CLICK_AIR) {
 			String gunType = e.getItem().getItemMeta().getDisplayName().toString();
@@ -76,6 +77,7 @@ public class GunEvents implements Listener {
 				}
 			}
 		}
+		return;
 	}
 
 	@EventHandler
