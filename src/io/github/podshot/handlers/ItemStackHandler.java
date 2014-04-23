@@ -7,7 +7,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class ItemStackHandler {
 
 	public static ItemStack getGunItemStack() {
-		ItemStack gun = new ItemStack(Material.IRON_HOE);
+		ItemStack gun = new ItemStack(Material.MONSTER_EGG);
+		gun.setDurability((short) 50);
 		ItemMeta imGun = gun.getItemMeta();
 		// imGun.setDisplayName(ChatColor.DARK_GRAY + "Standard Issue Rifle");
 		imGun.setDisplayName("Standard Issue Rifle");

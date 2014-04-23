@@ -41,11 +41,22 @@ public class GunEvents implements Listener {
 				}
 				e.setCancelled(true);
 			}
+			if (e.getItem().getType() == Material.DIAMOND_HOE) {
+				if (e.getItem().getItemMeta().getDisplayName().toString().equals("Rocket Launcher")) {
+					e.getItem().setDurability((short) 0);
+				}
+			}
 			return;
+		}
+		if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+			if (e.getItem().getType() == Material.MONSTER_EGG) {
+				e.setCancelled(true);
+				
+			}
 		}
 		if (e.getAction() == Action.RIGHT_CLICK_AIR) {
 			String gunType = e.getItem().getItemMeta().getDisplayName().toString();
-			if (e.getItem().getType() == Material.IRON_HOE) {
+			if (e.getItem().getType() == Material.MONSTER_EGG) {
 				if (gunType.equals("Standard Issue Rifle")) {
 					if (e.getItem().getDurability() <= 249) {
 						ItemProjectile rBullet = new ItemProjectile("bullet-rifle", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 2.0F);
@@ -60,22 +71,27 @@ public class GunEvents implements Listener {
 				if (gunType == "Pistol") {
 					ItemProjectile pBullet = new ItemProjectile("bullet-pistol", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 3.0F);
 					pBullet.setIgnoreSomeBlocks(true);
+					pBullet.boundingBox.shrink(1.5D, 1.5D, 1.5D);
 					e.getItem().setDurability((short) (e.getItem().getDurability() - (short) 1));
 					e.setCancelled(true);
 				}
 			}
 			if (e.getItem().getType() == Material.DIAMOND_HOE) {
-				if (gunType.equals("Rocket Launcher")) {
-					CustomProjectile rocket = new ItemProjectile("rocket", e.getPlayer(), new ItemStack(Material.AIR), 2.0F);
-					rocket.addTypedRunnable(new TypedRunnable<ItemProjectile>() {
-						public void run(ItemProjectile o) {
-							Particles.LARGE_SMOKE.display(o.getEntity().getLocation(), 0, 0, 0, 0, 5);
-							Particles.FLAME.display(o.getEntity().getLocation(), 0, 0, 0, 0, 2);
-						}
-					});
-					e.setCancelled(true);
+				if (e.getItem().getDurability() == 1561) {
+					if (gunType.equals("Rocket Launcher")) {
+						CustomProjectile rocket = new ItemProjectile("rocket", e.getPlayer(), new ItemStack(Material.AIR), 2.0F);
+						rocket.addTypedRunnable(new TypedRunnable<ItemProjectile>() {
+							public void run(ItemProjectile o) {
+								Particles.LARGE_SMOKE.display(o.getEntity().getLocation(), 0, 0, 0, 0, 5);
+								Particles.FLAME.display(o.getEntity().getLocation(), 0, 0, 0, 0, 2);
+							}
+						});
+						e.getItem().setDurability((short) 1561);
+						e.setCancelled(true);
+					}
 				}
 			}
+			return;
 		}
 		return;
 	}

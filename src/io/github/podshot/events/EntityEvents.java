@@ -8,6 +8,8 @@ import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
 public class EntityEvents implements Listener {
 
@@ -45,5 +47,18 @@ public class EntityEvents implements Listener {
 			ent.despawn();
 		}
 		return;
+	}
+	
+	public void onSpawnEvent(CreatureSpawnEvent evt) {
+		if (evt.getSpawnReason() == SpawnReason.SPAWNER_EGG) {
+			evt.setCancelled(true);
+			evt.getEntity().damage(20.0D);
+		}
+		if (evt.getSpawnReason() == SpawnReason.DISPENSE_EGG) {
+			evt.setCancelled(true);
+			evt.getEntity().damage(20.0D);
+		}
+		return;
+		
 	}
 }
