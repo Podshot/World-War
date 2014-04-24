@@ -52,11 +52,6 @@ public class EntityEvents implements Listener {
 	public void onSpawnEvent(CreatureSpawnEvent evt) {
 		if (evt.getSpawnReason() == SpawnReason.SPAWNER_EGG) {
 			evt.setCancelled(true);
-			evt.getEntity().damage(20.0D);
-		}
-		if (evt.getSpawnReason() == SpawnReason.DISPENSE_EGG) {
-			evt.setCancelled(true);
-			evt.getEntity().damage(20.0D);
 		}
 		return;
 		
