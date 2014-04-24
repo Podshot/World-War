@@ -3,7 +3,6 @@ package io.github.podshot.events;
 import io.github.podshot.handlers.ItemStackHandler;
 import io.github.podshot.internals.Internals;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -61,14 +60,13 @@ public class GunEvents implements Listener {
 			String gunType = e.getItem().getItemMeta().getDisplayName().toString();
 			if (e.getItem().getType() == Material.MONSTER_EGG) {
 				if (gunType.equals("Standard Issue Rifle")) {
-					if (e.getPlayer().getLevel() >= 1) {
+					if (e.getPlayer().getLevel() != 0) {
 						ItemProjectile rBullet = new ItemProjectile("bullet-rifle", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 2.0F);
 						rBullet.setIgnoreSomeBlocks(true);
-						rBullet.boundingBox.shrink(1.5D, 1.5D, 1.5D);
-						int o_lvl = e.getPlayer().getLevel();
+						rBullet.boundingBox.shrink(2D, 2D, 2D);
 						int n_lvl = e.getPlayer().getLevel() - 1;
-						Bukkit.getLogger().info("Old XP (i): " + o_lvl);
-						Bukkit.getLogger().info("New XP (i): " + n_lvl);
+						//Bukkit.getLogger().info("Old XP (i): " + o_lvl);
+						//Bukkit.getLogger().info("New XP (i): " + n_lvl);
 						e.getPlayer().setLevel(n_lvl);
 						//e.getItem().setDurability((short) (e.getItem().getDurability() + 10));
 						e.setCancelled(true);
