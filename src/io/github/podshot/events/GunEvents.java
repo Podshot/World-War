@@ -3,6 +3,7 @@ package io.github.podshot.events;
 import io.github.podshot.handlers.ItemStackHandler;
 import io.github.podshot.internals.Internals;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -33,7 +34,7 @@ public class GunEvents implements Listener {
 		// }
 
 		if (e.getAction() == Action.LEFT_CLICK_AIR) {
-			if (e.getItem().getType() == Material.IRON_HOE) {
+			if (e.getItem().getType() == Material.MONSTER_EGG) {
 				String gunName = e.getItem().getItemMeta().getDisplayName().toString();
 				e.getPlayer().sendMessage("Item Name: " + gunName);
 				if (gunName.equals("Standard Issue Rifle")) {
@@ -58,12 +59,18 @@ public class GunEvents implements Listener {
 			String gunType = e.getItem().getItemMeta().getDisplayName().toString();
 			if (e.getItem().getType() == Material.MONSTER_EGG) {
 				if (gunType.equals("Standard Issue Rifle")) {
-					ItemProjectile rBullet = new ItemProjectile("bullet-rifle", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 2.0F);
-					rBullet.setIgnoreSomeBlocks(true);
-					rBullet.boundingBox.shrink(1.5D, 1.5D, 1.5D);
-					e.getPlayer().setExp(e.getPlayer().getExp() - 1.0F);
-					//e.getItem().setDurability((short) (e.getItem().getDurability() + 10));
-					e.setCancelled(true);
+					//if (e.getPlayer().getExp() == 0.0) {
+						ItemProjectile rBullet = new ItemProjectile("bullet-rifle", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 2.0F);
+						rBullet.setIgnoreSomeBlocks(true);
+						rBullet.boundingBox.shrink(1.5D, 1.5D, 1.5D);
+						int o_lvl = e.getPlayer().getLevel();
+						int n_lvl = e.getPlayer().getLevel() - 1;
+						Bukkit.getLogger().info("Old XP (i): " + o_lvl);
+						Bukkit.getLogger().info("New XP (i): " + n_lvl);
+						e.getPlayer().setLevel(n_lvl);
+						//e.getItem().setDurability((short) (e.getItem().getDurability() + 10));
+						e.setCancelled(true);
+					//}
 				}
 			}
 			if (e.getItem().getType() == Material.WOOD_HOE) {
