@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -109,30 +108,6 @@ public class PlayerEvents implements Listener {
 			if (location.getY() > 256) {
 				Location newLoc = new Location(location.getWorld(), location.getX(), 256, location.getZ(), location.getYaw(), location.getPitch());
 				player.teleport(newLoc);
-			}
-
-			for (Location loc : Internals.explosiveLocations) {
-				if (loc.equals(evt.getPlayer().getLocation())) {
-					Block explosive = loc.getBlock();
-					evt.getPlayer().getWorld().createExplosion(loc, 0.0F);
-					String team = null;
-					String bTeam = null;
-					for (MetadataValue md : evt.getPlayer().getMetadata("WorldWar.Team")) {
-						if (md.getOwningPlugin().getName().equals("WorldWar")) {
-							team = md.asString();
-						}
-					}
-					List<MetadataValue> vals = explosive.getMetadata("WorldWar.Team");
-					for (MetadataValue val : vals) {
-						if (val.getOwningPlugin().getName().equals("WorldWar")) {
-							bTeam = val.asString();
-						}
-					}
-
-					if (team != bTeam) {
-						evt.getPlayer().getWorld().createExplosion(loc, 0.0F);
-					}
-				}
 			}
 		}
 		return;
