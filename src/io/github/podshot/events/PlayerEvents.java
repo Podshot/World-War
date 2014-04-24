@@ -112,7 +112,7 @@ public class PlayerEvents implements Listener {
 			}
 
 			for (Location loc : Internals.explosiveLocations) {
-				if (loc == evt.getPlayer().getLocation()) {
+				if (loc.equals(evt.getPlayer().getLocation())) {
 					Block explosive = loc.getBlock();
 					evt.getPlayer().getWorld().createExplosion(loc, 0.0F);
 					String team = null;

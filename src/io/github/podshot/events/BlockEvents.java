@@ -4,7 +4,6 @@ import io.github.podshot.WorldWar;
 import io.github.podshot.internals.Internals;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -26,12 +25,19 @@ public class BlockEvents implements Listener {
 		//return;
 		//}
 
+		String team = null;
 		Block placed = evt.getBlock();
 		Player placer = evt.getPlayer();
 		if (placed.getType() == Material.WOOD_BUTTON) {
-			String team = Internals.playersTeamFile.getProperty(placer.getName());
-			placed.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, team));
-			Internals.explosiveLocations.add(new Location(evt.getBlock().getWorld(), evt.getBlock().getX(), evt.getBlock().getY(), evt.getBlock().getZ()));
+			for (MetadataValue val : placer.getMetadata("WorldWar.Team")) {
+				if (val.getOwningPlugin().getName().equals("WorldWar")) {
+					team = val.asString();
+				}
+			}
+			if (team != null) {
+				placed.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, team));
+				Internals.explosiveLocations.add(placed.getLocation());
+			}
 		}
 		return;
 	}
