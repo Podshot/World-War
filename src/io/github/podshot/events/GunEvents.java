@@ -59,7 +59,7 @@ public class GunEvents implements Listener {
 			String gunType = e.getItem().getItemMeta().getDisplayName().toString();
 			if (e.getItem().getType() == Material.MONSTER_EGG) {
 				if (gunType.equals("Standard Issue Rifle")) {
-					//if (e.getPlayer().getExp() == 0.0) {
+					if (e.getPlayer().getLevel() != 0) {
 						ItemProjectile rBullet = new ItemProjectile("bullet-rifle", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 2.0F);
 						rBullet.setIgnoreSomeBlocks(true);
 						rBullet.boundingBox.shrink(1.5D, 1.5D, 1.5D);
@@ -70,7 +70,7 @@ public class GunEvents implements Listener {
 						e.getPlayer().setLevel(n_lvl);
 						//e.getItem().setDurability((short) (e.getItem().getDurability() + 10));
 						e.setCancelled(true);
-					//}
+					}
 				}
 			}
 			if (e.getItem().getType() == Material.WOOD_HOE) {
