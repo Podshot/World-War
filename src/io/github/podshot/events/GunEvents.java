@@ -47,12 +47,13 @@ public class GunEvents implements Listener {
 					e.getItem().setDurability((short) 50);
 					e.getPlayer().setLevel(25);
 				}
-				e.setCancelled(true);
+				return;
 			}
 			if (e.getItem().getType() == Material.DIAMOND_HOE) {
 				if (e.getItem().getItemMeta().getDisplayName().toString().equals("Rocket Launcher")) {
 					e.getItem().setDurability((short) 0);
 				}
+				return;
 			}
 			return;
 		}
@@ -79,8 +80,11 @@ public class GunEvents implements Listener {
 						e.getPlayer().getItemInHand().setType(Material.AIR);
 						e.getPlayer().updateInventory();
 					}
+					return;
 				}
+				return;
 			}
+			return;
 		}
 		if (e.getAction() == Action.RIGHT_CLICK_AIR) {
 			String gunType = e.getItem().getItemMeta().getDisplayName().toString();
@@ -97,7 +101,9 @@ public class GunEvents implements Listener {
 						//e.getItem().setDurability((short) (e.getItem().getDurability() + 10));
 						e.setCancelled(true);
 					}
+					return;
 				}
+				return;
 			}
 			if (e.getItem().getType() == Material.WOOD_HOE) {
 				if (gunType == "Pistol") {
@@ -107,6 +113,7 @@ public class GunEvents implements Listener {
 					e.getItem().setDurability((short) (e.getItem().getDurability() - (short) 1));
 					e.setCancelled(true);
 				}
+				return;
 			}
 			if (e.getItem().getType() == Material.DIAMOND_HOE) {
 				if (e.getItem().getDurability() == 1561) {
@@ -121,7 +128,9 @@ public class GunEvents implements Listener {
 						e.getItem().setDurability((short) 1561);
 						e.setCancelled(true);
 					}
+					return;
 				}
+				return;
 			}
 			return;
 		}
