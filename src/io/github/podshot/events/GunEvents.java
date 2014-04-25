@@ -4,6 +4,7 @@ import io.github.podshot.handlers.ItemStackHandler;
 import io.github.podshot.internals.Internals;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -12,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.MetadataValue;
 
 import com.stirante.MoreProjectiles.Particles;
 import com.stirante.MoreProjectiles.TypedRunnable;
@@ -104,37 +106,48 @@ public class GunEvents implements Listener {
 
 	@EventHandler
 	public void onHit(ItemProjectileHitEvent e) {
+		String sTeam = null;
+		String hTeam = null;
 		LivingEntity hitE = e.getHitEntity();
 		if (Internals.warDeclared) {
 			if (e.getHitType() == CustomProjectileHitEvent.HitType.ENTITY) {
 				// e.getHitEntity().damage(3.0D, e.getProjectile().getShooter());
 				Player shooter = (Player) e.getProjectile().getShooter();
+				for (MetadataValue val : shooter.getMetadata("WroldWar.Team")) {
+					if (val.getOwningPlugin().getName().equals("WorldWar")) {
+						sTeam = val.asString();
+					}
+				}
 				if (e.getHitEntity().getType() == EntityType.PLAYER) {
-					if (Internals.playersTeamFile.get(shooter.getName()) == "Blue") {
-						Player hitP = (Player) hitE;
-						if (Internals.playersTeamFile.containsKey(hitP.getName())) {
-							if (Internals.playersTeamFile.get(hitP.getName()) == "Red") {
-								if (e.getProjectile().getProjectileName() == "bullet-rifle") {
-									hitP.damage(4.0D, shooter);
-								} else if (e.getProjectile().getProjectileName() == "bullet-pistol") {
-									hitP.damage(2.0D, shooter);
-								}
+					Player hitP = (Player) hitE;
+					for (MetadataValue val : hitP.getMetadata("WorldWar.Team")) {
+						if (val.getOwningPlugin().getName().equals("WorldWar")) {
+							hTeam = val.asString();
+						}
+					}
+					if (sTeam == "Blue") {
+						if (hTeam == "Red") {
+							if (e.getProjectile().getProjectileName() == "bullet-rifle") {
+								hitP.damage(4.0D, shooter);
+							} else if (e.getProjectile().getProjectileName() == "bullet-pistol") {
+								hitP.damage(2.0D, shooter);
 							}
 						}
-					} else if (Internals.playersTeamFile.get(shooter.getName()) == "Red") {
-						Player hitP = (Player) hitE;
-						if (Internals.playersTeamFile.containsKey(hitP.getName())) {
-							if (Internals.playersTeamFile.get(hitP.getName()) == "Blue") {
-								if (e.getProjectile().getProjectileName() == "bullet-rifle") {
-									hitP.damage(2.0D, shooter);
-								} else if (e.getProjectile().getProjectileName() == "bullet-pistol") {
-									hitP.damage(2.0D, shooter);
-								}
+					} else if (sTeam == "Red") {
+						if (hTeam == "Blue") {
+							if (e.getProjectile().getProjectileName() == "bullet-rifle") {
+								hitP.damage(2.0D, shooter);
+							} else if (e.getProjectile().getProjectileName() == "bullet-pistol") {
+								hitP.damage(2.0D, shooter);
 							}
 						}
 					}
 				} else {
 					hitE.damage(2.0D, shooter);
+					if (sTeam == hTeam) {
+						Damageable d = (Damageable) hitE;
+						d.setHealth(d.getHealth() + 2.0D);
+					}
 				}
 			}
 			if (e.getProjectile().getProjectileName().equals("rocket")) {
