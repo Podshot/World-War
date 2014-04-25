@@ -1,10 +1,13 @@
 package io.github.podshot.events;
 
+import io.github.podshot.WorldWar;
 import io.github.podshot.entities.DisguisePlayerAsVehicle;
 import io.github.podshot.internals.Internals;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 import net.citizensnpcs.api.npc.NPC;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,12 +15,15 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
 public class EntityEvents implements Listener {
+	
+	private WorldWar plugin = WorldWar.getInstance();
 
 	@EventHandler
 	public void onPlayerClickOnNPC(NPCRightClickEvent evt) {
 		if (Internals.warDeclared) {
 			Player player = evt.getClicker().getPlayer();
-			NPC ent = evt.getNPC();
+			final NPC ent = evt.getNPC();
+			final Location respawnLoc = ent.getStoredLocation();
 			//DisguisePlayerAsVehicle.addPlayerAsDragon(player);
 			//DisguisePlayerAsVehicle.addPlayerAsBlaze(player);
 			evt.setCancelled(true);
@@ -45,6 +51,12 @@ public class EntityEvents implements Listener {
 			}
 			evt.setCancelled(true);
 			ent.despawn();
+			Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+				@Override
+				public void run() {
+					ent.spawn(respawnLoc);
+				}
+			}, 4800L);
 		}
 		return;
 	}
