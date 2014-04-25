@@ -8,6 +8,7 @@ import io.github.podshot.internals.Internals;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -58,6 +59,7 @@ public class BlockEvents implements Listener {
 		return;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent evt) {
 		if (!(Internals.warDeclared)) {
@@ -66,7 +68,8 @@ public class BlockEvents implements Listener {
 		
 		if (evt.getBlockPlaced().getType() == Material.SKULL) {
 			ArrayList<String> lore = new ArrayList<String>();
-			Block explosive = evt.getBlockPlaced();
+			Skull explosive = (Skull) evt.getBlockPlaced();
+			explosive.setOwner("MHF_TNT2");
 			
 			int x = explosive.getLocation().getBlockX();
 			int y = explosive.getLocation().getBlockY();
@@ -88,6 +91,7 @@ public class BlockEvents implements Listener {
 			remote.setItemMeta(imRemote);
 			
 			inv.addItem(remote);
+			placer.updateInventory();
 		}
 	}
 
