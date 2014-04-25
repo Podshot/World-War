@@ -66,9 +66,14 @@ public class GunEvents implements Listener {
 					String y = coords[1].toString().split(": ")[1].toString();
 					String z = coords[2].toString().split(": ")[1].toString();
 					String world = coords[3].toString().split(": ")[1].toString();
-					
+
 					Location loc = new Location(Bukkit.getWorld(world), Integer.parseInt(x), Integer.parseInt(y), Integer.parseInt(z));
-					Bukkit.getWorld(world).createExplosion(loc, 5.0F);
+					if (loc.getBlock().getType() == Material.SKULL) {
+						if (!(Bukkit.getWorld(world).getChunkAt(loc).isLoaded())) {
+							Bukkit.getWorld(world).getChunkAt(loc).load(true);
+						}
+						Bukkit.getWorld(world).createExplosion(loc, 5.0F);
+					}
 				}
 			}
 		}
@@ -93,7 +98,7 @@ public class GunEvents implements Listener {
 				if (gunType == "Pistol") {
 					ItemProjectile pBullet = new ItemProjectile("bullet-pistol", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 3.0F);
 					pBullet.setIgnoreSomeBlocks(true);
-					pBullet.boundingBox.shrink(1.5D, 1.5D, 1.5D);
+					pBullet.boundingBox.shrink(2D, 2D, 2D);
 					e.getItem().setDurability((short) (e.getItem().getDurability() - (short) 1));
 					e.setCancelled(true);
 				}
