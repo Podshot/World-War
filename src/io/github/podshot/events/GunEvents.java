@@ -1,5 +1,7 @@
 package io.github.podshot.events;
 
+import java.util.List;
+
 import io.github.podshot.handlers.ItemStackHandler;
 import io.github.podshot.internals.Internals;
 
@@ -29,6 +31,7 @@ public class GunEvents implements Listener {
 	@SuppressWarnings("unused")
 	private ItemStack pistolItemStack = ItemStackHandler.getPistolItemStack();
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
 
@@ -61,18 +64,20 @@ public class GunEvents implements Listener {
 			}
 			if (e.getItem().getType() == Material.RECORD_11) {
 				if (e.getItem().getItemMeta().getDisplayName().toString() == "Remote") {
-					String[] coords = (String[]) e.getItem().getItemMeta().getLore().toArray();
-					String x = coords[0].toString().split(": ")[1].toString();
-					String y = coords[1].toString().split(": ")[1].toString();
-					String z = coords[2].toString().split(": ")[1].toString();
-					String world = coords[3].toString().split(": ")[1].toString();
+					List<String> coords = e.getItem().getItemMeta().getLore();
+					String x = coords.get(0).toString().split(": ")[1].toString();
+					String y = coords.get(1).toString().split(": ")[1].toString();
+					String z = coords.get(2).toString().split(": ")[1].toString();
+					String world = coords.get(3).toString().split(": ")[1].toString();
 
 					Location loc = new Location(Bukkit.getWorld(world), Integer.parseInt(x), Integer.parseInt(y), Integer.parseInt(z));
 					if (loc.getBlock().getType() == Material.SKULL) {
 						if (!(Bukkit.getWorld(world).getChunkAt(loc).isLoaded())) {
 							Bukkit.getWorld(world).getChunkAt(loc).load(true);
 						}
-						Bukkit.getWorld(world).createExplosion(loc, 5.0F);
+						Bukkit.getWorld(world).createExplosion(loc, 3.5F);
+						e.getPlayer().getItemInHand().setType(Material.AIR);
+						e.getPlayer().updateInventory();
 					}
 				}
 			}

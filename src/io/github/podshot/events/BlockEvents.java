@@ -31,10 +31,13 @@ public class BlockEvents implements Listener {
 					evt.getBlock().setType(Material.AIR);
 				} else {
 					evt.setCancelled(true);
+					return;
 				}
 			} else {
 				evt.setCancelled(true);
+				return;
 			}
+			return;
 		}
 		if (evt.getBlock().getType() == Material.WOOL) {
 			String teamFlag = null;
