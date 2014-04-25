@@ -1,8 +1,10 @@
 package io.github.podshot.entities;
 
 import io.github.podshot.WorldWar;
+import io.github.podshot.vehicleInventories.Bomber;
 
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import pgDev.bukkit.DisguiseCraft.api.DisguiseCraftAPI;
@@ -37,6 +39,12 @@ public class DisguisePlayerAsVehicle {
 			player.setMetadata("WorldWar.Vehicle.Type", new FixedMetadataValue(plugin, "Bomber"));
 			player.getInventory().clear();
 			player.updateInventory();
+			int slotNum = 0;
+			for (ItemStack item : Bomber.getBomber()) {
+				player.getInventory().setItem(slotNum, item);
+				slotNum = slotNum + 1;
+			}
+
 		}
 	}
 }
