@@ -13,6 +13,8 @@ public class VehicleHandler implements Listener {
 
 	@EventHandler
 	public void onPlayerDamage(EntityDamageByEntityEvent evt) {
+		String damagerTeam = null;
+		String damagedTeam = null;
 		if (!Internals.warDeclared) {
 			return;
 		}
@@ -28,11 +30,20 @@ public class VehicleHandler implements Listener {
 		Player player = (Player) evt.getEntity();
 		Player damager = (Player) evt.getDamager();
 		Integer healthLeft = (int) evt.getDamage();
+		for (MetadataValue val : player.getMetadata("WorldWar.Team")) {
+			if (val.getOwningPlugin().getName().equals("WorldWar")) {
+				damagedTeam = val.asString();
+			}
+		}
+		
+		for (MetadataValue val : damager.getMetadata("WorldWar.Team")) {
+			if (val.getOwningPlugin().getName().equals("WorldWar")) {
+				damagerTeam = val.asString();
+			}
+		}
 		int health = 20 - healthLeft;
 		String vehicleType = null;
-		String damagerTeam = Internals.playersTeamFile.getProperty(damager.getName());
-		String damagedTeam = Internals.playersTeamFile.getProperty(player.getName());
-		if (damagerTeam == damagedTeam) {
+		if (damagerTeam == damagedTeam && damagerTeam != null) {
 			evt.setCancelled(true);
 		}
 
