@@ -3,6 +3,8 @@ package io.github.podshot.events;
 import io.github.podshot.handlers.ItemStackHandler;
 import io.github.podshot.internals.Internals;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.EntityType;
@@ -56,6 +58,18 @@ public class GunEvents implements Listener {
 				e.setCancelled(true);	
 				e.getPlayer().getItemInHand().setType(Material.MONSTER_EGG);
 				e.getPlayer().getItemInHand().setDurability((short) 50);
+			}
+			if (e.getItem().getType() == Material.RECORD_11) {
+				if (e.getItem().getItemMeta().getDisplayName().toString() == "Remote") {
+					String[] coords = (String[]) e.getItem().getItemMeta().getLore().toArray();
+					String x = coords[0].toString().split(": ")[1].toString();
+					String y = coords[1].toString().split(": ")[1].toString();
+					String z = coords[2].toString().split(": ")[1].toString();
+					String world = coords[3].toString().split(": ")[1].toString();
+					
+					Location loc = new Location(Bukkit.getWorld(world), Integer.parseInt(x), Integer.parseInt(y), Integer.parseInt(z));
+					Bukkit.getWorld(world).createExplosion(loc, 5.0F);
+				}
 			}
 		}
 		if (e.getAction() == Action.RIGHT_CLICK_AIR) {

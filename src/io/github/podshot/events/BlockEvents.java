@@ -1,6 +1,9 @@
 package io.github.podshot.events;
 
+import java.util.ArrayList;
+
 import io.github.podshot.WorldWar;
+import io.github.podshot.internals.Internals;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -9,6 +12,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.MetadataValue;
 
 public class BlockEvents implements Listener {
@@ -49,6 +56,39 @@ public class BlockEvents implements Listener {
 		}
 		//}
 		return;
+	}
+	
+	@EventHandler
+	public void onBlockPlace(BlockPlaceEvent evt) {
+		if (!(Internals.warDeclared)) {
+			return;
+		}
+		
+		if (evt.getBlockPlaced().getType() == Material.SKULL) {
+			ArrayList<String> lore = new ArrayList<String>();
+			Block explosive = evt.getBlockPlaced();
+			
+			int x = explosive.getLocation().getBlockX();
+			int y = explosive.getLocation().getBlockY();
+			int z = explosive.getLocation().getBlockZ();
+			String world = explosive.getLocation().getWorld().getName();
+			
+			lore.add("X: " + x);
+			lore.add("Y: " + y);
+			lore.add("Z: " + z);
+			lore.add("World: " + world);
+			
+			Player placer = evt.getPlayer();
+			Inventory inv = placer.getInventory();
+			
+			ItemStack remote = new ItemStack(Material.RECORD_11);
+			ItemMeta imRemote = remote.getItemMeta();
+			imRemote.setDisplayName("Remote");
+			imRemote.setLore(lore);
+			remote.setItemMeta(imRemote);
+			
+			inv.addItem(remote);
+		}
 	}
 
 }
