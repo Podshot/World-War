@@ -1,20 +1,19 @@
 package io.github.podshot.events;
 
-import java.util.ArrayList;
-
 import io.github.podshot.WorldWar;
 import io.github.podshot.internals.Internals;
+
+import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.Skull;
+import org.bukkit.craftbukkit.v1_7_R2.block.CraftSkull;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.MetadataValue;
@@ -24,8 +23,19 @@ public class BlockEvents implements Listener {
 	private static WorldWar plugin = WorldWar.getInstance();
 
 	@EventHandler
-	public  void onBlockBreak(BlockBreakEvent evt) {
+	public void onBlockBreak(BlockBreakEvent evt) {
 		//if (Internals.warDeclared) {
+		if (evt.getBlock().getType() == Material.SKULL) {
+			if (evt.getPlayer().getItemInHand().getType() == Material.SHEARS) {
+				if (evt.getPlayer().getItemInHand().getItemMeta().getDisplayName().toString() == "Bomb Diffuser") {
+					evt.getBlock().setType(Material.AIR);
+				} else {
+					evt.setCancelled(true);
+				}
+			} else {
+				evt.setCancelled(true);
+			}
+		}
 		if (evt.getBlock().getType() == Material.WOOL) {
 			String teamFlag = null;
 			String teamCapturer = null;
@@ -68,8 +78,10 @@ public class BlockEvents implements Listener {
 		
 		if (evt.getBlockPlaced().getType() == Material.SKULL) {
 			ArrayList<String> lore = new ArrayList<String>();
-			Skull explosive = (Skull) evt.getBlockPlaced();
-			explosive.setOwner("MHF_TNT2");
+			Block explosive = evt.getBlockPlaced();
+			CraftSkull skExplosive = new CraftSkull(explosive);
+			skExplosive.setOwner("MHF_TNT2");
+			skExplosive.update();
 			
 			int x = explosive.getLocation().getBlockX();
 			int y = explosive.getLocation().getBlockY();
@@ -82,7 +94,6 @@ public class BlockEvents implements Listener {
 			lore.add("World: " + world);
 			
 			Player placer = evt.getPlayer();
-			Inventory inv = placer.getInventory();
 			
 			ItemStack remote = new ItemStack(Material.RECORD_11);
 			ItemMeta imRemote = remote.getItemMeta();
@@ -90,7 +101,7 @@ public class BlockEvents implements Listener {
 			imRemote.setLore(lore);
 			remote.setItemMeta(imRemote);
 			
-			inv.addItem(remote);
+			placer.setItemInHand(remote);
 			placer.updateInventory();
 		}
 	}
