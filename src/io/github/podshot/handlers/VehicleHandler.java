@@ -15,7 +15,7 @@ public class VehicleHandler implements Listener {
 	public void onPlayerDamage(EntityDamageByEntityEvent evt) {
 		String damagerTeam = null;
 		String damagedTeam = null;
-		if (!Internals.warDeclared) {
+		if (!(Internals.isWarDeclared())) {
 			return;
 		}
 

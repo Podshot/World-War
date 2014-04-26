@@ -9,4 +9,8 @@ public class Internals {
 	@Deprecated
 	public static Properties playersClassFile;
 	public static boolean warDeclared = false;
+	
+	public static boolean isWarDeclared() {
+		return warDeclared;
+	}
 }

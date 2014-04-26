@@ -70,7 +70,7 @@ public class WorldWar extends JavaPlugin {
 		}
 
 		this.setupDC();
-		if (Internals.warDeclared) {
+		if (Internals.isWarDeclared()) {
 			this.setMetaData();
 		}
 
