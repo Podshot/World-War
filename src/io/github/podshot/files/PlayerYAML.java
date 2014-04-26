@@ -35,5 +35,11 @@ public class PlayerYAML {
 		plugin.logger.info("Player: \"" + name + "\" is on " + team + " Team");
 		return team;		
 	}
+	public static boolean isPlayerOnTeam(String name) {
+		FileConfiguration config = ExtraConfigHandler.getConfig(plugin.fileSep + "Teams");
+		
+		boolean contained = config.contains("Player.Teams." + name.toString());
+		return contained;
+	}
 
 }

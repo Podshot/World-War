@@ -2,7 +2,6 @@ package io.github.podshot.events;
 
 import java.util.List;
 
-import io.github.podshot.handlers.ItemStackHandler;
 import io.github.podshot.internals.Internals;
 
 import org.bukkit.Bukkit;
@@ -28,9 +27,6 @@ import com.stirante.MoreProjectiles.projectile.ItemProjectile;
 
 @Deprecated
 public class GunEvents implements Listener {
-
-	@SuppressWarnings("unused")
-	private ItemStack pistolItemStack = ItemStackHandler.getPistolItemStack();
 
 	@SuppressWarnings("deprecation")
 	@EventHandler
