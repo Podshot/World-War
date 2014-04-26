@@ -35,7 +35,7 @@ public class VehicleHandler implements Listener {
 				damagedTeam = val.asString();
 			}
 		}
-		
+
 		for (MetadataValue val : damager.getMetadata("WorldWar.Team")) {
 			if (val.getOwningPlugin().getName().equals("WorldWar")) {
 				damagerTeam = val.asString();
@@ -43,7 +43,7 @@ public class VehicleHandler implements Listener {
 		}
 		int health = 20 - healthLeft;
 		String vehicleType = null;
-		if (damagerTeam == damagedTeam && damagerTeam != null) {
+		if (damagerTeam.equals(damagedTeam)) {
 			evt.setCancelled(true);
 		}
 
@@ -52,20 +52,20 @@ public class VehicleHandler implements Listener {
 				vehicleType = val.asString();
 			}
 		}
-		if (vehicleType != null) {
-			switch (vehicleType) {
-			case "Bomber":
-				if (health == 2) {
-					player.getVelocity().setY(1.0F);
-				}
-				break;
-			case "Fighter":
-				if (health == 3) {
-					player.getVelocity().setY(1.0F);
-				}
+		switch (vehicleType) {
+		case "Bomber":
+			if (health == 2) {
+				player.getVelocity().setY(1.0F);
 			}
+			break;
+		case "Fighter":
+			if (health == 3) {
+				player.getVelocity().setY(1.0F);
+			}
+			break;
+		default:
+			break;
 		}
-
 	}
 
 }

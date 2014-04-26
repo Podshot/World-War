@@ -40,7 +40,7 @@ public class GunEvents implements Listener {
 		// }
 
 		if (e.getAction() == Action.LEFT_CLICK_AIR) {
-			if (e.getItem().getType() == Material.MONSTER_EGG) {
+			if (e.getItem().getType().equals(Material.MONSTER_EGG)) {
 				String gunName = e.getItem().getItemMeta().getDisplayName().toString();
 				e.getPlayer().sendMessage("Item Name: " + gunName);
 				if (gunName.equals("Standard Issue Rifle")) {
@@ -58,13 +58,11 @@ public class GunEvents implements Listener {
 			return;
 		}
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			if (e.getItem().getType() == Material.MONSTER_EGG) {
-				e.setCancelled(true);	
+			if (e.getItem().getType().equals(Material.MONSTER_EGG)) {
 				e.getPlayer().getItemInHand().setType(Material.MONSTER_EGG);
 				e.getPlayer().getItemInHand().setDurability((short) 50);
-			}
-			if (e.getItem().getType() == Material.RECORD_11) {
-				if (e.getItem().getItemMeta().getDisplayName().toString() == "Remote") {
+			} else if (e.getItem().getType().equals(Material.RECORD_11)) {
+				if (e.getItem().getItemMeta().getDisplayName().toString().equals("Remote")) {
 					List<String> coords = e.getItem().getItemMeta().getLore();
 					String x = coords.get(0).toString().split(": ")[1].toString();
 					String y = coords.get(1).toString().split(": ")[1].toString();
@@ -72,7 +70,7 @@ public class GunEvents implements Listener {
 					String world = coords.get(3).toString().split(": ")[1].toString();
 
 					Location loc = new Location(Bukkit.getWorld(world), Integer.parseInt(x), Integer.parseInt(y), Integer.parseInt(z));
-					if (loc.getBlock().getType() == Material.SKULL) {
+					if (loc.getBlock().getType().equals(Material.SKULL)) {
 						if (!(Bukkit.getWorld(world).getChunkAt(loc).isLoaded())) {
 							Bukkit.getWorld(world).getChunkAt(loc).load(true);
 						}
@@ -88,7 +86,7 @@ public class GunEvents implements Listener {
 		}
 		if (e.getAction() == Action.RIGHT_CLICK_AIR) {
 			String gunType = e.getItem().getItemMeta().getDisplayName().toString();
-			if (e.getItem().getType() == Material.MONSTER_EGG) {
+			if (e.getItem().getType().equals(Material.MONSTER_EGG)) {
 				if (gunType.equals("Standard Issue Rifle")) {
 					if (e.getPlayer().getLevel() != 0) {
 						ItemProjectile rBullet = new ItemProjectile("bullet-rifle", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 2.0F);
@@ -105,8 +103,8 @@ public class GunEvents implements Listener {
 				}
 				return;
 			}
-			if (e.getItem().getType() == Material.WOOD_HOE) {
-				if (gunType == "Pistol") {
+			if (e.getItem().getType().equals(Material.WOOD_HOE)) {
+				if (gunType.equals("Pistol")) {
 					ItemProjectile pBullet = new ItemProjectile("bullet-pistol", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 3.0F);
 					pBullet.setIgnoreSomeBlocks(true);
 					pBullet.boundingBox.shrink(2D, 2D, 2D);
@@ -115,7 +113,7 @@ public class GunEvents implements Listener {
 				}
 				return;
 			}
-			if (e.getItem().getType() == Material.DIAMOND_HOE) {
+			if (e.getItem().getType().equals(Material.DIAMOND_HOE)) {
 				if (e.getItem().getDurability() == 1561) {
 					if (gunType.equals("Rocket Launcher")) {
 						CustomProjectile rocket = new ItemProjectile("rocket", e.getPlayer(), new ItemStack(Material.AIR), 2.0F);

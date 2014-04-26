@@ -26,11 +26,11 @@ public class StructureGeneration {
 		flagLoc.setY(newY);
 		// Flag Block
 		Block flag = flagLoc.getBlock();
-		if (team == "Blue") {
+		if (team.equals("Blue")) {
 			flag.setType(Material.WOOL);
 			flag.setData(DyeColor.BLUE.getData());
 			flag.setMetadata("WorldWar.TeamFlag", new FixedMetadataValue(plugin, "Blue"));
-		} else if (team == "Red") {
+		} else if (team.equals("Red")) {
 			flag.setType(Material.WOOL);
 			flag.setData(DyeColor.RED.getData());
 			flag.setMetadata("WorldWar.TeamFlag", new FixedMetadataValue(plugin, "Red"));

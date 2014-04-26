@@ -17,7 +17,7 @@ public class PreventOp implements Listener {
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				if (p.isOp()) {
 					String msg;
-					if (args[1] == player.getName()) {
+					if (args[1].equals(player.getName())) {
 						msg = "Player: " + player.getName() + " just tried to Op themselves!";
 					} else {
 						msg = "Player: " + player.getName() + " just tried to Op: " + args[1];
