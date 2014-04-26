@@ -24,6 +24,9 @@ Some of my own Java Practices are RECOMMENDED to be used in this plugin. However
 * Use comments to disable code that will be needed later
 * When using a "try" statement, print what the plugin was doing when the error occured, not just the stacktrace
 
+### To-Do List
+You can find the To-Do list [here](https://github.com/Podshot/World-War/wiki/To-Do-List), or on this repository's wiki under "To-Do List"
+
 ### License
 
 This plugin is copyrighted by Podshot (Ben Gothard) and can only be ditributed by him and other approved sources. The Source or Compiled Binaries may NOT be distributed without advanced approval by Podshot (Ben Gothard)
