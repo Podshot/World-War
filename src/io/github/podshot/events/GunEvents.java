@@ -28,7 +28,6 @@ import com.stirante.MoreProjectiles.projectile.ItemProjectile;
 @Deprecated
 public class GunEvents implements Listener {
 
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
 
