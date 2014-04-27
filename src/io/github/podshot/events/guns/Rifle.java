@@ -1,5 +1,6 @@
 package io.github.podshot.events.guns;
 
+import io.github.podshot.api.Gun;
 import io.github.podshot.internals.Internals;
 
 import org.bukkit.Material;
@@ -11,10 +12,10 @@ import org.bukkit.inventory.ItemStack;
 
 import com.stirante.MoreProjectiles.projectile.ItemProjectile;
 
-public class Rifle implements Listener {
+public class Rifle implements Listener, Gun {
 
 	@EventHandler
-	public void onFireRifle(PlayerInteractEvent e) {
+	public void onFireGun(PlayerInteractEvent e) {
 		if (!(Internals.isWarDeclared())) {
 			return;
 		}
@@ -39,7 +40,7 @@ public class Rifle implements Listener {
 	}
 
 	@EventHandler
-	public void onRifleReload(PlayerInteractEvent e) {
+	public void onGunReload(PlayerInteractEvent e) {
 		if (!(Internals.isWarDeclared())) {
 			return;
 		}

@@ -49,7 +49,7 @@ public class WarHandler {
 		StructureGeneration.generateFlag(rBase, "Red");
 
 
-		Internals.warDeclared = true;
+		Internals.setWarDeclared(true);
 	}
 
 	private static int randomCoords(int min, int max) {

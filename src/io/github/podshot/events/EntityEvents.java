@@ -2,6 +2,7 @@ package io.github.podshot.events;
 
 import io.github.podshot.WorldWar;
 import io.github.podshot.entities.DisguisePlayerAsVehicle;
+import io.github.podshot.entities.VehicleCheck;
 import io.github.podshot.internals.Internals;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 import net.citizensnpcs.api.npc.NPC;
@@ -24,6 +25,9 @@ public class EntityEvents implements Listener {
 			Player player = evt.getClicker().getPlayer();
 			final NPC ent = evt.getNPC();
 			final Location respawnLoc = ent.getStoredLocation();
+			if (!(VehicleCheck.isVehicle(ent.getEntity()))) {
+				return;
+			}
 			//DisguisePlayerAsVehicle.addPlayerAsDragon(player);
 			//DisguisePlayerAsVehicle.addPlayerAsBlaze(player);
 			evt.setCancelled(true);
@@ -62,6 +66,9 @@ public class EntityEvents implements Listener {
 	}
 	
 	public void onSpawnEvent(CreatureSpawnEvent evt) {
+		if (!(Internals.isWarDeclared())) {
+			return;
+		}
 		if (evt.getSpawnReason() == SpawnReason.SPAWNER_EGG) {
 			evt.setCancelled(true);
 		}
