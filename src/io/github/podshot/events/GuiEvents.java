@@ -1,8 +1,11 @@
 package io.github.podshot.events;
 
+import java.util.Random;
+
 import io.github.podshot.WorldWar;
 import io.github.podshot.gui.ClassChooser;
 import io.github.podshot.gui.TeamChooser;
+import io.github.podshot.gui.WireGui;
 import io.github.podshot.handlers.ClassHandler;
 
 import org.bukkit.Material;
@@ -56,6 +59,13 @@ public class GuiEvents implements Listener {
 				} else if (clicked.getDurability() == (short) 14) {
 					player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Red"));
 				}
+			}
+		}
+		if (inv.getName().equals(WireGui.getWireGui().getName())) {
+			if (clicked.getType() == Material.WOOL) {
+				evt.setCancelled(true);
+				Random ran = new Random();
+				int wire = ran.nextInt((3 - 1) + 1);
 			}
 		}
 	}

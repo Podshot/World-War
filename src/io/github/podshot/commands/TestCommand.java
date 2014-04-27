@@ -2,6 +2,7 @@ package io.github.podshot.commands;
 
 import io.github.podshot.WorldWar;
 import io.github.podshot.gui.ClassChooser;
+import io.github.podshot.gui.WireGui;
 import io.github.podshot.structures.StructureGeneration;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -30,7 +31,7 @@ public class TestCommand implements CommandExecutor {
 				player.setFlying(false);
 				player.setFlySpeed(1.0F);
 			}
-			if (args[0].equalsIgnoreCase("gui")) {
+			if (args[0].equalsIgnoreCase("Cgui")) {
 				ret = true;
 				player.openInventory(ClassChooser.getClassChooserGui());
 			}
@@ -71,6 +72,10 @@ public class TestCommand implements CommandExecutor {
 				ret = true;
 				Location loc = new Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY() - 5, player.getLocation().getZ());
 				StructureGeneration.generateFlag(loc, "Blue");
+			}
+			if (args[0].equalsIgnoreCase("wgui")) {
+				ret = true;
+				player.openInventory(WireGui.getWireGui());
 			}
 		}
 		return ret;
