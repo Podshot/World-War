@@ -4,6 +4,8 @@ import io.github.podshot.WorldWar;
 import io.github.podshot.entities.VehicleType;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -17,6 +19,7 @@ public class StructureYAML {
 	private static WorldWar plugin = WorldWar.getInstance();
 
 	private static FileConfiguration structureConfig;
+	private static List<String> list = new ArrayList<String>();
 
 	public static void createFiles() {
 		File structures = new File(plugin.getDataFolder() + plugin.fileSep + "Structures");
@@ -83,13 +86,19 @@ public class StructureYAML {
 		int z = loc.getBlockZ();
 		World world = loc.getWorld();
 		
-		String name = x + ":" + y + ":" + z;
+		//String name = x + ":" + y + ":" + z;
 		
+		String format = x + ":" + y + ":" + z + ":" + world.getName() + ":" + type;
+		list.add(format);
+		
+		config.set("Structures.Vehicles", list);
+		/*
 		config.set("Structure.Vehicle." + name + "X", x);
 		config.set("Structure.Vehicle." + name + "Y", y);
 		config.set("Structure.Vehicle." + name + "Z", z);
 		config.set("Structure.Vehicle." + name + "World", world.getName());
 		config.set("Structure.Vehicle." + name + "Type", type);
+		*/
 		
 		ExtraConfigHandler.saveConfig(plugin.fileSep + "Structures" + plugin.fileSep + "Structures");
 	}
