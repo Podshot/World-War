@@ -1,6 +1,7 @@
 package io.github.podshot.structures;
 
 import io.github.podshot.WorldWar;
+import io.github.podshot.entities.VehicleType;
 
 import java.io.File;
 
@@ -70,6 +71,25 @@ public class StructureYAML {
 		flagConfig.set("Structure.Flag." + team + ".Y", y);
 		flagConfig.set("Structure.Flag." + team + ".Z", z);
 		flagConfig.set("Structure.Flag." + team + ".World", w.getName());
+		
+		ExtraConfigHandler.saveConfig(plugin.fileSep + "Structures" + plugin.fileSep + "Structures");
+	}
+	
+	public static void setVehiclePad(Location loc, VehicleType type) {
+		FileConfiguration config = ExtraConfigHandler.getConfig(plugin.fileSep + "Structures" + plugin.fileSep + "Structures");
+		
+		int x = loc.getBlockX();
+		int y = loc.getBlockY();
+		int z = loc.getBlockZ();
+		World world = loc.getWorld();
+		
+		String name = x + ":" + y + ":" + z;
+		
+		config.set("Structure.Vehicle." + name + "X", x);
+		config.set("Structure.Vehicle." + name + "Y", y);
+		config.set("Structure.Vehicle." + name + "Z", z);
+		config.set("Structure.Vehicle." + name + "World", world.getName());
+		config.set("Structure.Vehicle." + name + "Type", type);
 		
 		ExtraConfigHandler.saveConfig(plugin.fileSep + "Structures" + plugin.fileSep + "Structures");
 	}

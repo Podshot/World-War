@@ -47,4 +47,11 @@ public class DisguisePlayerAsVehicle {
 
 		}
 	}
+	
+	public static void addPlayerAsCow(Player p) {
+		if (!dcAPI.isDisguised(p)) {
+			dcAPI.disguisePlayer(p, new Disguise(dcAPI.newEntityID(), DisguiseType.Cow));
+			p.setMetadata("WorldWar.Vehicle.Type", new FixedMetadataValue(plugin, "Truck"));
+		}
+	}
 }

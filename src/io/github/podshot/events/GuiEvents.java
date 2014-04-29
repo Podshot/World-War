@@ -66,6 +66,7 @@ public class GuiEvents implements Listener {
 				evt.setCancelled(true);
 				Random ran = new Random();
 				int wire = ran.nextInt((3 - 1) + 1);
+				short data = clicked.getDurability();
 			}
 		}
 	}

@@ -152,26 +152,26 @@ public class GunEvents implements Listener {
 							hTeam = val.asString();
 						}
 					}
-					if (sTeam == "Blue") {
-						if (hTeam == "Red") {
-							if (e.getProjectile().getProjectileName() == "bullet-rifle") {
+					if (sTeam.equals("Blue")) {
+						if (hTeam.equals("Red")) {
+							if (e.getProjectile().getProjectileName().equals("bullet-rifle")) {
 								hitP.damage(4.0D, shooter);
-							} else if (e.getProjectile().getProjectileName() == "bullet-pistol") {
+							} else if (e.getProjectile().getProjectileName().equals("bullet-pistol")) {
 								hitP.damage(2.0D, shooter);
 							}
 						}
-					} else if (sTeam == "Red") {
-						if (hTeam == "Blue") {
-							if (e.getProjectile().getProjectileName() == "bullet-rifle") {
+					} else if (sTeam.equals("Red")) {
+						if (hTeam.equals("Blue")) {
+							if (e.getProjectile().getProjectileName().equals("bullet-rifle")) {
 								hitP.damage(2.0D, shooter);
-							} else if (e.getProjectile().getProjectileName() == "bullet-pistol") {
+							} else if (e.getProjectile().getProjectileName().equals("bullet-pistol")) {
 								hitP.damage(2.0D, shooter);
 							}
 						}
 					}
 				} else {
 					hitE.damage(2.0D, shooter);
-					if (sTeam == hTeam) {
+					if (sTeam.equals(hTeam)) {
 						Damageable d = (Damageable) hitE;
 						d.setHealth(d.getHealth() + 2.0D);
 					}

@@ -27,7 +27,7 @@ public class BlockEvents implements Listener {
 		//if (Internals.warDeclared) {
 		if (evt.getBlock().getType() == Material.SKULL) {
 			if (evt.getPlayer().getItemInHand().getType() == Material.SHEARS) {
-				if (evt.getPlayer().getItemInHand().getItemMeta().getDisplayName().toString() == "Bomb Diffuser") {
+				if (evt.getPlayer().getItemInHand().getItemMeta().getDisplayName().toString().equals("Bomb Diffuser")) {
 					evt.getBlock().setType(Material.AIR);
 				} else {
 					evt.setCancelled(true);

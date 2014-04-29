@@ -3,12 +3,14 @@ package io.github.podshot.api;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 public interface Vehicle {
 	
-	public int seats = 1;
+	@EventHandler
+	public void onPilotEnterVehicle(NPCRightClickEvent e);
 	
 	@EventHandler
-	public void onPlayerEnterVehicle(NPCRightClickEvent e);
+	public void onPlayerGetInSeat(PlayerInteractEntityEvent e);
 
 }
