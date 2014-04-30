@@ -42,4 +42,12 @@ public class ItemStackHandler {
 		launcher.setItemMeta(imLauncher);
 		return launcher;
 	}
+	
+	public static ItemStack getBombDiffuser() {
+		ItemStack bombD = new ItemStack(Material.SHEARS);
+		ItemMeta imBombD = bombD.getItemMeta();
+		imBombD.setDisplayName("Bomb Diffuser");
+		bombD.setItemMeta(imBombD);
+		return bombD;
+	}
 }

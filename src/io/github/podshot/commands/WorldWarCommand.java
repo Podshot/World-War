@@ -2,6 +2,7 @@ package io.github.podshot.commands;
 
 import io.github.podshot.Debug;
 import io.github.podshot.WorldWar;
+import io.github.podshot.handlers.ItemStackHandler;
 import io.github.podshot.handlers.WarHandler;
 
 import org.bukkit.command.Command;
@@ -32,6 +33,10 @@ public class WorldWarCommand implements CommandExecutor {
 						}
 						if (args[1].equalsIgnoreCase("launcher")) {
 							Debug.givePlayerlauncher((Player) sender);
+						}
+						if (args[1].equalsIgnoreCase("diffuser")) {
+							Player p = (Player) sender;
+							p.getInventory().addItem(ItemStackHandler.getBombDiffuser());
 						}
 					}
 				}
