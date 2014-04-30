@@ -1,4 +1,4 @@
-package io.github.podshot.Vehicles;
+package io.github.podshot.vehicles;
 
 import io.github.podshot.api.Vehicle;
 import io.github.podshot.entities.DisguisePlayerAsVehicle;

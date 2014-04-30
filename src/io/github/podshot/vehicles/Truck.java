@@ -1,4 +1,4 @@
-package io.github.podshot.Vehicles;
+package io.github.podshot.vehicles;
 
 import io.github.podshot.WorldWar;
 import io.github.podshot.api.Vehicle;

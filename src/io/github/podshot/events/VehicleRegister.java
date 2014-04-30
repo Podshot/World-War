@@ -1,7 +1,7 @@
 package io.github.podshot.events;
 
 import io.github.podshot.WorldWar;
-import io.github.podshot.Vehicles.Bomber;
+import io.github.podshot.vehicles.Bomber;
 
 public class VehicleRegister {
 	
