@@ -60,5 +60,12 @@ public class WarHandler {
 		return randomNum;
 
 	}
+	
+	public static void endWar(String cause) {
+		Internals.setWarDeclared(false);
+		
+		plugin.logger.info("War has Ended");
+		
+	}
 
 }
