@@ -1,4 +1,4 @@
-package io.github.podshot.events;
+package io.github.podshot.events.registerers;
 
 import io.github.podshot.WorldWar;
 import io.github.podshot.events.guis.WireCutGUI;
