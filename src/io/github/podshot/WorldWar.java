@@ -5,6 +5,7 @@ import io.github.podshot.commands.WorldWarCommand;
 import io.github.podshot.events.BlockEvents;
 import io.github.podshot.events.EntityEvents;
 import io.github.podshot.events.GuiEvents;
+import io.github.podshot.events.GuiRegister;
 import io.github.podshot.events.GunRegister;
 import io.github.podshot.events.PlayerEvents;
 import io.github.podshot.files.GameData;
@@ -52,6 +53,7 @@ public class WorldWar extends JavaPlugin {
 			this.getCommand("test").setExecutor(new TestCommand());
 		}
 		new GunRegister();
+		new GuiRegister();
 		//this.getServer().getPluginManager().registerEvents(new GunEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new EntityEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new GuiEvents(), this);

@@ -1,6 +1,7 @@
 package io.github.podshot.events;
 
 import io.github.podshot.WorldWar;
+import io.github.podshot.gui.WireGui;
 import io.github.podshot.internals.Internals;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 
 public class BlockEvents implements Listener {
@@ -28,7 +30,10 @@ public class BlockEvents implements Listener {
 		if (evt.getBlock().getType() == Material.SKULL) {
 			if (evt.getPlayer().getItemInHand().getType() == Material.SHEARS) {
 				if (evt.getPlayer().getItemInHand().getItemMeta().getDisplayName().toString().equals("Bomb Diffuser")) {
-					evt.getBlock().setType(Material.AIR);
+					String coord = evt.getBlock().getWorld().getName() + ":" + evt.getBlock().getX() + ":" + evt.getBlock().getY() + ":" + evt.getBlock().getZ();
+					evt.getPlayer().setMetadata("WorldWar.bombToDiffuse", new FixedMetadataValue(plugin, coord));
+					evt.getPlayer().openInventory(WireGui.getWireGui());
+					evt.setCancelled(true);
 				} else {
 					evt.setCancelled(true);
 					return;
