@@ -5,6 +5,7 @@ public class ConfigInternals {
 	private static boolean aatoe;
 	private static boolean huolagw;
 	private static boolean announce;
+	private static boolean dpahboe;
 	
 	public static void setAATOE(boolean bool) {
 		aatoe = bool;
@@ -28,6 +29,14 @@ public class ConfigInternals {
 	
 	public static boolean getAnnounce() {
 		return announce;
+	}
+
+	public static void setDPAHBOE(boolean bool) {
+		dpahboe = bool;
+	}
+	
+	public static boolean getDPAHBOE() {
+		return dpahboe;
 	}
 
 }

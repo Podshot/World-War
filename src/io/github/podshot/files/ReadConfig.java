@@ -14,8 +14,7 @@ public class ReadConfig {
 		ConfigInternals.setAATOE(config.getBoolean("Allow-Anyone-To-Enter-Vehicles"));
 		ConfigInternals.setHUOLAQW(config.getBoolean("Hyped-Up-On-Lemonade-And-Gummy-Worms"));
 		ConfigInternals.setAnnounce(config.getBoolean("Announce-War-End-Cause-To-All-Players"));
-		//ConfigInternals.aatoe = config.getBoolean("Allow-Anyone-To-Enter-Vehicles");
-		//ConfigInternals.huolagw = config.getBoolean("Hyped-Up-On-Lemonade-And-Gummy-Worms");
+		//ConfigInternals.setDPAHBOE(config.getBoolean("Drop-Player-At-Highest-Block-On-Exit"));
 	}
 
 }
