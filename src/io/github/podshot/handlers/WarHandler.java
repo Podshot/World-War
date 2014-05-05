@@ -66,6 +66,17 @@ public class WarHandler {
 		
 		plugin.logger.info("War has Ended");
 		
+		switch(cause) {
+		case "Flag Captured":
+			Bukkit.getServer().broadcastMessage("");
+			break;
+		case "Time Ran Out":
+			Bukkit.getServer().broadcastMessage("");
+			break;
+		default:
+			break;
+		}
+		
 	}
 
 }
