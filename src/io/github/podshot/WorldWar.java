@@ -1,13 +1,18 @@
 package io.github.podshot;
 
+import io.github.podshot.commands.SquadCommand;
 import io.github.podshot.commands.TestCommand;
 import io.github.podshot.commands.WorldWarCommand;
+import io.github.podshot.commands.tabcompleters.TestCommandTabCompleter;
+import io.github.podshot.commands.tabcompleters.WorldWarCommandTabCompleter;
 import io.github.podshot.events.BlockEvents;
 import io.github.podshot.events.EntityEvents;
 import io.github.podshot.events.GuiEvents;
 import io.github.podshot.events.PlayerEvents;
+import io.github.podshot.events.registerers.BlockRegister;
 import io.github.podshot.events.registerers.GuiRegister;
 import io.github.podshot.events.registerers.GunRegister;
+import io.github.podshot.events.registerers.StructureRegister;
 import io.github.podshot.files.GameData;
 import io.github.podshot.files.PlayerYAML;
 import io.github.podshot.internals.Internals;
@@ -30,6 +35,7 @@ import pgDev.bukkit.DisguiseCraft.api.DisguiseCraftAPI;
 import com.xern.jogy34.xernutilities.handlers.ExtraConfigHandler;
 //import io.github.podshot.files.Saving;
 
+@SuppressWarnings("unused")
 public class WorldWar extends JavaPlugin {
 
 	public Logger logger;
@@ -48,12 +54,18 @@ public class WorldWar extends JavaPlugin {
 		fileSep = File.separator;
 		pluginFolder = this.getDataFolder() + fileSep;
 		pluginFolderF = new File(pluginFolder);
+		
 		this.getCommand("ww").setExecutor(new WorldWarCommand());
+		this.getCommand("ww").setTabCompleter(new WorldWarCommandTabCompleter());
+		this.getCommand("squad").setExecutor(new SquadCommand());
 		if (debug) {
 			this.getCommand("test").setExecutor(new TestCommand());
+			this.getCommand("test").setTabCompleter(new TestCommandTabCompleter());
 		}
 		new GunRegister();
 		new GuiRegister();
+		//new BlockRegister();
+		new StructureRegister();
 		//this.getServer().getPluginManager().registerEvents(new GunEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new EntityEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new GuiEvents(), this);
