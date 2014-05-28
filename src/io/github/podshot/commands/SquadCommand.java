@@ -1,7 +1,6 @@
 package io.github.podshot.commands;
 
 import io.github.podshot.WorldWar;
-import io.github.podshot.internals.SquadInternals;
 import io.github.podshot.squads.RemoveSquad;
 import io.github.podshot.squads.Squad;
 
@@ -34,7 +33,7 @@ public class SquadCommand implements CommandExecutor {
 					}
 				}
 				if (!(onSquad)) {
-					if (!(SquadInternals.getSquads().contains(squadName))) {
+					if (!(Squad.getSquads().contains(squadName))) {
 						new Squad(squadName, player.getName());
 						player.setMetadata("WorldWar.Squad", new FixedMetadataValue(plugin, squadName));
 						player.setMetadata("WorldWar.inSquad", new FixedMetadataValue(plugin, true));

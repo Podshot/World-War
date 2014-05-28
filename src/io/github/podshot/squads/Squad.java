@@ -16,6 +16,7 @@ import io.github.podshot.WorldWar;
 public class Squad {
 
 	private WorldWar plugin = WorldWar.getInstance();
+	private static WorldWar sPlugin = WorldWar.getInstance();
 
 	public Squad(String squadName, String founder) {
 		File squadFile = new File(plugin.getDataFolder() + plugin.fileSep + "Squads");
@@ -24,10 +25,20 @@ public class Squad {
 		}
 		this.addSquad(squadName, founder);
 	}
+	
+	public static List<String> getSquads() {
+		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(sPlugin.getDataFolder() + sPlugin.fileSep + "Squads");
+		List<String> squads = squadConfig.getStringList("Squads.Global.SquadList");
+		return squads;
+	}
 
 	private void addValues() {
 		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.getDataFolder() + plugin.fileSep + "Squads");
 		squadConfig.set("Squads.Global.MemberLimit", 10);
+		List<String> inSquads = Arrays.asList("", "");
+		squadConfig.set("Squads.Global.PeopleInSquads", inSquads);
+		List<String> squads = Arrays.asList("", "");
+		squadConfig.set("Squads.Global.SquadList", squads);
 		ExtraConfigHandler.saveConfig(plugin.getDataFolder() + plugin.fileSep + "Squads");
 	}
 
@@ -36,6 +47,9 @@ public class Squad {
 		List<String> members = Arrays.asList(founder);
 		squadConfig.set("Squads." + squadName + ".Members", members);
 		squadConfig.set("Squads." + squadName + ".Founder", founder);
+		List<String> squadList = squadConfig.getStringList("Squads.Global.SquadList");
+		squadList.add(squadName);
+		squadConfig.set("Squads.Global.SquadList", squadList);
 		ExtraConfigHandler.saveConfig(plugin.getDataFolder() + plugin.fileSep + "Squads");
 	}
 
