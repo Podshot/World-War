@@ -4,6 +4,7 @@ import io.github.podshot.WorldWar;
 import io.github.podshot.squads.RemoveSquad;
 import io.github.podshot.squads.Squad;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -43,6 +44,7 @@ public class SquadCommand implements CommandExecutor {
 				} else {
 					player.sendMessage(ChatColor.RED + "You must leave your current squad before creating one!");
 				}
+				ret = true;
 			} else if (args[0].equalsIgnoreCase("disband")) {
 				boolean inSquad = false;
 				String squadName = null;
@@ -61,6 +63,18 @@ public class SquadCommand implements CommandExecutor {
 				} else {
 					player.sendMessage(ChatColor.RED + "You cannot disband a squad if you are not in one!");
 				}
+				ret = true;
+			} else if (args[0].equalsIgnoreCase("invite")) {
+				for (Player p : Bukkit.getOnlinePlayers()) {
+					if (p.getName().equalsIgnoreCase(args[1].toString())) {
+						//p.openInventory();
+					}
+				}
+				ret = true;
+			} else if (args[0].equalsIgnoreCase("kick")) {
+				
+			} else if (args[0].equalsIgnoreCase("leave")) {
+				
 			}
 		}
 		return ret;
