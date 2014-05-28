@@ -12,6 +12,9 @@ commands:
       test:
            description: Test Command
            usage: /<command> [arguments]
+      squad:
+           description: Squad Command
+           usage: /<command> [arguments]
 
 permissions:
       ww.start:

@@ -4,11 +4,13 @@ import io.github.podshot.WorldWar;
 import io.github.podshot.gui.ClassChooser;
 import io.github.podshot.gui.WireGui;
 import io.github.podshot.structures.StructureGeneration;
+import me.astramg.resources.BlockGenerator;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -53,8 +55,13 @@ public class TestCommand implements CommandExecutor {
 			}
 			if (args[0].equalsIgnoreCase("gen")) {
 				ret = true;
-				Location loc = new Location(player.getWorld(), Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]));
-				StructureGeneration.generateFlag(loc, "Blue");
+				Location loc = player.getLocation();
+				//StructureGeneration.generateFlag(loc, "Blue");
+				new BlockGenerator(
+						new BlockGenerator.BlockLayer(";AGA").setBlockType('G', Material.GLASS),
+						new BlockGenerator.BlockLayer("AGA;ZAZ;AG").setBlockType('G', Material.GLASS).setBlockType('Z', Material.STONE),
+						new BlockGenerator.BlockLayer("AGA;GAG;AG").setBlockType('G', Material.GLASS),
+						new BlockGenerator.BlockLayer(";AGA").setBlockType('G', Material.GLASS)).generateWithTime(plugin, loc.subtract(1, 1, 1), 100L, true);
 			}
 			if (args[0].equalsIgnoreCase("spawn")) {
 				ret = true;
