@@ -3,6 +3,7 @@ package io.github.podshot;
 import io.github.podshot.commands.SquadCommand;
 import io.github.podshot.commands.TestCommand;
 import io.github.podshot.commands.WorldWarCommand;
+import io.github.podshot.commands.tabcompleters.SquadCommandTabCompleter;
 import io.github.podshot.commands.tabcompleters.TestCommandTabCompleter;
 import io.github.podshot.commands.tabcompleters.WorldWarCommandTabCompleter;
 import io.github.podshot.events.BlockEvents;
@@ -16,6 +17,8 @@ import io.github.podshot.events.registerers.StructureRegister;
 import io.github.podshot.files.GameData;
 import io.github.podshot.files.PlayerYAML;
 import io.github.podshot.internals.Internals;
+import io.github.podshot.safeguards.PreventProfanity;
+import io.github.podshot.squads.RejoinSquadOnLogOn;
 import io.github.podshot.structures.StructureYAML;
 
 import java.io.File;
@@ -58,6 +61,7 @@ public class WorldWar extends JavaPlugin {
 		this.getCommand("ww").setExecutor(new WorldWarCommand());
 		this.getCommand("ww").setTabCompleter(new WorldWarCommandTabCompleter());
 		this.getCommand("squad").setExecutor(new SquadCommand());
+		this.getCommand("squad").setTabCompleter(new SquadCommandTabCompleter());
 		if (debug) {
 			this.getCommand("test").setExecutor(new TestCommand());
 			this.getCommand("test").setTabCompleter(new TestCommandTabCompleter());
@@ -67,10 +71,12 @@ public class WorldWar extends JavaPlugin {
 		//new BlockRegister();
 		new StructureRegister();
 		//this.getServer().getPluginManager().registerEvents(new GunEvents(), this);
+		this.getServer().getPluginManager().registerEvents(new PreventProfanity(), this);
 		this.getServer().getPluginManager().registerEvents(new EntityEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new GuiEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new BlockEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new PlayerEvents(), this);
+		this.getServer().getPluginManager().registerEvents(new RejoinSquadOnLogOn(), this);
 		if (!pluginFolderF.exists()) {
 			pluginFolderF.mkdir();
 			generate = true;

@@ -47,9 +47,9 @@ public class TestCommand implements CommandExecutor {
 			}
 			if (args[0].equalsIgnoreCase("getmeta")) {
 				ret = true;
-				for (MetadataValue val : player.getMetadata("WorldWar.Team")) {
+				for (MetadataValue val : player.getMetadata(args[1].toString())) {
 					if (val.getOwningPlugin().getName().equals("WorldWar")) {
-						player.sendMessage("Meta Data Value: " + val.asString());
+						player.sendMessage("Meta Data Value (" + args[1] + "): " + val.asString());
 					}
 				}
 			}

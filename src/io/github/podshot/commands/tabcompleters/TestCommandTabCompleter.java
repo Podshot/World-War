@@ -31,25 +31,6 @@ public class TestCommandTabCompleter implements TabCompleter {
 					Collections.sort(list);
 					
 					return list;
-				} else if (args.length >= 1) {
-					list.add("downward");
-					list.add("Cgui");
-					list.add("damage");
-					list.add("meta");
-					list.add("getmeta");
-					list.add("gen");
-					list.add("spawn");
-					list.add("fly");
-					list.add("wgui");
-					
-					for (String s : list) {
-						if (!s.toLowerCase().startsWith(args[0].toLowerCase())) {
-							list.remove(s);
-						}
-					}
-					
-					Collections.sort(list);
-					return list;
 				}
 			}
 		}
