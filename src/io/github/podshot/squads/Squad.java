@@ -27,35 +27,35 @@ public class Squad {
 	}
 	
 	public static List<String> getSquads() {
-		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(sPlugin.getDataFolder() + sPlugin.fileSep + "Squads");
+		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(sPlugin.fileSep + "Squads");
 		List<String> squads = squadConfig.getStringList("Squads.Global.SquadList");
-		ExtraConfigHandler.saveConfig(sPlugin.getDataFolder() + sPlugin.fileSep + "Squads");
+		ExtraConfigHandler.saveConfig(sPlugin.fileSep + "Squads");
 		return squads;
 	}
 
 	private void addValues() {
-		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.getDataFolder() + plugin.fileSep + "Squads");
+		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "Squads");
 		squadConfig.set("Squads.Global.MemberLimit", 10);
 		List<String> inSquads = Arrays.asList("", "");
 		squadConfig.set("Squads.Global.PeopleInSquads", inSquads);
 		List<String> squads = Arrays.asList("", "");
 		squadConfig.set("Squads.Global.SquadList", squads);
-		ExtraConfigHandler.saveConfig(plugin.getDataFolder() + plugin.fileSep + "Squads");
+		ExtraConfigHandler.saveConfig(plugin.fileSep + "Squads");
 	}
 
 	public void addSquad(String squadName, String founder) {
-		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.getDataFolder() + plugin.fileSep + "Squads");
+		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "Squads");
 		List<String> members = Arrays.asList(founder);
 		squadConfig.set("Squads." + squadName + ".Members", members);
 		squadConfig.set("Squads." + squadName + ".Founder", founder);
 		List<String> squadList = squadConfig.getStringList("Squads.Global.SquadList");
 		squadList.add(squadName);
 		squadConfig.set("Squads.Global.SquadList", squadList);
-		ExtraConfigHandler.saveConfig(plugin.getDataFolder() + plugin.fileSep + "Squads");
+		ExtraConfigHandler.saveConfig(plugin.fileSep + "Squads");
 	}
 
 	public void addMember(String squadName, String member) {
-		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.getDataFolder() + plugin.fileSep + "Squads");
+		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "Squads");
 		List<String> existingMembers = squadConfig.getStringList("Squads." + squadName + ".Members");
 		if (existingMembers.size() <= squadConfig.getInt("Squads.Global.MemberLimit")) {
 			existingMembers.add(member);
@@ -70,7 +70,7 @@ public class Squad {
 			}
 		}
 		squadConfig.set("Squads." + squadName + ".Members", existingMembers);
-		ExtraConfigHandler.saveConfig(plugin.getDataFolder() + plugin.fileSep + "Squads");
+		ExtraConfigHandler.saveConfig(plugin.fileSep + "Squads");
 	}
 	
 	public static void removeMember(String squadName, String member) {
@@ -81,7 +81,33 @@ public class Squad {
 		List<String> squadMembers = squadConfig.getStringList("Squads.Global.PeopleInSquads");
 		squadMembers.remove(member);
 		squadConfig.set("Squads.Global.PeopleInSquads", squadMembers);
-		ExtraConfigHandler.saveConfig(sPlugin.getDataFolder() + sPlugin.fileSep + "Squads");		
+		ExtraConfigHandler.saveConfig(sPlugin.fileSep + "Squads");		
+	}
+	
+	public static boolean isFounder(String name, String squadName) {
+		boolean ret = false;
+		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(sPlugin.fileSep + "Squads");
+		String founder = squadConfig.getString("Squads." + squadName + ".Founder");
+		if (founder.equals(name)) {
+			ret = true;
+		}
+		return ret;
+	}
+	
+	public static String getSquadForPlayer(String name) {
+		String ret = null;
+		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(sPlugin.fileSep + "Squads");
+		List<String> members = squadConfig.getStringList("Squads.Global.PeopleInSquads");
+		if (members.contains(name)) {
+			for (String squad : squadConfig.getStringList("Squads.Global.SquadList")) {
+				if (squadConfig.getStringList("Squads." + squad + ".Members").contains(name)) {
+					ret = squad;
+				}
+			}
+		} else {
+			ret = "Not in Squad";
+		}
+		return ret;
 	}
 
 }
