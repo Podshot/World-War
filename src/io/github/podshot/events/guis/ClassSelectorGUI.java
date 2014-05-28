@@ -26,6 +26,7 @@ public class ClassSelectorGUI implements Listener {
 			
 			if (inv.getName().equals(ClassChooser.getClassChooserGui().getName())) {
 				String name = ChatColor.stripColor(clicked.getItemMeta().getDisplayName());
+				evt.setCancelled(true);
 				switch (name) {
 				case "Soldier":
 					player.setMetadata("WorldWar.Class", new FixedMetadataValue(plugin, "Soldier"));
