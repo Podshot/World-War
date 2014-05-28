@@ -1,6 +1,7 @@
 package io.github.podshot.commands;
 
 import io.github.podshot.WorldWar;
+import io.github.podshot.gui.SquadInviteGUI;
 import io.github.podshot.squads.RemoveSquad;
 import io.github.podshot.squads.Squad;
 
@@ -65,16 +66,24 @@ public class SquadCommand implements CommandExecutor {
 				}
 				ret = true;
 			} else if (args[0].equalsIgnoreCase("invite")) {
-				for (Player p : Bukkit.getOnlinePlayers()) {
-					if (p.getName().equalsIgnoreCase(args[1].toString())) {
-						//p.openInventory();
+				String squadName = null;
+				for (MetadataValue val : player.getMetadata("WorldWar.Squad")) {
+					if (val.getOwningPlugin().getName().equals("WorldWar")) {
+						squadName = val.asString();
+					}
+				}
+				if (Squad.isFounder(player.getName(), squadName)) {
+					for (Player p : Bukkit.getOnlinePlayers()) {
+						if (p.getName().equalsIgnoreCase(args[1].toString())) {
+							p.openInventory(SquadInviteGUI.getSquadInviteGUI(squadName));
+						}
 					}
 				}
 				ret = true;
 			} else if (args[0].equalsIgnoreCase("kick")) {
-				
+
 			} else if (args[0].equalsIgnoreCase("leave")) {
-				
+
 			}
 		}
 		return ret;

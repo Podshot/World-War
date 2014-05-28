@@ -15,7 +15,7 @@ public class RemoveSquad {
 	private WorldWar plugin = WorldWar.getInstance();
 
 	public RemoveSquad(String squadName, String name) {
-		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.getDataFolder() + plugin.fileSep + "Squads");
+		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "Squads");
 		String founder = squadConfig.getString("Squads." + squadName + ".Founder");
 		if (founder.equals(name)) {
 			for (String player : squadConfig.getStringList("Squads." + squadName + ".Members")) {
@@ -29,10 +29,11 @@ public class RemoveSquad {
 			}
 			squadConfig.set("Squads." + squadName + ".Members", null);
 			squadConfig.set("Squads." + squadName + ".Founder", null);
+			squadConfig.set("Squads." + squadName, null);
 			List<String> squadList = squadConfig.getStringList("Squads.Global.SquadList");
 			squadList.remove(squadName);
 			squadConfig.set("Squads.Global.SquadList", squadList);
-			ExtraConfigHandler.saveConfig(plugin.getDataFolder() + plugin.fileSep + "Squads");
+			ExtraConfigHandler.saveConfig(plugin.fileSep + "Squads");
 		}
 	}
 }

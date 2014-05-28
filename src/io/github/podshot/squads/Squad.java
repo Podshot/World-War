@@ -51,6 +51,9 @@ public class Squad {
 		List<String> squadList = squadConfig.getStringList("Squads.Global.SquadList");
 		squadList.add(squadName);
 		squadConfig.set("Squads.Global.SquadList", squadList);
+		List<String> globalSquadMembers = squadConfig.getStringList("Squads.Global.PeopleInSquads");
+		globalSquadMembers.add(founder);
+		squadConfig.set("Squads.Global.PeopleInSquads", globalSquadMembers);
 		ExtraConfigHandler.saveConfig(plugin.fileSep + "Squads");
 	}
 
