@@ -27,6 +27,7 @@ public class ClassChooser {
 		imSoldier.setLore(soldierList);
 		soldier.setItemMeta(imSoldier);
 		classChooser.setItem(0, soldier);
+		
 
 		ItemStack spy = new ItemStack(Material.POTION);
 		ItemMeta imSpy = spy.getItemMeta();
@@ -40,12 +41,13 @@ public class ClassChooser {
 		imSpy.setDisplayName(ChatColor.GRAY + "Spy");
 		spy.setItemMeta(imSpy);
 		classChooser.setItem(1, spy);
+		
 
 		ItemStack engineer = new ItemStack(Material.IRON_SPADE);
 		ItemMeta imEngineer = engineer.getItemMeta();
 		List<String> engineerList = new ArrayList<String>();
 		engineerList.add(ChatColor.YELLOW + "Equipped with a Wrench, Portable Landmines,");
-		engineerList.add(ChatColor.YELLOW + "and a Shotgun loaded with Slug Shell");
+		engineerList.add(ChatColor.YELLOW + "and a Shotgun loaded with Slug Shells");
 		engineerList.add("");
 		engineerList.add(ChatColor.YELLOW + "Essential Class for any Squadron of Vehicles");
 
@@ -53,6 +55,20 @@ public class ClassChooser {
 		imEngineer.setDisplayName(ChatColor.GRAY + "Engineer");
 		engineer.setItemMeta(imEngineer);
 		classChooser.setItem(2, engineer);
+		
+		
+		ItemStack builder = new ItemStack(Material.IRON_PICKAXE);
+		ItemMeta imBuilder = builder.getItemMeta();
+		List<String> builderList = new ArrayList<String>();
+		builderList.add(ChatColor.YELLOW + "Can build vital buildings and equipped with");
+		builderList.add(ChatColor.YELLOW + "a flamethrower, and some smoke grenades");
+		builderList.add("");
+		builderList.add(ChatColor.YELLOW + "Essential for sieging and base building");
+		
+		imBuilder.setLore(builderList);
+		imBuilder.setDisplayName(ChatColor.GRAY + "Builder");
+		builder.setItemMeta(imBuilder);
+		classChooser.setItem(3, builder);
 
 		return classChooser;
 	}
