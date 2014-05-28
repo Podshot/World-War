@@ -29,6 +29,7 @@ public class Squad {
 	public static List<String> getSquads() {
 		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(sPlugin.getDataFolder() + sPlugin.fileSep + "Squads");
 		List<String> squads = squadConfig.getStringList("Squads.Global.SquadList");
+		ExtraConfigHandler.saveConfig(sPlugin.getDataFolder() + sPlugin.fileSep + "Squads");
 		return squads;
 	}
 
@@ -58,6 +59,9 @@ public class Squad {
 		List<String> existingMembers = squadConfig.getStringList("Squads." + squadName + ".Members");
 		if (existingMembers.size() <= squadConfig.getInt("Squads.Global.MemberLimit")) {
 			existingMembers.add(member);
+			List<String> squadMembers = squadConfig.getStringList("Squads.Global.PeopleInSquads");
+			squadMembers.add(member);
+			squadConfig.set("Squads.Global.PeopleInSquads", squadMembers);
 		} else {
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				if (p.getName().equals(squadConfig.getString("Squads." + squadName + ".Founder"))) {
@@ -69,12 +73,15 @@ public class Squad {
 		ExtraConfigHandler.saveConfig(plugin.getDataFolder() + plugin.fileSep + "Squads");
 	}
 	
-	public void removeMember(String squadName, String member) {
-		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.getDataFolder() + plugin.fileSep + "Squads");
+	public static void removeMember(String squadName, String member) {
+		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(sPlugin.getDataFolder() + sPlugin.fileSep + "Squads");
 		List<String> existingMembers = squadConfig.getStringList("Squads." + squadName + ".Members");
 		existingMembers.remove(member);
 		squadConfig.set("Squads." + squadName + ".Members", existingMembers);
-		ExtraConfigHandler.saveConfig(plugin.getDataFolder() + plugin.fileSep + "Squads");		
+		List<String> squadMembers = squadConfig.getStringList("Squads.Global.PeopleInSquads");
+		squadMembers.remove(member);
+		squadConfig.set("Squads.Global.PeopleInSquads", squadMembers);
+		ExtraConfigHandler.saveConfig(sPlugin.getDataFolder() + sPlugin.fileSep + "Squads");		
 	}
 
 }
