@@ -25,7 +25,7 @@ public class Rifle implements Listener, Gun {
 		}
 
 		ItemStack gunIS = e.getItem();
-		if (gunIS.getType() == Material.MONSTER_EGG && gunIS.getDurability() == 50) {
+		if (gunIS.getType() == Material.MONSTER_EGG && gunIS.getDurability() == 51) {
 			String gun = gunIS.getItemMeta().getDisplayName().toString();
 			if (gun.equals("Standard Issue Rifle")) {
 				ItemProjectile bullet = new ItemProjectile("bullet-rifle", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 2.0F);
