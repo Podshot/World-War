@@ -1,4 +1,4 @@
-package io.github.podshot.api;
+package io.github.podshot.api.interfaces;
 
 import me.astramg.resources.BlockGenerator;
 

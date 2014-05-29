@@ -1,7 +1,7 @@
 package io.github.podshot.vehicles;
 
 import io.github.podshot.WorldWar;
-import io.github.podshot.api.Vehicle;
+import io.github.podshot.api.interfaces.Vehicle;
 import io.github.podshot.entities.DisguisePlayerAsVehicle;
 import io.github.podshot.internals.Internals;
 

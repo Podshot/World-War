@@ -1,6 +1,6 @@
 package io.github.podshot.events.bullets;
 
-import io.github.podshot.api.BulletHit;
+import io.github.podshot.api.interfaces.BulletHit;
 import io.github.podshot.internals.Internals;
 
 import org.bukkit.entity.EntityType;

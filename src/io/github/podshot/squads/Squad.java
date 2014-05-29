@@ -1,5 +1,7 @@
 package io.github.podshot.squads;
 
+import io.github.podshot.WorldWar;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
@@ -10,8 +12,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import com.xern.jogy34.xernutilities.handlers.ExtraConfigHandler;
-
-import io.github.podshot.WorldWar;
 
 public class Squad {
 
@@ -26,13 +26,6 @@ public class Squad {
 		this.addSquad(squadName, founder);
 	}
 	
-	public static List<String> getSquads() {
-		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(sPlugin.fileSep + "Squads");
-		List<String> squads = squadConfig.getStringList("Squads.Global.SquadList");
-		ExtraConfigHandler.saveConfig(sPlugin.fileSep + "Squads");
-		return squads;
-	}
-
 	private void addValues() {
 		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "Squads");
 		squadConfig.set("Squads.Global.MemberLimit", 10);
@@ -87,16 +80,6 @@ public class Squad {
 		ExtraConfigHandler.saveConfig(sPlugin.fileSep + "Squads");		
 	}
 	
-	public static boolean isFounder(String name, String squadName) {
-		boolean ret = false;
-		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(sPlugin.fileSep + "Squads");
-		String founder = squadConfig.getString("Squads." + squadName + ".Founder");
-		if (founder.equals(name)) {
-			ret = true;
-		}
-		return ret;
-	}
-	
 	public static String getSquadForPlayer(String name) {
 		String ret = null;
 		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(sPlugin.fileSep + "Squads");
@@ -112,5 +95,4 @@ public class Squad {
 		}
 		return ret;
 	}
-
 }

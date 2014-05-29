@@ -1,6 +1,6 @@
 package io.github.podshot.events.guns;
 
-import io.github.podshot.api.Gun;
+import io.github.podshot.api.interfaces.Gun;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

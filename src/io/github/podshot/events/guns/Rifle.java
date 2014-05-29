@@ -1,6 +1,6 @@
 package io.github.podshot.events.guns;
 
-import io.github.podshot.api.Gun;
+import io.github.podshot.api.interfaces.Gun;
 import io.github.podshot.internals.Internals;
 
 import org.bukkit.Material;
@@ -26,14 +26,16 @@ public class Rifle implements Listener, Gun {
 
 		ItemStack gunIS = e.getItem();
 		if (gunIS.getType() == Material.MONSTER_EGG && gunIS.getDurability() == 51) {
-			String gun = gunIS.getItemMeta().getDisplayName().toString();
-			if (gun.equals("Standard Issue Rifle")) {
-				ItemProjectile bullet = new ItemProjectile("bullet-rifle", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 2.0F);
-				bullet.setIgnoreSomeBlocks(true);
-				bullet.boundingBox.shrink(2D, 2D, 2D);
-				int lvl = e.getPlayer().getLevel() - 1;
-				e.getPlayer().setLevel(lvl);
-				e.setCancelled(true);
+			if (gunIS.hasItemMeta()) {
+				String gun = gunIS.getItemMeta().getDisplayName().toString();
+				if (gun.equals("Standard Issue Rifle")) {
+					ItemProjectile bullet = new ItemProjectile("bullet-rifle", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 2.0F);
+					bullet.setIgnoreSomeBlocks(true);
+					bullet.boundingBox.shrink(2D, 2D, 2D);
+					int lvl = e.getPlayer().getLevel() - 1;
+					e.getPlayer().setLevel(lvl);
+					e.setCancelled(true);
+				}
 			}
 		}
 		return;
