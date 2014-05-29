@@ -1,6 +1,6 @@
 package io.github.podshot.events.blocks;
 
-import io.github.podshot.api.SpecialBlock;
+import io.github.podshot.api.interfaces.SpecialBlock;
 import io.github.podshot.gui.ClassChooser;
 import io.github.podshot.internals.Internals;
 

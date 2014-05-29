@@ -3,9 +3,7 @@ package io.github.podshot;
 import io.github.podshot.commands.SquadCommand;
 import io.github.podshot.commands.TestCommand;
 import io.github.podshot.commands.WorldWarCommand;
-import io.github.podshot.commands.tabcompleters.SquadCommandTabCompleter;
-import io.github.podshot.commands.tabcompleters.TestCommandTabCompleter;
-import io.github.podshot.commands.tabcompleters.WorldWarCommandTabCompleter;
+import io.github.podshot.commands.tabcompleters.*;
 import io.github.podshot.events.BlockEvents;
 import io.github.podshot.events.EntityEvents;
 import io.github.podshot.events.GuiEvents;
@@ -32,10 +30,11 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.xern.jogy34.xernutilities.handlers.ExtraConfigHandler;
+
 import pgDev.bukkit.DisguiseCraft.DisguiseCraft;
 import pgDev.bukkit.DisguiseCraft.api.DisguiseCraftAPI;
 
-import com.xern.jogy34.xernutilities.handlers.ExtraConfigHandler;
 //import io.github.podshot.files.Saving;
 
 @SuppressWarnings("unused")

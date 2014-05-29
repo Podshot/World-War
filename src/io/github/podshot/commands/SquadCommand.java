@@ -1,6 +1,7 @@
 package io.github.podshot.commands;
 
 import io.github.podshot.WorldWar;
+import io.github.podshot.api.SquadAPI;
 import io.github.podshot.gui.SquadInviteGUI;
 import io.github.podshot.squads.RemoveSquad;
 import io.github.podshot.squads.Squad;
@@ -35,7 +36,7 @@ public class SquadCommand implements CommandExecutor {
 					}
 				}
 				if (!(onSquad)) {
-					if (!(Squad.getSquads().contains(squadName))) {
+					if (!(SquadAPI.getSquads().contains(squadName))) {
 						new Squad(squadName, player.getName());
 						player.setMetadata("WorldWar.Squad", new FixedMetadataValue(plugin, squadName));
 						player.setMetadata("WorldWar.inSquad", new FixedMetadataValue(plugin, true));
@@ -72,7 +73,7 @@ public class SquadCommand implements CommandExecutor {
 						squadName = val.asString();
 					}
 				}
-				if (Squad.isFounder(player.getName(), squadName)) {
+				if (SquadAPI.isFounder(player.getName(), squadName)) {
 					for (Player p : Bukkit.getOnlinePlayers()) {
 						if (p.getName().equalsIgnoreCase(args[1].toString())) {
 							p.openInventory(SquadInviteGUI.getSquadInviteGUI(squadName));
@@ -81,6 +82,18 @@ public class SquadCommand implements CommandExecutor {
 				}
 				ret = true;
 			} else if (args[0].equalsIgnoreCase("kick")) {
+				String squadName = null;
+				String playerToKick = args[1].toString();
+				for (MetadataValue val : player.getMetadata("WorldWar.Squad")) {
+					if (val.getOwningPlugin().getName().equals("WorldWar")) {
+						squadName = val.asString();
+					}
+				}
+				if (SquadAPI.isFounder(player.getName(), squadName)) {
+					if (SquadAPI.isInSquad(playerToKick, squadName)) {
+						Squad.removeMember(squadName, playerToKick);
+					}
+				}
 
 			} else if (args[0].equalsIgnoreCase("leave")) {
 
