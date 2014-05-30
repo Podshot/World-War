@@ -1,12 +1,11 @@
 package io.github.podshot.events;
 
 import io.github.podshot.WorldWar;
+import io.github.podshot.api.PlayerAPI;
 import io.github.podshot.files.PlayerYAML;
 import io.github.podshot.gui.ClassChooser;
 import io.github.podshot.gui.TeamChooser;
 import io.github.podshot.internals.Internals;
-
-import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -19,7 +18,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
 
 public class PlayerEvents implements Listener {
 
@@ -31,7 +29,7 @@ public class PlayerEvents implements Listener {
 			private PlayerJoinEvent evt = e;
 			@Override
 			public void run() {
-				if (Internals.warDeclared) {
+				if (Internals.isWarDeclared()) {
 					String memberOfTeam = PlayerYAML.getPlayerTeam(evt.getPlayer().getName().toString());
 					plugin.logger.info("Cheking to see if username is already stored");
 					if (memberOfTeam.equals("Blue")) {
@@ -56,20 +54,12 @@ public class PlayerEvents implements Listener {
 
 	@EventHandler
 	public void onPlayerQuitEvent(PlayerQuitEvent evt) {
-		if (Internals.warDeclared) {
+		if (Internals.isWarDeclared()) {
 			String team = null;
 			Player player = evt.getPlayer();
 			String name = player.getName().toString();
-			List<MetadataValue> values = player.getMetadata("WorldWar.Team");
-			for (MetadataValue val : values) {
-				if (val.getOwningPlugin().getName().equals("WorldWar")) {
-					team = val.asString();
-				}
-			}
+			team = PlayerAPI.getTeam(player);
 			plugin.logger.info("Saving player");
-			//if (team != null) {
-			//Internals.playersTeamFile.setProperty(player.getName(), team);
-			//}
 			if (team != null) {
 				plugin.logger.info("Team is not \"null\" saving data");
 				PlayerYAML.setPlayerToTeam(name, team);
@@ -81,7 +71,7 @@ public class PlayerEvents implements Listener {
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent evt) {
-		if (Internals.warDeclared) {
+		if (Internals.isWarDeclared()) {
 			Player player = evt.getEntity();
 			player.getInventory().clear();
 			player.updateInventory();
@@ -92,7 +82,7 @@ public class PlayerEvents implements Listener {
 
 	@EventHandler
 	public void onPlayerRespawn(PlayerRespawnEvent evt) {
-		if (Internals.warDeclared) {
+		if (Internals.isWarDeclared()) {
 			Player player = evt.getPlayer();
 			player.openInventory(ClassChooser.getClassChooserGui());
 		}
@@ -101,7 +91,7 @@ public class PlayerEvents implements Listener {
 
 	@EventHandler
 	public void onPlayerMoveEvent(PlayerMoveEvent evt) {
-		if (Internals.warDeclared) {
+		if (Internals.isWarDeclared()) {
 
 			Player player = evt.getPlayer();
 			Location location = player.getLocation();

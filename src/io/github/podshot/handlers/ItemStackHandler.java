@@ -8,7 +8,7 @@ public class ItemStackHandler {
 
 	public static ItemStack getGunItemStack() {
 		ItemStack gun = new ItemStack(Material.MONSTER_EGG);
-		gun.setDurability((short) 50);
+		gun.setDurability((short) 51);
 		ItemMeta imGun = gun.getItemMeta();
 		// imGun.setDisplayName(ChatColor.DARK_GRAY + "Standard Issue Rifle");
 		imGun.setDisplayName("Standard Issue Rifle");
@@ -35,7 +35,8 @@ public class ItemStackHandler {
 	}
 
 	public static ItemStack getLauncherStack() {
-		ItemStack launcher = new ItemStack(Material.DIAMOND_HOE);
+		ItemStack launcher = new ItemStack(Material.MONSTER_EGG);
+		launcher.setDurability((short) 50);
 		ItemMeta imLauncher = launcher.getItemMeta();
 		
 		imLauncher.setDisplayName("Rocket Launcher");

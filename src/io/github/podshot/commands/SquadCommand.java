@@ -3,11 +3,13 @@ package io.github.podshot.commands;
 import io.github.podshot.WorldWar;
 import io.github.podshot.api.SquadAPI;
 import io.github.podshot.gui.SquadInviteGUI;
+import io.github.podshot.internals.Internals;
 import io.github.podshot.squads.RemoveSquad;
 import io.github.podshot.squads.Squad;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -74,9 +76,21 @@ public class SquadCommand implements CommandExecutor {
 					}
 				}
 				if (SquadAPI.isFounder(player.getName(), squadName)) {
-					for (Player p : Bukkit.getOnlinePlayers()) {
+					for (final Player p : Bukkit.getOnlinePlayers()) {
 						if (p.getName().equalsIgnoreCase(args[1].toString())) {
 							p.openInventory(SquadInviteGUI.getSquadInviteGUI(squadName));
+							p.setGameMode(GameMode.CREATIVE);
+							Internals.addPlayer(p.getName());
+							Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+								@Override
+								public void run() {
+									p.setGameMode(GameMode.SURVIVAL);
+									if (Internals.isPlayerInList(p.getName())) {
+										p.closeInventory();
+										Internals.removePlayer(p.getName());
+									}
+								}
+							}, 1200L);
 						}
 					}
 				}

@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+@Deprecated
 public class GameData {
 	private static WorldWar plugin = WorldWar.getInstance();
 	static Properties props;

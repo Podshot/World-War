@@ -140,7 +140,7 @@ public class GunEvents implements Listener {
 			if (e.getHitType() == CustomProjectileHitEvent.HitType.ENTITY) {
 				// e.getHitEntity().damage(3.0D, e.getProjectile().getShooter());
 				Player shooter = (Player) e.getProjectile().getShooter();
-				for (MetadataValue val : shooter.getMetadata("WroldWar.Team")) {
+				for (MetadataValue val : shooter.getMetadata("WorldWar.Team")) {
 					if (val.getOwningPlugin().getName().equals("WorldWar")) {
 						sTeam = val.asString();
 					}

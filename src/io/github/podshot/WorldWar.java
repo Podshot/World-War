@@ -8,11 +8,11 @@ import io.github.podshot.events.BlockEvents;
 import io.github.podshot.events.EntityEvents;
 import io.github.podshot.events.GuiEvents;
 import io.github.podshot.events.PlayerEvents;
+import io.github.podshot.events.guns.GunSwitch;
 import io.github.podshot.events.registerers.BlockRegister;
 import io.github.podshot.events.registerers.GuiRegister;
 import io.github.podshot.events.registerers.GunRegister;
 import io.github.podshot.events.registerers.StructureRegister;
-import io.github.podshot.files.GameData;
 import io.github.podshot.files.PlayerYAML;
 import io.github.podshot.internals.Internals;
 import io.github.podshot.safeguards.PreventProfanity;
@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
@@ -56,7 +57,7 @@ public class WorldWar extends JavaPlugin {
 		fileSep = File.separator;
 		pluginFolder = this.getDataFolder() + fileSep;
 		pluginFolderF = new File(pluginFolder);
-		
+
 		this.getCommand("ww").setExecutor(new WorldWarCommand());
 		this.getCommand("ww").setTabCompleter(new WorldWarCommandTabCompleter());
 		this.getCommand("squad").setExecutor(new SquadCommand());
@@ -76,11 +77,11 @@ public class WorldWar extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new BlockEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new PlayerEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new RejoinSquadOnLogOn(), this);
+		this.getServer().getPluginManager().registerEvents(new GunSwitch(), this);
 		if (!pluginFolderF.exists()) {
 			pluginFolderF.mkdir();
 			generate = true;
 		}
-		GameData.init();
 		ExtraConfigHandler.initalize(this);
 		StructureYAML.createFiles();
 		PlayerYAML.createFile();
@@ -88,6 +89,10 @@ public class WorldWar extends JavaPlugin {
 		if (generate) {
 			this.saveDefaultConfig();
 		}
+		
+		FileConfiguration config = this.getConfig();
+		boolean isWarD = config.getBoolean("War-Declared");
+		Internals.setWarDeclared(isWarD);
 
 		this.setupDC();
 		if (Internals.isWarDeclared()) {
@@ -108,8 +113,6 @@ public class WorldWar extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		//		Saving.savePlayerTeamFile(Bukkit.getOnlinePlayers());
-		//		Saving.savePlayerClassFile(Bukkit.getOnlinePlayers());
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			String name = p.getName();
 			for (MetadataValue data : p.getMetadata("WorldWar.Team")) {
@@ -118,7 +121,13 @@ public class WorldWar extends JavaPlugin {
 				}
 			}
 		}
-		GameData.saveProps();
+		FileConfiguration config = this.getConfig();
+		if (Internals.isWarDeclared()) {
+			config.set("War-Declared", true);
+		} else {
+			config.set("War-Declared", false);
+		}
+		this.saveConfig();
 	}
 
 	public static WorldWar getInstance() {

@@ -18,12 +18,12 @@ public class Squad {
 	private WorldWar plugin = WorldWar.getInstance();
 	private static WorldWar sPlugin = WorldWar.getInstance();
 
-	public Squad(String squadName, String founder) {
+	public Squad(String squadName, String leader) {
 		File squadFile = new File(plugin.getDataFolder() + plugin.fileSep + "Squads");
 		if (!squadFile.exists()) {
 			addValues();
 		}
-		this.addSquad(squadName, founder);
+		this.addSquad(squadName, leader);
 	}
 	
 	private void addValues() {
@@ -36,16 +36,16 @@ public class Squad {
 		ExtraConfigHandler.saveConfig(plugin.fileSep + "Squads");
 	}
 
-	public void addSquad(String squadName, String founder) {
+	public void addSquad(String squadName, String leader) {
 		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "Squads");
-		List<String> members = Arrays.asList(founder);
+		List<String> members = Arrays.asList(leader);
 		squadConfig.set("Squads." + squadName + ".Members", members);
-		squadConfig.set("Squads." + squadName + ".Founder", founder);
+		squadConfig.set("Squads." + squadName + ".Leader", leader);
 		List<String> squadList = squadConfig.getStringList("Squads.Global.SquadList");
 		squadList.add(squadName);
 		squadConfig.set("Squads.Global.SquadList", squadList);
 		List<String> globalSquadMembers = squadConfig.getStringList("Squads.Global.PeopleInSquads");
-		globalSquadMembers.add(founder);
+		globalSquadMembers.add(leader);
 		squadConfig.set("Squads.Global.PeopleInSquads", globalSquadMembers);
 		ExtraConfigHandler.saveConfig(plugin.fileSep + "Squads");
 	}
@@ -60,7 +60,7 @@ public class Squad {
 			squadConfig.set("Squads.Global.PeopleInSquads", squadMembers);
 		} else {
 			for (Player p : Bukkit.getOnlinePlayers()) {
-				if (p.getName().equals(squadConfig.getString("Squads." + squadName + ".Founder"))) {
+				if (p.getName().equals(squadConfig.getString("Squads." + squadName + ".Leader"))) {
 					p.sendMessage(ChatColor.RED + "Your squad is at the maximum member limit!");
 				}
 			}

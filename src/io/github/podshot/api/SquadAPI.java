@@ -22,7 +22,7 @@ public class SquadAPI {
 	public static boolean isFounder(String name, String squadName) {
 		boolean ret = false;
 		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "Squads");
-		String founder = squadConfig.getString("Squads." + squadName + ".Founder");
+		String founder = squadConfig.getString("Squads." + squadName + ".Leader");
 		if (founder.equals(name)) {
 			ret = true;
 		}
