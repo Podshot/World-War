@@ -22,7 +22,7 @@ import org.bukkit.metadata.MetadataValue;
 
 public class BlockEvents implements Listener {
 
-	private static WorldWar plugin = WorldWar.getInstance();
+	private WorldWar plugin = WorldWar.getInstance();
 
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent evt) {
@@ -31,7 +31,7 @@ public class BlockEvents implements Listener {
 			if (evt.getPlayer().getItemInHand().getType() == Material.SHEARS) {
 				if (evt.getPlayer().getItemInHand().getItemMeta().getDisplayName().toString().equals("Bomb Diffuser")) {
 					String coord = evt.getBlock().getWorld().getName() + ":" + evt.getBlock().getX() + ":" + evt.getBlock().getY() + ":" + evt.getBlock().getZ();
-					evt.getPlayer().setMetadata("WorldWar.bombToDiffuse", new FixedMetadataValue(plugin, coord));
+					evt.getPlayer().setMetadata("WorldWar.bombToDiffuse", new FixedMetadataValue(this.plugin, coord));
 					evt.getPlayer().openInventory(WireGui.getWireGui());
 					evt.setCancelled(true);
 				} else {

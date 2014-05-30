@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 
 public class WorldWarCommand implements CommandExecutor {
 
+	@SuppressWarnings("unused")
 	private WorldWar plugin = WorldWar.getInstance();
 
 	@Override
@@ -20,7 +21,6 @@ public class WorldWarCommand implements CommandExecutor {
 		if (label.equalsIgnoreCase("ww")) {
 			if (sender instanceof Player) {
 				Player player = (Player) sender;
-				plugin.logger.info("Hi");
 				if (args[0].equalsIgnoreCase("start")) {
 					if (player.hasPermission("worldwar.war.start")) {
 						ret = true;
