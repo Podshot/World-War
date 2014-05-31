@@ -80,7 +80,7 @@ public class BlockEvents implements Listener {
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent evt) {
-		if (!(Internals.warDeclared)) {
+		if (!(Internals.isWarDeclared())) {
 			return;
 		}
 		

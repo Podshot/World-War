@@ -10,7 +10,7 @@ public class Internals {
 	public static Properties playersTeamFile;
 	@Deprecated
 	public static Properties playersClassFile;
-	public static boolean warDeclared = false;
+	private static boolean warDeclared = false;
 	private static List<String> squadGUIOpen = new ArrayList<String>();
 	
 	public static boolean isWarDeclared() {

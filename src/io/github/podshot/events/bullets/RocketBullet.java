@@ -21,6 +21,7 @@ public class RocketBullet implements Listener, BulletHit {
 					Block hitBlock = e.getHitBlock();
 					Location hitLoc = hitBlock.getLocation();
 					hitBlock.getWorld().createExplosion(hitLoc, 4.0F);
+					e.getProjectile().getEntity().remove();
 				}
 			}
 		}

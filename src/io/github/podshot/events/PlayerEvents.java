@@ -92,7 +92,6 @@ public class PlayerEvents implements Listener {
 	@EventHandler
 	public void onPlayerMoveEvent(PlayerMoveEvent evt) {
 		if (Internals.isWarDeclared()) {
-
 			Player player = evt.getPlayer();
 			Location location = player.getLocation();
 			if (location.getY() > 256) {

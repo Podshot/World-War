@@ -21,7 +21,7 @@ public class EntityEvents implements Listener {
 
 	@EventHandler
 	public void onPlayerClickOnNPC(NPCRightClickEvent evt) {
-		if (Internals.warDeclared) {
+		if (Internals.isWarDeclared()) {
 			Player player = evt.getClicker().getPlayer();
 			final NPC ent = evt.getNPC();
 			final Location respawnLoc = ent.getStoredLocation();

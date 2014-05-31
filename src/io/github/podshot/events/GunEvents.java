@@ -136,7 +136,7 @@ public class GunEvents implements Listener {
 		String sTeam = null;
 		String hTeam = null;
 		LivingEntity hitE = e.getHitEntity();
-		if (Internals.warDeclared) {
+		if (Internals.isWarDeclared()) {
 			if (e.getHitType() == CustomProjectileHitEvent.HitType.ENTITY) {
 				// e.getHitEntity().damage(3.0D, e.getProjectile().getShooter());
 				Player shooter = (Player) e.getProjectile().getShooter();
