@@ -9,11 +9,12 @@ import io.github.podshot.events.EntityEvents;
 import io.github.podshot.events.GuiEvents;
 import io.github.podshot.events.PlayerEvents;
 import io.github.podshot.events.guns.GunSwitch;
+import io.github.podshot.events.guns.KeepGun;
 import io.github.podshot.events.registerers.BlockRegister;
 import io.github.podshot.events.registerers.GuiRegister;
 import io.github.podshot.events.registerers.GunRegister;
 import io.github.podshot.events.registerers.StructureRegister;
-import io.github.podshot.files.PlayerYAML;
+import io.github.podshot.files.TeamYAML;
 import io.github.podshot.internals.Internals;
 import io.github.podshot.safeguards.PreventProfanity;
 import io.github.podshot.squads.RejoinSquadOnLogOn;
@@ -78,13 +79,14 @@ public class WorldWar extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new PlayerEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new RejoinSquadOnLogOn(), this);
 		this.getServer().getPluginManager().registerEvents(new GunSwitch(), this);
+		this.getServer().getPluginManager().registerEvents(new KeepGun(), this);
 		if (!pluginFolderF.exists()) {
 			pluginFolderF.mkdir();
 			generate = true;
 		}
 		ExtraConfigHandler.initalize(this);
 		StructureYAML.createFiles();
-		PlayerYAML.createFile();
+		new TeamYAML();
 
 		if (generate) {
 			this.saveDefaultConfig();
@@ -117,7 +119,7 @@ public class WorldWar extends JavaPlugin {
 			String name = p.getName();
 			for (MetadataValue data : p.getMetadata("WorldWar.Team")) {
 				if (data.getOwningPlugin().getName().equals("WorldWar")) {
-					PlayerYAML.setPlayerToTeam(name, data.asString());
+					TeamYAML.setPlayerToTeam(name, data.asString());
 				}
 			}
 		}

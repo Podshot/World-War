@@ -2,7 +2,7 @@ package io.github.podshot.events;
 
 import io.github.podshot.WorldWar;
 import io.github.podshot.api.PlayerAPI;
-import io.github.podshot.files.PlayerYAML;
+import io.github.podshot.files.TeamYAML;
 import io.github.podshot.gui.ClassChooser;
 import io.github.podshot.gui.TeamChooser;
 import io.github.podshot.internals.Internals;
@@ -30,7 +30,7 @@ public class PlayerEvents implements Listener {
 			@Override
 			public void run() {
 				if (Internals.isWarDeclared()) {
-					String memberOfTeam = PlayerYAML.getPlayerTeam(evt.getPlayer().getName().toString());
+					String memberOfTeam = TeamYAML.getPlayerTeam(evt.getPlayer().getName().toString());
 					plugin.logger.info("Cheking to see if username is already stored");
 					if (memberOfTeam.equals("Blue")) {
 						plugin.logger.info("Player's team is Blue");
@@ -62,7 +62,7 @@ public class PlayerEvents implements Listener {
 			plugin.logger.info("Saving player");
 			if (team != null) {
 				plugin.logger.info("Team is not \"null\" saving data");
-				PlayerYAML.setPlayerToTeam(name, team);
+				TeamYAML.setPlayerToTeam(name, team);
 			}
 		}
 		return;

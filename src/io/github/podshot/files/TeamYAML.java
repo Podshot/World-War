@@ -8,11 +8,11 @@ import com.xern.jogy34.xernutilities.handlers.ExtraConfigHandler;
 
 import io.github.podshot.WorldWar;
 
-public class PlayerYAML {
+public class TeamYAML {
 	
 	private static WorldWar plugin = WorldWar.getInstance();
 	
-	public static void createFile() {
+	public TeamYAML() {
 		File teamsYaml = new File(plugin.getDataFolder() + plugin.fileSep + "Teams");
 		if (!teamsYaml.exists()) {
 			ExtraConfigHandler.getConfig(plugin.fileSep + "Teams");
