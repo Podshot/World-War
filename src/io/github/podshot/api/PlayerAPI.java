@@ -1,5 +1,7 @@
 package io.github.podshot.api;
 
+import java.util.UUID;
+
 import io.github.podshot.WorldWar;
 
 import org.bukkit.Bukkit;
@@ -7,10 +9,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 
+/**
+ * A Class used to gather player related info related to WorldWar
+ * 
+ *
+ */
 public class PlayerAPI {
 	
 	private static WorldWar plugin = WorldWar.getInstance();
 	
+	/**
+	 * 
+	 * @param player the player that you want to get the team from
+	 * @return String The Team name that they belong to
+	 */
 	public static String getTeam(Player player) {
 		String team = null;
 		for (MetadataValue val : player.getMetadata("WorldWar.Team")) {
@@ -21,10 +33,15 @@ public class PlayerAPI {
 		return team;
 	}
 	
-	public static String getTeam(String playerName) {
+	/**
+	 * 
+	 * @param playerUUID UUID of the player you want to get the Team from
+	 * @return String String The Team name that they belong to
+	 */
+	public static String getTeam(UUID playerUUID) {
 		String team = null;
 		for (Player p : Bukkit.getOnlinePlayers()) {
-			if (p.getName().equals(playerName)) {
+			if (p.getUniqueId().equals(playerUUID)) {
 				for (MetadataValue val : p.getMetadata("WorldWar.Team")) {
 					if (val.getOwningPlugin().getName().equals("WorldWar")) {
 						team = val.asString();
@@ -35,6 +52,12 @@ public class PlayerAPI {
 		return team;	
 	}
 	
+	/**
+	 * 
+	 * @param player The player that you want to set the ammo of
+	 * @param gun The gun that the ammo amount belongs to
+	 * @param amount The amount of ammo the player should have
+	 */
 	public static void setAmmoAmount(Player player, String gun, int amount) {
 		if (player.hasMetadata("WorldWar.Ammo." + gun)) {
 			player.removeMetadata("WorldWar.Ammo." + gun, plugin);
@@ -42,6 +65,12 @@ public class PlayerAPI {
 		player.setMetadata("WorldWar.Ammo." + gun, new FixedMetadataValue(plugin, amount));
 	}
 	
+	/**
+	 * 
+	 * @param player The player that you want to get the ammo amount for
+	 * @param gun The gun that you want the ammo amount for
+	 * @return int The amount of ammo the player has for that gun
+	 */
 	public static int getAmmoAmount(Player player, String gun) {
 		int toReturn = 0;
 		for (MetadataValue val : player.getMetadata("WorldWar.Ammo." + gun)) {
