@@ -2,7 +2,7 @@ package io.github.podshot.events;
 
 import io.github.podshot.WorldWar;
 import io.github.podshot.api.PlayerAPI;
-import io.github.podshot.files.TeamYAML;
+import io.github.podshot.files.PlayerDataYAML;
 import io.github.podshot.gui.ClassChooser;
 import io.github.podshot.gui.TeamChooser;
 import io.github.podshot.internals.Internals;
@@ -12,7 +12,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -30,22 +29,24 @@ public class PlayerEvents implements Listener {
 			@Override
 			public void run() {
 				if (Internals.isWarDeclared()) {
-					String memberOfTeam = TeamYAML.getPlayerTeam(evt.getPlayer().getName().toString());
+					Player player = evt.getPlayer();
+					String memberOfTeam = PlayerDataYAML.getPlayerTeam(player);
 					plugin.logger.info("Cheking to see if username is already stored");
 					if (memberOfTeam.equals("Blue")) {
 						plugin.logger.info("Player's team is Blue");
-						Player player = evt.getPlayer();
 						player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Blue"));
 					} else if (memberOfTeam.equals("Red")) {
 						plugin.logger.info("Player's team is Red");
-						Player player = evt.getPlayer();
 						player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Red"));
 					} else  {
 						plugin.logger.info("Name is not present in the player file");
-						Player player = evt.getPlayer();
 						player.openInventory(TeamChooser.getTeamChooserGui());
 						evt.getPlayer().sendMessage("You are logged in");
 					}
+					int rifleAmmo = PlayerDataYAML.getPlayerAmmoFromFile(player, "Rifle");
+					int rocketAmmo = PlayerDataYAML.getPlayerAmmoFromFile(player, "Rocket-Launcher");
+					player.setMetadata("WorldWar.Ammo.Rifle", new FixedMetadataValue(plugin, rifleAmmo));
+					player.setMetadata("WorldWar.Ammo.Rocket", new FixedMetadataValue(plugin, rocketAmmo));
 				}
 			}
 		}, 40L);
@@ -55,27 +56,14 @@ public class PlayerEvents implements Listener {
 	@EventHandler
 	public void onPlayerQuitEvent(PlayerQuitEvent evt) {
 		if (Internals.isWarDeclared()) {
-			String team = null;
 			Player player = evt.getPlayer();
-			String name = player.getName().toString();
-			team = PlayerAPI.getTeam(player);
+			String team = PlayerAPI.getTeam(player);
 			plugin.logger.info("Saving player");
 			if (team != null) {
 				plugin.logger.info("Team is not \"null\" saving data");
-				TeamYAML.setPlayerToTeam(name, team);
+				PlayerDataYAML.setPlayerToTeam(player, team);
+				PlayerDataYAML.setPlayerAmmoToFile(player);
 			}
-		}
-		return;
-	}
-
-	@SuppressWarnings("deprecation")
-	@EventHandler
-	public void onPlayerDeath(PlayerDeathEvent evt) {
-		if (Internals.isWarDeclared()) {
-			Player player = evt.getEntity();
-			player.getInventory().clear();
-			player.updateInventory();
-			evt.setDroppedExp(0);
 		}
 		return;
 	}
