@@ -1,7 +1,6 @@
 package io.github.podshot.vehicles;
 
 import io.github.podshot.WorldWar;
-import io.github.podshot.entities.DisguisePlayerAsVehicle;
 import io.github.podshot.internals.Internals;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 
@@ -24,7 +23,6 @@ public class Truck implements Listener {
 	public void onPilotEnterVehicle(NPCRightClickEvent e) {
 		if (Internals.isWarDeclared()) {
 			if (e.getNPC().getName().equals("Truck")) {
-				DisguisePlayerAsVehicle.addPlayerAsCow(e.getClicker());
 				e.getClicker().setMetadata("WorldWar.Vehicle.Passangers", new FixedMetadataValue(plugin, 0));
 			}
 		}

@@ -53,15 +53,12 @@ public class Bomber implements Listener, Vehicle {
 		if (!(Internals.isWarDeclared())) {
 			return;
 		}
-
-		if (e.getAction() == Action.RIGHT_CLICK_AIR) {
+		if (!(e.getAction() == Action.RIGHT_CLICK_AIR)) {
 			return;
 		}
-
 		if (e.getItem() == null) {
 			return;
 		}
-
 		ItemStack used = e.getItem();
 		if (used.getType() == Material.SULPHUR) {
 			if (used.hasItemMeta()) {
@@ -78,6 +75,7 @@ public class Bomber implements Listener, Vehicle {
 				}
 			}
 		}
+		return;
 	}
 
 	@EventHandler
@@ -85,50 +83,25 @@ public class Bomber implements Listener, Vehicle {
 		if (!(Internals.isWarDeclared())) {
 			return;
 		}
-
-		if (e.getAction() == Action.RIGHT_CLICK_AIR) {
+		if (!(e.getAction() == Action.RIGHT_CLICK_AIR)) {
 			return;
 		}
-
 		if (e.getItem() == null) {
 			return;
 		}
-		if (e.getAction() == Action.RIGHT_CLICK_AIR) {
-			ItemStack used = e.getItem();
-			if (used.getType() == Material.BLAZE_POWDER && used.getItemMeta().getDisplayName().equals("Drop Napalm Bombs")) {
-				Location loc = e.getPlayer().getLocation();
-				TNTPrimed entity = (TNTPrimed) loc.getWorld().spawnEntity(loc, EntityType.PRIMED_TNT);
-				entity.setIsIncendiary(true);
-				int highestBlock = loc.getWorld().getHighestBlockYAt(loc);
-				int playerYLoc = (int) loc.getY();
-				int remaining = playerYLoc - highestBlock;
-				int result = remaining * 20;
-				entity.setFuseTicks(result);
-			}
-		}
-	}
-
-	@EventHandler
-	public void onPlayerLeaveBomber(PlayerInteractEvent e) {
-		if (Internals.isWarDeclared()) {
-			if (e.getAction() == Action.RIGHT_CLICK_AIR) {
-				if (ConfigInternals.getDPAHBOE()) {
-					ItemStack used = e.getItem();
-					if (used.getType() == Material.REDSTONE_BLOCK && used.getItemMeta().getDisplayName().equals("Exit Bomber")) {
+		ItemStack used = e.getItem();
+		if (used.getType() == Material.BLAZE_POWDER) {
+			if (used.hasItemMeta()) {
+				if (used.getItemMeta().hasDisplayName()) {
+					if (used.getItemMeta().getDisplayName().equals("Drop Napalm Bombs")) {
 						Location loc = e.getPlayer().getLocation();
-						int landing = loc.getWorld().getHighestBlockYAt(loc);
-						Player player = e.getPlayer();
-						player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 4));
-						int result = landing + 5;
-						player.teleport(new Location(loc.getWorld(), loc.getX(), result, loc.getZ()));
-					}
-				} else {
-					ItemStack used = e.getItem();
-					if (used.getType() == Material.REDSTONE_BLOCK && used.getItemMeta().getDisplayName().equals("Exit Bomber")) {
-						Player player = e.getPlayer();
-						player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1000, 4));
-						player.setFlying(false);
-						plugin .getDCAPI().undisguisePlayer(player);
+						TNTPrimed entity = (TNTPrimed) loc.getWorld().spawnEntity(loc, EntityType.PRIMED_TNT);
+						entity.setIsIncendiary(true);
+						int highestBlock = loc.getWorld().getHighestBlockYAt(loc);
+						int playerYLoc = (int) loc.getY();
+						int remaining = playerYLoc - highestBlock;
+						int result = remaining * 20;
+						entity.setFuseTicks(result);
 					}
 				}
 			}
@@ -136,4 +109,38 @@ public class Bomber implements Listener, Vehicle {
 		return;
 	}
 
+	@EventHandler
+	public void onPlayerLeaveBomber(PlayerInteractEvent e) {
+		if (!(Internals.isWarDeclared())) {
+			return;
+		}
+		if (!(e.getAction() == Action.RIGHT_CLICK_AIR)) {
+			return;
+		}
+		if (e.getItem() == null) {
+			return;
+		}
+		ItemStack used = e.getItem();
+		if (used.getType() == Material.REDSTONE_BLOCK) {
+			if (used.hasItemMeta()) {
+				if (used.getItemMeta().hasDisplayName()) {
+					if (used.getItemMeta().getDisplayName().equals("Exit Bomber")) {
+						if (ConfigInternals.getDPAHBOE()) {
+							Location loc = e.getPlayer().getLocation();
+							int landing = loc.getWorld().getHighestBlockYAt(loc);
+							Player player = e.getPlayer();
+							player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 4));
+							int result = landing + 5;
+							player.teleport(new Location(loc.getWorld(), loc.getX(), result, loc.getZ()));
+						} else {
+							Player player = e.getPlayer();
+							player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1000, 4));
+							player.setFlying(false);
+							plugin.getDCAPI().undisguisePlayer(player);
+						}
+					}
+				}
+			}
+		}
+	}
 }
