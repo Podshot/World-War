@@ -4,6 +4,7 @@ import io.github.podshot.WorldWar;
 import io.github.podshot.internals.Internals;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -18,13 +19,13 @@ public class RejoinSquadOnLogOn implements Listener {
 		if (Internals.isWarDeclared()) {
 			Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
 				private PlayerLoginEvent e = evt;
-				String name = e.getPlayer().getName();
+				Player player = e.getPlayer();
 				@Override
 				public void run() {
-					String squad = Squad.getSquadForPlayer(name);	
+					String squad = Squad.getSquadForPlayer(player.getUniqueId());	
 					if (!(squad.equals("Not in Squad"))) {
-						e.getPlayer().setMetadata("WorldWar.Squad", new FixedMetadataValue(plugin, squad));
-						e.getPlayer().setMetadata("WorldWar.inSquad", new FixedMetadataValue(plugin, true));
+						player.setMetadata("WorldWar.Squad", new FixedMetadataValue(plugin, squad));
+						player.setMetadata("WorldWar.inSquad", new FixedMetadataValue(plugin, true));
 					}
 				}	
 			}, 40L);	

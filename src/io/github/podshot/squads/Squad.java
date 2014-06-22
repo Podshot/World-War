@@ -5,6 +5,7 @@ import io.github.podshot.WorldWar;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -18,7 +19,7 @@ public class Squad {
 	private WorldWar plugin = WorldWar.getInstance();
 	private static WorldWar sPlugin = WorldWar.getInstance();
 
-	public Squad(String squadName, String leader) {
+	public Squad(String squadName, UUID leader) {
 		File squadFile = new File(plugin.getDataFolder() + plugin.fileSep + "Squads");
 		if (!squadFile.exists()) {
 			addValues();
@@ -36,27 +37,27 @@ public class Squad {
 		ExtraConfigHandler.saveConfig(plugin.fileSep + "Squads");
 	}
 
-	public void addSquad(String squadName, String leader) {
+	public void addSquad(String squadName, UUID uuid) {
 		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "Squads");
-		List<String> members = Arrays.asList(leader);
+		List<String> members = Arrays.asList(uuid.toString());
 		squadConfig.set("Squads." + squadName + ".Members", members);
-		squadConfig.set("Squads." + squadName + ".Leader", leader);
+		squadConfig.set("Squads." + squadName + ".Leader", uuid.toString());
 		List<String> squadList = squadConfig.getStringList("Squads.Global.SquadList");
 		squadList.add(squadName);
 		squadConfig.set("Squads.Global.SquadList", squadList);
 		List<String> globalSquadMembers = squadConfig.getStringList("Squads.Global.PeopleInSquads");
-		globalSquadMembers.add(leader);
+		globalSquadMembers.add(uuid.toString());
 		squadConfig.set("Squads.Global.PeopleInSquads", globalSquadMembers);
 		ExtraConfigHandler.saveConfig(plugin.fileSep + "Squads");
 	}
 
-	public void addMember(String squadName, String member) {
+	public void addMember(String squadName, UUID memberUUID) {
 		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "Squads");
 		List<String> existingMembers = squadConfig.getStringList("Squads." + squadName + ".Members");
 		if (existingMembers.size() <= squadConfig.getInt("Squads.Global.MemberLimit")) {
-			existingMembers.add(member);
+			existingMembers.add(memberUUID.toString());
 			List<String> squadMembers = squadConfig.getStringList("Squads.Global.PeopleInSquads");
-			squadMembers.add(member);
+			squadMembers.add(memberUUID.toString());
 			squadConfig.set("Squads.Global.PeopleInSquads", squadMembers);
 		} else {
 			for (Player p : Bukkit.getOnlinePlayers()) {
@@ -69,24 +70,24 @@ public class Squad {
 		ExtraConfigHandler.saveConfig(plugin.fileSep + "Squads");
 	}
 	
-	public static void removeMember(String squadName, String member) {
+	public static void removeMember(String squadName, UUID memberUUID) {
 		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(sPlugin.getDataFolder() + sPlugin.fileSep + "Squads");
 		List<String> existingMembers = squadConfig.getStringList("Squads." + squadName + ".Members");
-		existingMembers.remove(member);
+		existingMembers.remove(memberUUID.toString());
 		squadConfig.set("Squads." + squadName + ".Members", existingMembers);
 		List<String> squadMembers = squadConfig.getStringList("Squads.Global.PeopleInSquads");
-		squadMembers.remove(member);
+		squadMembers.remove(memberUUID.toString());
 		squadConfig.set("Squads.Global.PeopleInSquads", squadMembers);
 		ExtraConfigHandler.saveConfig(sPlugin.fileSep + "Squads");		
 	}
 	
-	public static String getSquadForPlayer(String name) {
+	public static String getSquadForPlayer(UUID uuid) {
 		String ret = null;
 		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(sPlugin.fileSep + "Squads");
 		List<String> members = squadConfig.getStringList("Squads.Global.PeopleInSquads");
-		if (members.contains(name)) {
+		if (members.contains(uuid.toString())) {
 			for (String squad : squadConfig.getStringList("Squads.Global.SquadList")) {
-				if (squadConfig.getStringList("Squads." + squad + ".Members").contains(name)) {
+				if (squadConfig.getStringList("Squads." + squad + ".Members").contains(uuid.toString())) {
 					ret = squad;
 				}
 			}
