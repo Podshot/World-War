@@ -8,6 +8,7 @@ import com.xern.jogy34.xernutilities.handlers.ExtraConfigHandler;
 
 import io.github.podshot.WorldWar;
 
+@Deprecated
 public class TeamYAML {
 	
 	private static WorldWar plugin = WorldWar.getInstance();

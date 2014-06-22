@@ -14,8 +14,8 @@ import io.github.podshot.events.registerers.BlockRegister;
 import io.github.podshot.events.registerers.GuiRegister;
 import io.github.podshot.events.registerers.GunRegister;
 import io.github.podshot.events.registerers.StructureRegister;
+import io.github.podshot.files.PlayerDataYAML;
 import io.github.podshot.files.StructureYAML;
-import io.github.podshot.files.TeamYAML;
 import io.github.podshot.internals.Internals;
 import io.github.podshot.safeguards.PreventProfanity;
 import io.github.podshot.squads.RejoinSquadOnLogOn;
@@ -87,7 +87,7 @@ public final class WorldWar extends JavaPlugin {
 		}
 		ExtraConfigHandler.initalize(this);
 		new StructureYAML();
-		new TeamYAML();
+		new PlayerDataYAML();
 
 		if (generate) {
 			this.saveDefaultConfig();
@@ -117,10 +117,9 @@ public final class WorldWar extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		for (Player p : Bukkit.getOnlinePlayers()) {
-			String name = p.getName();
 			for (MetadataValue data : p.getMetadata("WorldWar.Team")) {
 				if (data.getOwningPlugin().getName().equals("WorldWar")) {
-					TeamYAML.setPlayerToTeam(name, data.asString());
+					PlayerDataYAML.setPlayerToTeam(p.getUniqueId(), data.asString());
 				}
 			}
 		}
