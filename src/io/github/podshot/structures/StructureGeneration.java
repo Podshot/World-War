@@ -1,6 +1,7 @@
 package io.github.podshot.structures;
 
 import io.github.podshot.WorldWar;
+import io.github.podshot.files.StructureYAML;
 
 import org.bukkit.Chunk;
 import org.bukkit.DyeColor;

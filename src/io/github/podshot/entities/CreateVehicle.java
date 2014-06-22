@@ -1,7 +1,7 @@
 package io.github.podshot.entities;
 
 import io.github.podshot.WorldWar;
-import io.github.podshot.structures.StructureYAML;
+import io.github.podshot.files.StructureYAML;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;

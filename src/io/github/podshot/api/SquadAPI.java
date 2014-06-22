@@ -29,7 +29,7 @@ public class SquadAPI {
 	}
 	
 	/**
-	 * 
+	 * Checks if the specified player is the Leader of a specified squad
 	 * @param uuid UUID of the player who might be the leader of the squad
 	 * @param squadName The name of the squad that the player might be the leader of
 	 * @return true if the player is the leader, false if otherwise

@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+@Deprecated
 public class Bomber {
 	
 	public static ArrayList<ItemStack> getBomber() {

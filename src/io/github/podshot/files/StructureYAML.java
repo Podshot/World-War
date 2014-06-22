@@ -1,4 +1,4 @@
-package io.github.podshot.structures;
+package io.github.podshot.files;
 
 import io.github.podshot.WorldWar;
 import io.github.podshot.entities.VehicleType;
@@ -18,22 +18,19 @@ public class StructureYAML {
 
 	private static WorldWar plugin = WorldWar.getInstance();
 
-	private static FileConfiguration structureConfig;
 	private static List<String> list = new ArrayList<String>();
-
-	public static void createFiles() {
+	
+	public StructureYAML() {
 		File structures = new File(plugin.getDataFolder() + plugin.fileSep + "Structures");
-		File flagsFile = new File(plugin.getDataFolder() + plugin.fileSep + "Structures" + plugin.fileSep + "Structures");
 		if (!structures.exists()) {
-			structures.mkdir();
-			if (!flagsFile.exists()) {
-				addConfigValues();
-			}
+			ExtraConfigHandler.getConfig(plugin.fileSep + "Structures");
+			ExtraConfigHandler.saveConfig(plugin.fileSep + "Structures");
+			addConfigValues();
 		}
 	}
 
 	private static void addConfigValues() {
-		structureConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "Structures" + plugin.fileSep + "Structures");
+		FileConfiguration structureConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "Structures" + plugin.fileSep + "Structures");
 		structureConfig.set("Structure.Flag.Red.X", 0);
 		structureConfig.set("Structure.Flag.Red.Y", 100);
 		structureConfig.set("Structure.Flag.Red.Z", 0);

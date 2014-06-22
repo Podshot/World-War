@@ -14,11 +14,11 @@ import io.github.podshot.events.registerers.BlockRegister;
 import io.github.podshot.events.registerers.GuiRegister;
 import io.github.podshot.events.registerers.GunRegister;
 import io.github.podshot.events.registerers.StructureRegister;
+import io.github.podshot.files.StructureYAML;
 import io.github.podshot.files.TeamYAML;
 import io.github.podshot.internals.Internals;
 import io.github.podshot.safeguards.PreventProfanity;
 import io.github.podshot.squads.RejoinSquadOnLogOn;
-import io.github.podshot.structures.StructureYAML;
 
 import java.io.File;
 import java.util.logging.Logger;
@@ -40,13 +40,13 @@ import pgDev.bukkit.DisguiseCraft.api.DisguiseCraftAPI;
 //import io.github.podshot.files.Saving;
 
 @SuppressWarnings("unused")
-public class WorldWar extends JavaPlugin {
+public final class WorldWar extends JavaPlugin {
 
 	public Logger logger;
 	public String fileSep;
 	private String pluginFolder;
 	private File pluginFolderF;
-	public DisguiseCraftAPI dcAPI;
+	private DisguiseCraftAPI dcAPI;
 	private boolean generate;
 	private static WorldWar instance;
 	public boolean debug = true;
@@ -80,12 +80,13 @@ public class WorldWar extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new RejoinSquadOnLogOn(), this);
 		this.getServer().getPluginManager().registerEvents(new GunSwitch(), this);
 		this.getServer().getPluginManager().registerEvents(new KeepGun(), this);
+		PreventProfanity.getWordList();
 		if (!pluginFolderF.exists()) {
 			pluginFolderF.mkdir();
 			generate = true;
 		}
 		ExtraConfigHandler.initalize(this);
-		StructureYAML.createFiles();
+		new StructureYAML();
 		new TeamYAML();
 
 		if (generate) {
@@ -137,7 +138,11 @@ public class WorldWar extends JavaPlugin {
 	}
 
 	private void setupDC() {
-		dcAPI = DisguiseCraft.getAPI();
+		this.dcAPI = DisguiseCraft.getAPI();
+	}
+	
+	public DisguiseCraftAPI getDCAPI() {
+		return this.dcAPI;
 	}
 
 }

@@ -11,15 +11,13 @@ import org.bukkit.metadata.MetadataValue;
 
 /**
  * A Class used to gather player related info related to WorldWar
- * 
- *
  */
 public class PlayerAPI {
 	
 	private static WorldWar plugin = WorldWar.getInstance();
 	
 	/**
-	 * 
+	 * Gets the Team the specified player is on from a player object
 	 * @param player the player that you want to get the team from
 	 * @return String The Team name that they belong to
 	 */
@@ -34,7 +32,7 @@ public class PlayerAPI {
 	}
 	
 	/**
-	 * 
+	 * Gets the Team the player is on from their UUID
 	 * @param playerUUID UUID of the player you want to get the Team from
 	 * @return String String The Team name that they belong to
 	 */
@@ -53,7 +51,7 @@ public class PlayerAPI {
 	}
 	
 	/**
-	 * 
+	 * Sets the ammo of specified gun to the specified player
 	 * @param player The player that you want to set the ammo of
 	 * @param gun The gun that the ammo amount belongs to
 	 * @param amount The amount of ammo the player should have
@@ -66,7 +64,7 @@ public class PlayerAPI {
 	}
 	
 	/**
-	 * 
+	 * Gets the amount of ammo the player has for the specified gun
 	 * @param player The player that you want to get the ammo amount for
 	 * @param gun The gun that you want the ammo amount for
 	 * @return int The amount of ammo the player has for that gun

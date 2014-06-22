@@ -75,7 +75,7 @@ public class SquadCommand implements CommandExecutor {
 						squadName = val.asString();
 					}
 				}
-				if (SquadAPI.isFounder(player.getName(), squadName)) {
+				if (SquadAPI.isLeader(player.getUniqueId(), squadName)) {
 					for (final Player p : Bukkit.getOnlinePlayers()) {
 						if (p.getName().equalsIgnoreCase(args[1].toString())) {
 							p.openInventory(SquadInviteGUI.getSquadInviteGUI(squadName));
@@ -103,8 +103,8 @@ public class SquadCommand implements CommandExecutor {
 						squadName = val.asString();
 					}
 				}
-				if (SquadAPI.isFounder(player.getName(), squadName)) {
-					if (SquadAPI.isInSquad(playerToKick, squadName)) {
+				if (SquadAPI.isLeader(player.getUniqueId(), squadName)) {
+					if (SquadAPI.isInSquad(player.getUniqueId(), squadName)) {
 						Squad.removeMember(squadName, playerToKick);
 					}
 				}

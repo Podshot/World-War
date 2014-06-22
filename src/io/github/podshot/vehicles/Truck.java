@@ -1,10 +1,8 @@
 package io.github.podshot.vehicles;
 
 import io.github.podshot.WorldWar;
-import io.github.podshot.api.interfaces.Vehicle;
 import io.github.podshot.entities.DisguisePlayerAsVehicle;
 import io.github.podshot.internals.Internals;
-
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 
 import org.bukkit.entity.EntityType;
@@ -16,10 +14,10 @@ import org.bukkit.metadata.MetadataValue;
 
 import pgDev.bukkit.DisguiseCraft.api.DisguiseCraftAPI;
 
-public class Truck implements Listener, Vehicle {
+public class Truck implements Listener {
 	
 	private static WorldWar plugin = WorldWar.getInstance();
-	private static DisguiseCraftAPI dcAPI = plugin.dcAPI;
+	private static DisguiseCraftAPI dcAPI = plugin.getDCAPI();
 	private int seats = 4;
 
 	@EventHandler

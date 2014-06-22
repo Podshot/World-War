@@ -11,9 +11,10 @@ import pgDev.bukkit.DisguiseCraft.api.DisguiseCraftAPI;
 import pgDev.bukkit.DisguiseCraft.disguise.Disguise;
 import pgDev.bukkit.DisguiseCraft.disguise.DisguiseType;
 
+@Deprecated
 public class DisguisePlayerAsVehicle {
 	private static WorldWar plugin = WorldWar.getInstance();
-	private static DisguiseCraftAPI dcAPI = plugin.dcAPI;
+	private static DisguiseCraftAPI dcAPI = plugin.getDCAPI();
 
 	public static void addPlayerAsBat(Player player) {
 		if (!dcAPI.isDisguised(player)) {
@@ -27,7 +28,6 @@ public class DisguisePlayerAsVehicle {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	public static void addPlayerAsDragon(Player player) {
 		if (!dcAPI.isDisguised(player)) {
 			dcAPI.disguisePlayer(player, new Disguise(dcAPI.newEntityID(), DisguiseType.EnderDragon));

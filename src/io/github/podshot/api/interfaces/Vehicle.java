@@ -4,13 +4,18 @@ import net.citizensnpcs.api.event.NPCRightClickEvent;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.inventory.ItemStack;
 
 public interface Vehicle {
 	
 	@EventHandler
-	public void onPilotEnterVehicle(NPCRightClickEvent e);
+	void onPilotEnterVehicle(NPCRightClickEvent e);
 	
 	@EventHandler
-	public void onPlayerGetInSeat(PlayerInteractEntityEvent e);
+	void onPlayerGetInSeat(PlayerInteractEntityEvent e);
+	
+	int getSeatCount();
+	
+	ItemStack[] getInventory();
 
 }
