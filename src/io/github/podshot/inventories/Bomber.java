@@ -1,4 +1,4 @@
-package io.github.podshot.vehicleInventories;
+package io.github.podshot.inventories;
 
 import java.util.ArrayList;
 

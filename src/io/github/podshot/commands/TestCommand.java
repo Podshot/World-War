@@ -3,6 +3,7 @@ package io.github.podshot.commands;
 import io.github.podshot.WorldWar;
 import io.github.podshot.gui.ClassChooser;
 import io.github.podshot.gui.WireGui;
+import io.github.podshot.inventories.SaveInventory;
 import io.github.podshot.structures.StructureGeneration;
 import me.astramg.resources.BlockGenerator;
 import net.citizensnpcs.api.CitizensAPI;
@@ -83,6 +84,10 @@ public class TestCommand implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("wgui")) {
 				ret = true;
 				player.openInventory(WireGui.getWireGui());
+			}
+			if (args[0].equalsIgnoreCase("saveInv")) {
+				ret = true;
+				new SaveInventory(player.getInventory(), player.getUniqueId());
 			}
 		}
 		return ret;

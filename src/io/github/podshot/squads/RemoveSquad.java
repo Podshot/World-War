@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import io.github.podshot.WorldWar;
+import io.github.podshot.api.SquadAPI;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -20,7 +21,7 @@ public class RemoveSquad {
 		String founder = squadConfig.getString("Squads." + squadName + ".Founder");
 		if (founder.equals(name)) {
 			for (String player : squadConfig.getStringList("Squads." + squadName + ".Members")) {
-				Squad.removeMember(squadName, UUID.fromString(player));
+				SquadAPI.removeMember(squadName, UUID.fromString(player));
 				for (Player p : Bukkit.getOnlinePlayers()) {
 					if (p.getName().equals(player)) {
 						p.removeMetadata("WorldWar.Squad", plugin);

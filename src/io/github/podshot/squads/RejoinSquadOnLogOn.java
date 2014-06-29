@@ -1,6 +1,7 @@
 package io.github.podshot.squads;
 
 import io.github.podshot.WorldWar;
+import io.github.podshot.api.SquadAPI;
 import io.github.podshot.internals.Internals;
 
 import org.bukkit.Bukkit;
@@ -22,7 +23,7 @@ public class RejoinSquadOnLogOn implements Listener {
 				Player player = e.getPlayer();
 				@Override
 				public void run() {
-					String squad = Squad.getSquadForPlayer(player.getUniqueId());	
+					String squad = SquadAPI.getSquadForPlayer(player.getUniqueId());	
 					if (!(squad.equals("Not in Squad"))) {
 						player.setMetadata("WorldWar.Squad", new FixedMetadataValue(plugin, squad));
 						player.setMetadata("WorldWar.inSquad", new FixedMetadataValue(plugin, true));

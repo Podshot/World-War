@@ -2,10 +2,10 @@ package io.github.podshot.vehicles;
 
 import io.github.podshot.WorldWar;
 import io.github.podshot.api.Refactor;
+import io.github.podshot.api.VehicleAPI;
 import io.github.podshot.api.interfaces.Vehicle;
 import io.github.podshot.internals.ConfigInternals;
 import io.github.podshot.internals.Internals;
-
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 
 import org.bukkit.Location;
@@ -28,7 +28,13 @@ public class Bomber implements Listener, Vehicle {
 
 	@EventHandler
 	public void onPilotEnterVehicle(NPCRightClickEvent e) {
-		// TODO Auto-generated method stub
+		if (!(Internals.isWarDeclared())) {
+			return;
+		}
+		
+		if (VehicleAPI.inVehicle(e.getClicker())) {
+			return;
+		}
 
 	}
 
@@ -43,7 +49,6 @@ public class Bomber implements Listener, Vehicle {
 	}
 
 	public ItemStack[] getInventory() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -136,7 +141,7 @@ public class Bomber implements Listener, Vehicle {
 							Player player = e.getPlayer();
 							player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1000, 4));
 							player.setFlying(false);
-							plugin.getDCAPI().undisguisePlayer(player);
+							this.plugin.getDCAPI().undisguisePlayer(player);
 						}
 					}
 				}

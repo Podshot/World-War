@@ -21,12 +21,22 @@ import io.github.podshot.safeguards.PreventProfanity;
 import io.github.podshot.squads.RejoinSquadOnLogOn;
 
 import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.logging.Logger;
+
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.npc.NPCDataStore;
+import net.citizensnpcs.api.npc.NPCRegistry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
@@ -37,7 +47,6 @@ import com.xern.jogy34.xernutilities.handlers.ExtraConfigHandler;
 import pgDev.bukkit.DisguiseCraft.DisguiseCraft;
 import pgDev.bukkit.DisguiseCraft.api.DisguiseCraftAPI;
 
-//import io.github.podshot.files.Saving;
 
 @SuppressWarnings("unused")
 public final class WorldWar extends JavaPlugin {
@@ -54,10 +63,13 @@ public final class WorldWar extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		instance = this;
-		logger = this.getLogger();
-		fileSep = File.separator;
-		pluginFolder = this.getDataFolder() + fileSep;
-		pluginFolderF = new File(pluginFolder);
+		this.logger = this.getLogger();
+		this.fileSep = File.separator;
+		this.pluginFolder = this.getDataFolder() + fileSep;
+		this.pluginFolderF = new File(pluginFolder);
+		if (!pluginFolderF.exists()) {
+			this.generateFiles();
+		}
 
 		this.getCommand("ww").setExecutor(new WorldWarCommand());
 		this.getCommand("ww").setTabCompleter(new WorldWarCommandTabCompleter());
@@ -81,17 +93,10 @@ public final class WorldWar extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new GunSwitch(), this);
 		this.getServer().getPluginManager().registerEvents(new KeepGun(), this);
 		PreventProfanity.getWordList();
-		if (!pluginFolderF.exists()) {
-			pluginFolderF.mkdir();
-			generate = true;
-		}
+		
 		ExtraConfigHandler.initalize(this);
 		new StructureYAML();
 		new PlayerDataYAML();
-
-		if (generate) {
-			this.saveDefaultConfig();
-		}
 		
 		FileConfiguration config = this.getConfig();
 		boolean isWarD = config.getBoolean("War-Declared");
@@ -101,7 +106,13 @@ public final class WorldWar extends JavaPlugin {
 		if (Internals.isWarDeclared()) {
 			this.setMetaData();
 		}
+	}
 
+	private void generateFiles() {
+		this.pluginFolderF.mkdir();
+		this.saveDefaultConfig();
+		File playerInventoriesFolder = new File("Player-Inventory-Backup");
+		playerInventoriesFolder.mkdir();
 	}
 
 	private void setMetaData() {
@@ -143,5 +154,4 @@ public final class WorldWar extends JavaPlugin {
 	public DisguiseCraftAPI getDCAPI() {
 		return this.dcAPI;
 	}
-
 }

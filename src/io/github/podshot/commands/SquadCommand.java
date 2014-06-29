@@ -113,7 +113,7 @@ public class SquadCommand implements CommandExecutor {
 				}
 				if (SquadAPI.isLeader(player.getUniqueId(), squadName)) {
 					if (SquadAPI.isInSquad(player.getUniqueId(), squadName)) {
-						Squad.removeMember(squadName, playerUUID);
+						SquadAPI.removeMember(squadName, playerUUID);
 					}
 				}
 

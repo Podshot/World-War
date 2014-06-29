@@ -1,7 +1,7 @@
 package io.github.podshot.entities;
 
 import io.github.podshot.WorldWar;
-import io.github.podshot.vehicleInventories.Bomber;
+import io.github.podshot.inventories.Bomber;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

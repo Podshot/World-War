@@ -1,9 +1,14 @@
 package io.github.podshot.events.guis;
 
+import java.util.UUID;
+
+import io.github.podshot.api.SquadAPI;
 import io.github.podshot.internals.Internals;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,7 +19,6 @@ import org.bukkit.inventory.ItemStack;
 
 public class SquadInviteGUI implements Listener {
 
-	@SuppressWarnings("unused")
 	@EventHandler
 	public void onSelectChoice(InventoryClickEvent evt) {
 		if (Internals.isWarDeclared()) {
@@ -30,6 +34,14 @@ public class SquadInviteGUI implements Listener {
 				}
 				String squadSplitPhase2 = squadSplitPhase1.replace("Invite to join Squad: ", "");
 				player.sendMessage(squadSplitPhase2);
+				if (itemClicked.getType() == Material.WOOL) {
+					short durability = itemClicked.getDurability();
+					if (durability == (short) 5) {
+						this.accept(squadSplitPhase2, player);
+					} else if (durability == (short) 14) {
+						this.reject(squadSplitPhase2, player);
+					}
+				}
 			}
 
 		}
@@ -46,18 +58,30 @@ public class SquadInviteGUI implements Listener {
 					Internals.removePlayer(player.getName());
 				}
 				player.setGameMode(GameMode.SURVIVAL);
-				this.reject();
+				String squadSplitPhase2 = squadSplitPhase1.replace("Invite to join Squad: ", "");
+				this.reject(squadSplitPhase2, player);
 			}
 		}
 	}
 	
-	@SuppressWarnings("unused")
-	private void accept() {
-		
+	private void accept(String squadName, Player player) {
+		player.sendMessage(ChatColor.GREEN + "You have joined the \"" + squadName + "\" squad");
+		UUID uuid = SquadAPI.getLeader(squadName);
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			if (p.getUniqueId().equals(uuid)) {
+				p.sendMessage(ChatColor.GREEN + player.getName() + " has joined your Squad!");
+			}
+		}
+		SquadAPI.addMember(squadName, player.getUniqueId());
 	}
 	
-	private void reject() {
-		return;
+	private void reject(String squadName, Player player) {
+		UUID uuid = SquadAPI.getLeader(squadName);
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			if (p.getUniqueId().equals(uuid)) {
+				p.sendMessage(ChatColor.GREEN + player.getName() + " has denied your request");
+			}
+		}
 	}
 
 }

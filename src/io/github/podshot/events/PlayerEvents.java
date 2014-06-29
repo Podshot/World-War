@@ -32,21 +32,26 @@ public class PlayerEvents implements Listener {
 					Player player = evt.getPlayer();
 					String memberOfTeam = PlayerDataYAML.getPlayerTeam(player);
 					plugin.logger.info("Cheking to see if username is already stored");
-					if (memberOfTeam.equals("Blue")) {
-						plugin.logger.info("Player's team is Blue");
-						player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Blue"));
-					} else if (memberOfTeam.equals("Red")) {
-						plugin.logger.info("Player's team is Red");
-						player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Red"));
-					} else  {
+					if (memberOfTeam == null) {
 						plugin.logger.info("Name is not present in the player file");
 						player.openInventory(TeamChooser.getTeamChooserGui());
 						evt.getPlayer().sendMessage("You are logged in");
+						PlayerAPI.setAmmoAmount(player, "Rifle", 25);
+						PlayerAPI.setAmmoAmount(player, "Rocket-Launcher", 1);
+						PlayerDataYAML.setPlayerAmmoToFile(player);
+					} else {
+						if (memberOfTeam.equals("Blue")) {
+							plugin.logger.info("Player's team is Blue");
+							player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Blue"));
+						} else if (memberOfTeam.equals("Red")) {
+							plugin.logger.info("Player's team is Red");
+							player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Red"));
+						}
+						int rifleAmmo = PlayerDataYAML.getPlayerAmmoFromFile(player, "Rifle");
+						int rocketAmmo = PlayerDataYAML.getPlayerAmmoFromFile(player, "Rocket-Launcher");
+						player.setMetadata("WorldWar.Ammo.Rifle", new FixedMetadataValue(plugin, rifleAmmo));
+						player.setMetadata("WorldWar.Ammo.Rocket", new FixedMetadataValue(plugin, rocketAmmo));
 					}
-					int rifleAmmo = PlayerDataYAML.getPlayerAmmoFromFile(player, "Rifle");
-					int rocketAmmo = PlayerDataYAML.getPlayerAmmoFromFile(player, "Rocket-Launcher");
-					player.setMetadata("WorldWar.Ammo.Rifle", new FixedMetadataValue(plugin, rifleAmmo));
-					player.setMetadata("WorldWar.Ammo.Rocket", new FixedMetadataValue(plugin, rocketAmmo));
 				}
 			}
 		}, 40L);

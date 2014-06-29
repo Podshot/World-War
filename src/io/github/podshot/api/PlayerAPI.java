@@ -5,6 +5,7 @@ import java.util.UUID;
 import io.github.podshot.WorldWar;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
@@ -74,6 +75,7 @@ public class PlayerAPI {
 		for (MetadataValue val : player.getMetadata("WorldWar.Ammo." + gun)) {
 			if (val.getOwningPlugin().getName().equals("WorldWar")) {
 				toReturn = val.asInt();
+				player.sendMessage(ChatColor.RED + "Ammo: " + toReturn);
 			}
 		}
 		return toReturn;

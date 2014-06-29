@@ -16,6 +16,10 @@ public interface Vehicle {
 	
 	int getSeatCount();
 	
+	/**
+	 * Gets the Inventory of a Vehicle
+	 * @return the Vehicle's inventory
+	 */
 	ItemStack[] getInventory();
 
 }

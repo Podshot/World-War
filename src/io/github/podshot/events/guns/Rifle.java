@@ -1,5 +1,6 @@
 package io.github.podshot.events.guns;
 
+import io.github.podshot.api.PlayerAPI;
 import io.github.podshot.api.interfaces.Gun;
 import io.github.podshot.internals.Internals;
 
@@ -44,6 +45,7 @@ public class Rifle implements Listener, Gun {
 					int lvl = e.getPlayer().getLevel() - 1;
 					e.getPlayer().setLevel(lvl);
 					e.setCancelled(true);
+					PlayerAPI.setAmmoAmount(e.getPlayer(), "Rifle", lvl);
 				}
 			}
 		}
@@ -73,6 +75,7 @@ public class Rifle implements Listener, Gun {
 		if (gunIS.getType().equals(Material.MONSTER_EGG) && gunIS.getDurability() == 51) {
 			if (gunIS.getItemMeta().getDisplayName().toString().equals("Standard Issue Rifle")) {
 				e.getPlayer().setLevel(25);
+				PlayerAPI.setAmmoAmount(e.getPlayer(), "Rifle", 25);
 			}
 		}
 	}
