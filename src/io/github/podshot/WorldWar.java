@@ -113,6 +113,7 @@ public final class WorldWar extends JavaPlugin {
 		this.saveDefaultConfig();
 		File playerInventoriesFolder = new File("Player-Inventory-Backup");
 		playerInventoriesFolder.mkdir();
+		new LoadDependencies(this);
 	}
 
 	private void setMetaData() {
