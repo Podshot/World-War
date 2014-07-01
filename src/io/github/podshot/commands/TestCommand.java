@@ -89,6 +89,9 @@ public class TestCommand implements CommandExecutor {
 				ret = true;
 				new SaveInventory(player.getInventory(), player.getUniqueId());
 			}
+			if (args[0].equalsIgnoreCase("bomber")) {
+				ret = true;
+			}
 		}
 		return ret;
 	}

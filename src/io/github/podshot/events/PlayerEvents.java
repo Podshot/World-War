@@ -9,6 +9,7 @@ import io.github.podshot.internals.Internals;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,6 +17,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 public class PlayerEvents implements Listener {
@@ -93,5 +96,33 @@ public class PlayerEvents implements Listener {
 			}
 		}
 		return;
+	}
+	
+	@EventHandler
+	public void onScope(PlayerToggleSneakEvent evt) {
+		Player player = evt.getPlayer();
+		
+		if (!(Internals.isWarDeclared())) {
+			return;
+		}
+		
+		if (player.getItemInHand() == null) {
+			return;
+		}
+		
+		if (player.isSneaking()) {
+			ItemStack item = player.getItemInHand();
+			if (item.getType() == Material.MONSTER_EGG) {
+				if (item.getDurability() == 60) {
+					if (item.hasItemMeta()) {
+						if (item.getItemMeta().hasDisplayName()) {
+							if (item.getItemMeta().getDisplayName().equals("Sniper Rifle")) {
+								
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 }

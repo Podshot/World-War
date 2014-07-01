@@ -6,8 +6,12 @@ import io.github.podshot.api.VehicleAPI;
 import io.github.podshot.api.interfaces.Vehicle;
 import io.github.podshot.internals.ConfigInternals;
 import io.github.podshot.internals.Internals;
+import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
+import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.npc.NPCRegistry;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -19,12 +23,18 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import pgDev.bukkit.DisguiseCraft.api.DisguiseCraftAPI;
+import pgDev.bukkit.DisguiseCraft.disguise.Disguise;
+import pgDev.bukkit.DisguiseCraft.disguise.DisguiseType;
 
 public class Bomber implements Listener, Vehicle {
 
 	private WorldWar plugin = WorldWar.getInstance();
+	private DisguiseCraftAPI dcAPI = plugin.getDCAPI();
 
 	@EventHandler
 	public void onPilotEnterVehicle(NPCRightClickEvent e) {
@@ -35,7 +45,28 @@ public class Bomber implements Listener, Vehicle {
 		if (VehicleAPI.inVehicle(e.getClicker())) {
 			return;
 		}
-
+		
+		if (dcAPI.isDisguised(e.getClicker())) {
+			return;
+		}
+		
+		NPC npcClickedOn = e.getNPC();
+		if (npcClickedOn.getName().equals(this.getNPCTemplate().getName())) {
+			if (npcClickedOn.getEntity().hasMetadata("WorldWar.isVehicleNPC")) {
+				Player player = e.getClicker();
+				dcAPI.disguisePlayer(player, new Disguise(dcAPI.newEntityID(), DisguiseType.EnderDragon));
+				player.setAllowFlight(true);
+				VehicleAPI.setVehicle(player, "Bomber");
+				final Location newSpawnLoc = npcClickedOn.getEntity().getLocation();
+				npcClickedOn.destroy();
+				Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+					@Override
+					public void run() {
+						respawnVehicle(newSpawnLoc);
+					}	
+				}, 1800);
+			}
+		}
 	}
 
 	@EventHandler
@@ -147,5 +178,20 @@ public class Bomber implements Listener, Vehicle {
 				}
 			}
 		}
+	}
+
+	@Override
+	public NPC getNPCTemplate() {
+		NPCRegistry npcr = CitizensAPI.getNPCRegistry();
+		NPC bomber = npcr.createNPC(EntityType.ENDER_DRAGON, "Bomber");
+		return bomber;
+	}
+
+	@Override
+	public void respawnVehicle(Location loc) {
+		NPC bomber = this.getNPCTemplate();
+		bomber.spawn(loc);
+		bomber.getNavigator().setTarget(loc);
+		bomber.getEntity().setMetadata("WorldWar.isVehicleNPC", new FixedMetadataValue(plugin, true));
 	}
 }
