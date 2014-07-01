@@ -81,8 +81,13 @@ public class RocketLauncher implements Gun, Listener {
 		ItemStack gunIS = e.getItem();
 		if (gunIS.getType().equals(Material.MONSTER_EGG) && gunIS.getDurability() == 50) {
 			if (gunIS.getItemMeta().getDisplayName().toString().equals("Rocket Launcher")) {
-				e.getPlayer().setLevel(1);
+				e.getPlayer().setLevel(this.getMagSize());
 			}
 		}
+	}
+
+	@Override
+	public int getMagSize() {
+		return 1;
 	}
 }

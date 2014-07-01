@@ -17,6 +17,11 @@ public class Pistol implements Gun, Listener {
 	public void onGunReload(PlayerInteractEvent e) {
 		// TODO Auto-generated method stub
 	}
+
+	@Override
+	public int getMagSize() {
+		return 0;
+	}
 	
 	
 

@@ -55,4 +55,9 @@ public class SniperRifle implements Listener, Gun {
 
 	}
 
+	@Override
+	public int getMagSize() {
+		return 0;
+	}
+
 }

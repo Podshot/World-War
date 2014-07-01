@@ -10,5 +10,7 @@ public interface Gun {
 	
 	@EventHandler
 	public void onGunReload(PlayerInteractEvent e);
+	
+	int getMagSize();
 
 }

@@ -74,9 +74,14 @@ public class Rifle implements Listener, Gun {
 		ItemStack gunIS = e.getItem();
 		if (gunIS.getType().equals(Material.MONSTER_EGG) && gunIS.getDurability() == 51) {
 			if (gunIS.getItemMeta().getDisplayName().toString().equals("Standard Issue Rifle")) {
-				e.getPlayer().setLevel(25);
-				PlayerAPI.setAmmoAmount(e.getPlayer(), "Rifle", 25);
+				e.getPlayer().setLevel(this.getMagSize());
+				PlayerAPI.setAmmoAmount(e.getPlayer(), "Rifle", this.getMagSize());
 			}
 		}
+	}
+
+	@Override
+	public int getMagSize() {
+		return 25;
 	}
 }
