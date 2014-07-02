@@ -1,5 +1,7 @@
 package io.github.podshot.handlers;
 
+import io.github.podshot.events.guns.Rifle;
+
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -13,6 +15,15 @@ import com.comphenix.attribute.NbtFactory.NbtCompound;
 
 public class ClassHandler {
 	
+	public ClassHandler(Player player, PlayerClasses classSelected) {
+		switch (classSelected) {
+		default:
+			break;
+		case Spy:
+			this.giveSpyInventory(player);
+		}
+	}
+	
 	private static void cleanInventory(Player p) {
 		p.getInventory().clear();
 		updateInv(p);
@@ -23,7 +34,7 @@ public class ClassHandler {
 		p.updateInventory();
 	}
 	
-	public static void giveSoldierInventory(Player p) {
+	private void giveSoldierInventory(Player p) {
 		String team = null;
 		
 		for (MetadataValue val : p.getMetadata("WorldWar.Team")) {
@@ -36,7 +47,7 @@ public class ClassHandler {
 		
 		cleanInventory(p);
 		Inventory inv = p.getInventory();
-		inv.addItem(ItemStackHandler.getGunItemStack());
+		inv.addItem(Rifle.getGun());
 		
 		ItemStack helmet = NbtFactory.getCraftItemStack(new ItemStack(Material.IRON_HELMET));
 		NbtCompound Htags = NbtFactory.fromItemTag(helmet);
@@ -86,7 +97,7 @@ public class ClassHandler {
 		updateInv(p);
 	}
 	
-	public static void giveSpyInventory(Player p) {
+	public void giveSpyInventory(Player p) {
 		String team = null;
 		
 		for (MetadataValue val : p.getMetadata("WorldWar.Team")) {

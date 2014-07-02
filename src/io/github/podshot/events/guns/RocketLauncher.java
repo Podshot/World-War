@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import com.stirante.MoreProjectiles.Particles;
 import com.stirante.MoreProjectiles.TypedRunnable;
@@ -89,5 +90,14 @@ public class RocketLauncher implements Gun, Listener {
 	@Override
 	public int getMagSize() {
 		return 1;
+	}
+
+	public ItemStack getGun() {
+		ItemStack launcher = new ItemStack(Material.MONSTER_EGG);
+		launcher.setDurability((short) 50);
+		ItemMeta launcherIM = launcher.getItemMeta();
+		launcherIM.setDisplayName("Rocket Launcher");
+		launcher.setItemMeta(launcherIM);
+		return launcher;
 	}
 }

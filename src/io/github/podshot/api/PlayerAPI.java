@@ -1,8 +1,8 @@
 package io.github.podshot.api;
 
-import java.util.UUID;
-
 import io.github.podshot.WorldWar;
+
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -80,5 +80,4 @@ public class PlayerAPI {
 		}
 		return toReturn;
 	}
-
 }

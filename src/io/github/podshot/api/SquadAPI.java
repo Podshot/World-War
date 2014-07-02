@@ -22,7 +22,7 @@ public class SquadAPI {
 	
 	/**
 	 * Gets the list of all squads known to WorldWar
-	 * @return List<String> of all squad names 
+	 * @return A List<String> of all squad names 
 	 */
 	public static List<String> getSquads() {
 		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "Squads");

@@ -6,7 +6,6 @@ import io.github.podshot.commands.WorldWarCommand;
 import io.github.podshot.commands.tabcompleters.*;
 import io.github.podshot.events.BlockEvents;
 import io.github.podshot.events.EntityEvents;
-import io.github.podshot.events.GuiEvents;
 import io.github.podshot.events.PlayerEvents;
 import io.github.podshot.events.guns.GunSwitch;
 import io.github.podshot.events.guns.KeepGun;
@@ -86,7 +85,6 @@ public final class WorldWar extends JavaPlugin {
 		//this.getServer().getPluginManager().registerEvents(new GunEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new PreventProfanity(), this);
 		this.getServer().getPluginManager().registerEvents(new EntityEvents(), this);
-		this.getServer().getPluginManager().registerEvents(new GuiEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new BlockEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new PlayerEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new RejoinSquadOnLogOn(), this);
@@ -111,9 +109,8 @@ public final class WorldWar extends JavaPlugin {
 	private void generateFiles() {
 		this.pluginFolderF.mkdir();
 		this.saveDefaultConfig();
-		File playerInventoriesFolder = new File("Player-Inventory-Backup");
+		File playerInventoriesFolder = new File(this.getDataFolder() + this.fileSep + "Player-Inventory-Backup");
 		playerInventoriesFolder.mkdir();
-		new LoadDependencies(this);
 	}
 
 	private void setMetaData() {

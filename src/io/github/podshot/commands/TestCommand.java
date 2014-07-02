@@ -3,13 +3,14 @@ package io.github.podshot.commands;
 import io.github.podshot.WorldWar;
 import io.github.podshot.gui.ClassChooser;
 import io.github.podshot.gui.WireGui;
-import io.github.podshot.inventories.SaveInventory;
+import io.github.podshot.inventories.InventoryManager;
 import io.github.podshot.structures.StructureGeneration;
 import me.astramg.resources.BlockGenerator;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -28,7 +29,7 @@ public class TestCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
 		boolean ret = false;
 		if (sender instanceof Player) {
-			Player player = (Player) sender;
+			final Player player = (Player) sender;
 			if (args[0].equalsIgnoreCase("downward")) {
 				ret = true;
 				player.setFlying(false);
@@ -87,7 +88,18 @@ public class TestCommand implements CommandExecutor {
 			}
 			if (args[0].equalsIgnoreCase("saveInv")) {
 				ret = true;
-				new SaveInventory(player.getInventory(), player.getUniqueId());
+				final String inv = InventoryManager.InventoryToString(player.getInventory());
+				player.sendMessage(inv);
+				player.getInventory().clear();
+				Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+
+					@Override
+					public void run() {
+						player.getInventory().setContents(InventoryManager.StringToInventory(inv).getContents());
+						
+					}
+					
+				}, 1200);
 			}
 			if (args[0].equalsIgnoreCase("bomber")) {
 				ret = true;

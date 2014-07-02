@@ -54,6 +54,10 @@ public class VehicleAPI {
 		player.setMetadata("WorldWar.inVehicle", new FixedMetadataValue(plugin, true));
 	}
 	
+	/**
+	 * 
+	 * @param player
+	 */
 	public static void removeVehicle(Player player) {
 		player.removeMetadata("WorldWar.vehicle", plugin);
 		player.removeMetadata("WorldWar.inVehicle", plugin);

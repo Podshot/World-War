@@ -1,8 +1,6 @@
 package io.github.podshot.commands;
 
-import io.github.podshot.Debug;
 import io.github.podshot.WorldWar;
-import io.github.podshot.handlers.ItemStackHandler;
 import io.github.podshot.handlers.WarHandler;
 
 import org.bukkit.command.Command;
@@ -25,19 +23,6 @@ public class WorldWarCommand implements CommandExecutor {
 					if (player.hasPermission("worldwar.war.start")) {
 						ret = true;
 						WarHandler.startWar(player.getWorld());
-					}
-				} else if (args[0].equalsIgnoreCase("debug")) {
-					if (player.hasPermission("worldwar.war.debug")) {
-						if (args[1].equalsIgnoreCase("rifle")) {
-							Debug.givePlayerRifle((Player) sender);
-						}
-						if (args[1].equalsIgnoreCase("launcher")) {
-							Debug.givePlayerlauncher((Player) sender);
-						}
-						if (args[1].equalsIgnoreCase("diffuser")) {
-							Player p = (Player) sender;
-							p.getInventory().addItem(ItemStackHandler.getBombDiffuser());
-						}
 					}
 				}
 			}

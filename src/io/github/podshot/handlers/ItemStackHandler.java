@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+@Deprecated
 public class ItemStackHandler {
 
 	public static ItemStack getGunItemStack() {
@@ -23,15 +24,6 @@ public class ItemStackHandler {
 		imPistol.setDisplayName("Pistol");
 		pistol.setItemMeta(imPistol);
 		return pistol;
-	}
-	
-	public static ItemStack getBombExplosiveItemStack() {
-		ItemStack explosive = new ItemStack(Material.WOOD_BUTTON);
-		ItemMeta imExplosive = explosive.getItemMeta();
-		
-		imExplosive.setDisplayName("Explosive Charge");
-		explosive.setItemMeta(imExplosive);
-		return explosive;
 	}
 
 	public static ItemStack getLauncherStack() {

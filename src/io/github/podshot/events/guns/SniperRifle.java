@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import com.stirante.MoreProjectiles.projectile.ItemProjectile;
 
@@ -57,7 +58,16 @@ public class SniperRifle implements Listener, Gun {
 
 	@Override
 	public int getMagSize() {
-		return 0;
+		return 5;
+	}
+
+	public ItemStack getGun() {
+		ItemStack sniperRifle = new ItemStack(Material.MONSTER_EGG);
+		sniperRifle.setDurability((short) 60);
+		ItemMeta sniperRifleIM = sniperRifle.getItemMeta();
+		sniperRifleIM.setDisplayName("Sniper Rifle");
+		sniperRifle.setItemMeta(sniperRifleIM);
+		return sniperRifle;
 	}
 
 }

@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import com.stirante.MoreProjectiles.projectile.ItemProjectile;
 
@@ -17,7 +18,7 @@ public class Rifle implements Listener, Gun {
 
 	@EventHandler
 	public void onFireGun(PlayerInteractEvent e) {
-		
+
 		if (!(Internals.isWarDeclared())) {
 			return;
 		}
@@ -54,7 +55,7 @@ public class Rifle implements Listener, Gun {
 
 	@EventHandler
 	public void onGunReload(PlayerInteractEvent e) {
-		
+
 		if (!(Internals.isWarDeclared())) {
 			return;
 		}
@@ -83,5 +84,14 @@ public class Rifle implements Listener, Gun {
 	@Override
 	public int getMagSize() {
 		return 25;
+	}
+
+	public static ItemStack getGun() {
+		ItemStack gun = new ItemStack(Material.MONSTER_EGG);
+		gun.setDurability((short) 51);
+		ItemMeta gunIM = gun.getItemMeta();
+		gunIM.setDisplayName("Standard Issue Rifle");
+		gun.setItemMeta(gunIM);
+		return gun;
 	}
 }
