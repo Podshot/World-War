@@ -30,5 +30,16 @@ public class KeepGun implements Listener {
 				evt.getPlayer().getInventory().setItemInHand(evt.getItem());
 			}
 		}
+		
+		if (evt.getItem().getType() == Material.FIREBALL) {
+			if (evt.getItem().hasItemMeta()) {
+				if (evt.getItem().getItemMeta().hasDisplayName()) {
+					if (evt.getItem().getItemMeta().getDisplayName().equals("Normal Grenade")) {
+						evt.setCancelled(true);
+						evt.getPlayer().getInventory().setItemInHand(evt.getItem());
+					}
+				}
+			}
+		}
 	}
 }

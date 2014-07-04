@@ -11,7 +11,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 
 /**
- * A Class used to gather player related info related to WorldWar
+ * A class used to gather player related info related to WorldWar
  */
 public class PlayerAPI {
 	

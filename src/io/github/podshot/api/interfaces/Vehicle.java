@@ -16,6 +16,10 @@ public interface Vehicle {
 	@EventHandler
 	void onPlayerGetInSeat(PlayerInteractEntityEvent e);
 	
+	/**
+	 * Gets the amount of Players the vehicle can hold
+	 * @return
+	 */
 	int getSeatCount();
 	
 	/**
@@ -24,8 +28,16 @@ public interface Vehicle {
 	 */
 	ItemStack[] getInventory();
 
+	/**
+	 * Gets the template NPC of the Vehicle (Before a Player has enterd it)
+	 * @return
+	 */
 	NPC getNPCTemplate();
 	
+	/**
+	 * Method that respawns the NPC 
+	 * @param loc
+	 */
 	void respawnVehicle(Location loc);
 
 }

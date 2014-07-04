@@ -52,8 +52,11 @@ public class PlayerEvents implements Listener {
 						}
 						int rifleAmmo = PlayerDataYAML.getPlayerAmmoFromFile(player, "Rifle");
 						int rocketAmmo = PlayerDataYAML.getPlayerAmmoFromFile(player, "Rocket-Launcher");
+						int shotgunAmmo = PlayerDataYAML.getPlayerAmmoFromFile(player, "Shotgun");
+						
 						player.setMetadata("WorldWar.Ammo.Rifle", new FixedMetadataValue(plugin, rifleAmmo));
 						player.setMetadata("WorldWar.Ammo.Rocket", new FixedMetadataValue(plugin, rocketAmmo));
+						player.setMetadata("WorldWar.Ammo.Shotgun", new FixedMetadataValue(plugin, shotgunAmmo));
 					}
 				}
 			}

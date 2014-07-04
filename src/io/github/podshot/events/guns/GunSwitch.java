@@ -32,6 +32,9 @@ public class GunSwitch implements Listener {
 						case "Rocket Launcher":
 							PlayerAPI.setAmmoAmount(evt.getPlayer(), "Rocket", evt.getPlayer().getLevel());
 							break;
+						case "Shotgun":
+							PlayerAPI.setAmmoAmount(evt.getPlayer(), "Shotgun", evt.getPlayer().getLevel());
+							break;
 						}
 					}
 				}
@@ -50,6 +53,8 @@ public class GunSwitch implements Listener {
 						case "Rocket Launcher":
 							evt.getPlayer().setLevel(PlayerAPI.getAmmoAmount(evt.getPlayer(), "Rocket"));
 							break;
+						case "Shotgun":
+							evt.getPlayer().setLevel(PlayerAPI.getAmmoAmount(evt.getPlayer(), "Shotgun"));
 						}
 					}
 				}

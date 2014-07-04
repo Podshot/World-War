@@ -21,16 +21,19 @@ public class ClassHandler {
 			break;
 		case Spy:
 			this.giveSpyInventory(player);
+			break;
+		case Soldier:
+			this.giveSoldierInventory(player);
 		}
 	}
 	
-	private static void cleanInventory(Player p) {
+	private void cleanInventory(Player p) {
 		p.getInventory().clear();
-		updateInv(p);
+		this.updateInv(p);
 	}
 	
 	@SuppressWarnings("deprecation")
-	private static void updateInv(Player p) {
+	private void updateInv(Player p) {
 		p.updateInventory();
 	}
 	
@@ -45,7 +48,7 @@ public class ClassHandler {
 		p.sendMessage("Team is: " + team);
 		
 		
-		cleanInventory(p);
+		this.cleanInventory(p);
 		Inventory inv = p.getInventory();
 		inv.addItem(Rifle.getGun());
 		
@@ -97,7 +100,7 @@ public class ClassHandler {
 		updateInv(p);
 	}
 	
-	public void giveSpyInventory(Player p) {
+	private void giveSpyInventory(Player p) {
 		String team = null;
 		
 		for (MetadataValue val : p.getMetadata("WorldWar.Team")) {
@@ -107,7 +110,7 @@ public class ClassHandler {
 		}
 		p.sendMessage("Team is: " + team);
 		
-		cleanInventory(p);
+		this.cleanInventory(p);
 		Inventory inv = p.getInventory();
 		inv.addItem(ItemStackHandler.getPistolItemStack());
 		

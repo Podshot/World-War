@@ -9,62 +9,65 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
- 
+
+/**
+ * A class used to convert an Inventory object into a String and vice-versa
+ */
 public class InventoryManager {
 	
-    public static String InventoryToString(Inventory invInventory)
-    {
+	/**
+	 * Converts a Inventory object into a string containing all of the items in it
+	 * @param invInventory The Inventory to convert to a string
+	 * @return A string of the inventory
+	 */
+    public static String InventoryToString(Inventory invInventory) {
         String serialization = invInventory.getSize() + ";";
-        for (int i = 0; i < invInventory.getSize(); i++)
-        {
+        for (int i = 0; i < invInventory.getSize(); i++) {
             ItemStack is = invInventory.getItem(i);
-            if (is != null)
-            {
+            if (is != null) {
                 String serializedItemStack = new String();
                
                 String isType = String.valueOf(is.getType());
                 serializedItemStack += "t@" + isType;
                
-                if (is.getDurability() != 0)
-                {
+                if (is.getDurability() != 0) {
                     String isDurability = String.valueOf(is.getDurability());
                     serializedItemStack += ":d@" + isDurability;
                 }
                
-                if (is.getAmount() != 1)
-                {
+                if (is.getAmount() != 1) {
                     String isAmount = String.valueOf(is.getAmount());
                     serializedItemStack += ":a@" + isAmount;
                 }
                
                 Map<Enchantment,Integer> isEnch = is.getEnchantments();
-                if (isEnch.size() > 0)
-                {
+                if (isEnch.size() > 0) {
                     for (Entry<Enchantment,Integer> ench : isEnch.entrySet())
                     {
                         serializedItemStack += ":e@" + ench.getKey().getName() + "@" + ench.getValue();
                     }
-                }
-               
+                }            
                 serialization += i + "#" + serializedItemStack + ";";
             }
         }
         return serialization;
     }
    
-    public static Inventory StringToInventory (String invString)
-    {
+    /**
+     * Converts a string back into an Inventory
+     * @param invString The string that contains the Inventory data
+     * @return a Inventory that was saved in that string
+     */
+    public static Inventory StringToInventory(String invString) {
         String[] serializedBlocks = invString.split(";");
         String invInfo = serializedBlocks[0];
         Inventory deserializedInventory = Bukkit.getServer().createInventory(null, Integer.valueOf(invInfo));
        
-        for (int i = 1; i < serializedBlocks.length; i++)
-        {
+        for (int i = 1; i < serializedBlocks.length; i++) {
             String[] serializedBlock = serializedBlocks[i].split("#");
             int stackPosition = Integer.valueOf(serializedBlock[0]);
            
-            if (stackPosition >= deserializedInventory.getSize())
-            {
+            if (stackPosition >= deserializedInventory.getSize()) {
                 continue;
             }
            
@@ -72,24 +75,19 @@ public class InventoryManager {
             Boolean createdItemStack = false;
            
             String[] serializedItemStack = serializedBlock[1].split(":");
-            for (String itemInfo : serializedItemStack)
-            {
+            for (String itemInfo : serializedItemStack) {
                 String[] itemAttribute = itemInfo.split("@");
-                if (itemAttribute[0].equals("t"))
-                {
+                if (itemAttribute[0].equals("t")){
                     is = new ItemStack(Material.getMaterial(itemAttribute[1]));
                     createdItemStack = true;
                 }
-                else if (itemAttribute[0].equals("d") && createdItemStack)
-                {
+                else if (itemAttribute[0].equals("d") && createdItemStack) {
                     is.setDurability(Short.valueOf(itemAttribute[1]));
                 }
-                else if (itemAttribute[0].equals("a") && createdItemStack)
-                {
+                else if (itemAttribute[0].equals("a") && createdItemStack) {
                     is.setAmount(Integer.valueOf(itemAttribute[1]));
                 }
-                else if (itemAttribute[0].equals("e") && createdItemStack)
-                {
+                else if (itemAttribute[0].equals("e") && createdItemStack) {
                     is.addEnchantment(new EnchantmentWrapper(Integer.valueOf(itemAttribute[1])), Integer.valueOf(itemAttribute[2]));
                 }
             }

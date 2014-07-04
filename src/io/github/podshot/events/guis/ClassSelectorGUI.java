@@ -2,6 +2,7 @@ package io.github.podshot.events.guis;
 
 import io.github.podshot.WorldWar;
 import io.github.podshot.gui.ClassChooser;
+import io.github.podshot.handlers.PlayerClasses;
 import io.github.podshot.internals.Internals;
 
 import org.bukkit.ChatColor;
@@ -43,6 +44,7 @@ public class ClassSelectorGUI implements Listener {
 				default:
 					break;
 				}
+				player.sendMessage(ChatColor.BLUE + PlayerClasses.valueOf(name).toString());
 			}
 		}
 	}

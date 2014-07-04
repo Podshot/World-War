@@ -12,6 +12,9 @@ import org.bukkit.entity.Player;
 
 import com.xern.jogy34.xernutilities.handlers.ExtraConfigHandler;
 
+/**
+ * A class used to store and get Player Data from a "PlayerData.yml" file
+ */
 @Refactor
 public class PlayerDataYAML {
 	
@@ -35,8 +38,9 @@ public class PlayerDataYAML {
 	public static void setPlayerAmmoToFile(Player player) {
 		FileConfiguration dataConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "PlayerData");
 		
-		dataConfig.set("Players." + player.getUniqueId() + ".Ammo.Rifle", PlayerAPI.getAmmoAmount(player, "Rifle"));
-		dataConfig.set("Players." + player.getUniqueId() + ".Ammo.Rocket-Launcher", PlayerAPI.getAmmoAmount(player, "Rocket"));
+		dataConfig.set("Players." + player.getUniqueId().toString() + ".Ammo.Rifle", PlayerAPI.getAmmoAmount(player, "Rifle"));
+		dataConfig.set("Players." + player.getUniqueId().toString() + ".Ammo.Rocket-Launcher", PlayerAPI.getAmmoAmount(player, "Rocket"));
+		dataConfig.set("Players." + player.getUniqueId().toString() + ".Ammo.Shotgun", PlayerAPI.getAmmoAmount(player, "Shotgun"));
 		
 		ExtraConfigHandler.saveConfig(plugin.fileSep + "PlayerData");
 	}
@@ -52,7 +56,7 @@ public class PlayerDataYAML {
 		
 		FileConfiguration dataConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "PlayerData");
 		
-		ammo = dataConfig.getInt("Players." + player.getUniqueId() + ".Ammo." + gun);
+		ammo = dataConfig.getInt("Players." + player.getUniqueId().toString() + ".Ammo." + gun);
 		return ammo;
 	}
 	
@@ -63,7 +67,7 @@ public class PlayerDataYAML {
 	 */
 	public static void setPlayerToTeam(Player player, String team) {
 		FileConfiguration cfg = ExtraConfigHandler.getConfig(plugin.fileSep + "PlayerData");
-		cfg.set("Players." + player.getUniqueId() + ".Team", team);
+		cfg.set("Players." + player.getUniqueId().toString() + ".Team", team);
 		ExtraConfigHandler.saveConfig(plugin.fileSep + "PlayerData");
 	}
 	
@@ -74,7 +78,7 @@ public class PlayerDataYAML {
 	 */
 	public static String getPlayerTeam(Player player) {
 		FileConfiguration cfg = ExtraConfigHandler.getConfig(plugin.fileSep + "PlayerData");
-		String team = cfg.getString("Players." + player.getUniqueId() + ".Team");
+		String team = cfg.getString("Players." + player.getUniqueId().toString() + ".Team");
 		return team;
 	}
 	
@@ -85,7 +89,7 @@ public class PlayerDataYAML {
 	 */
 	public boolean isPlayerOnTeam(Player player) {
 		FileConfiguration cfg = ExtraConfigHandler.getConfig(plugin.fileSep + "PlayerData");
-		boolean contained = cfg.contains("Players." + player.getUniqueId() + ".Team");
+		boolean contained = cfg.contains("Players." + player.getUniqueId().toString() + ".Team");
 		return contained;
 	}
 	
