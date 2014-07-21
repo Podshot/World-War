@@ -70,8 +70,8 @@ public final class WorldWar extends JavaPlugin {
 			this.generateFiles();
 		}
 
-		this.getCommand("ww").setExecutor(new WorldWarCommand());
-		this.getCommand("ww").setTabCompleter(new WorldWarCommandTabCompleter());
+		this.getCommand("worldwar").setExecutor(new WorldWarCommand());
+		this.getCommand("worldwar").setTabCompleter(new WorldWarCommandTabCompleter());
 		this.getCommand("squad").setExecutor(new SquadCommand());
 		this.getCommand("squad").setTabCompleter(new SquadCommandTabCompleter());
 		if (debug) {

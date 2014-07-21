@@ -4,7 +4,7 @@ main: io.github.podshot.WorldWar
 description: World War Plugin
 
 commands:
-      ww:
+      worldwar:
            description: World War Command
            usage: /<command> start
            permission: ww.start
