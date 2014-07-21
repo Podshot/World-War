@@ -1,6 +1,5 @@
 package io.github.podshot;
 
-import io.github.podshot.addons.AddonFinder;
 import io.github.podshot.commands.SquadCommand;
 import io.github.podshot.commands.TestCommand;
 import io.github.podshot.commands.WorldWarCommand;
@@ -83,7 +82,7 @@ public final class WorldWar extends JavaPlugin {
 		new GuiRegister();
 		//new BlockRegister();
 		new StructureRegister();
-		//this.getServer().getPluginManager().registerEvents(new GunEvents(), this);
+	
 		this.getServer().getPluginManager().registerEvents(new PreventProfanity(), this);
 		this.getServer().getPluginManager().registerEvents(new EntityEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new BlockEvents(), this);
@@ -96,7 +95,6 @@ public final class WorldWar extends JavaPlugin {
 		ExtraConfigHandler.initalize(this);
 		new StructureYAML();
 		new PlayerDataYAML();
-		new AddonFinder();
 		
 		FileConfiguration config = this.getConfig();
 		boolean isWarD = config.getBoolean("War-Declared");
