@@ -41,6 +41,7 @@ public class AddonFinder {
 				URL[] urls = new URL[]{url};
 				Class<?> cls = new URLClassLoader(urls).loadClass(addonConfig.getString("Addon-Main-Class"));
 				AddonHandler.addNewAddon(addonConfig.getString("Addon-Name"));
+				plugin.getLogger().info("Enabling Addon \"" + addonConfig.getString("Addon-Name") + "\"");
 				initializeAddon(cls);
 			} catch (ClassNotFoundException | IOException e) {
 				// TODO Auto-generated catch block
@@ -77,6 +78,7 @@ public class AddonFinder {
 
 	@SuppressWarnings("resource")
 	public static void disableAddon(String name) {
+
 		File addon = null;
 		FileConfiguration possibleAddonConfig = null;
 		if (AddonHandler.isAddonEnabled(name)) {
@@ -87,6 +89,7 @@ public class AddonFinder {
 					jar = new JarFile(possibleAddon);
 					JarEntry entry = jar.getJarEntry("addon.yml");
 					possibleAddonConfig = YamlConfiguration.loadConfiguration(jar.getInputStream(entry));
+
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -107,8 +110,13 @@ public class AddonFinder {
 					URL[] urls = new URL[]{url};
 					Class<?> cls = new URLClassLoader(urls).loadClass(addonConfig.getString("Addon-Main-Class"));
 					AddonHandler.addNewAddon(addonConfig.getString("Addon-Name"));
-					initializeAddon(cls);
-				} catch (ClassNotFoundException | IOException e) {
+					splugin.getLogger().info("disabling Addon \"" + addonConfig.getString("Addon-Name") + "\"");
+					Method enable = null;
+					enable = cls.getDeclaredMethod("enable");
+					if (enable != null) {
+							enable.invoke(cls.newInstance());
+					}
+				} catch (ClassNotFoundException | IOException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
 					splugin.getLogger().severe("Could not disable the Addon \"" + name + "\"");
 					e.printStackTrace();
 				}
