@@ -1,6 +1,8 @@
 package io.github.podshot.commands;
 
 import io.github.podshot.WorldWar;
+import io.github.podshot.addons.AddonFinder;
+import io.github.podshot.addons.AddonHandler;
 import io.github.podshot.handlers.WarHandler;
 
 import org.bukkit.command.Command;
@@ -23,6 +25,14 @@ public class WorldWarCommand implements CommandExecutor {
 					if (player.hasPermission("worldwar.war.start")) {
 						ret = true;
 						WarHandler.startWar(player.getWorld());
+					}
+				}
+				if (args[0].equalsIgnoreCase("addon")) {
+					if (args[1].equalsIgnoreCase("disable")) {
+						String addonName = args[2].toString();
+						if (AddonHandler.isAddonEnabled(addonName)) {
+							AddonFinder.disableAddon(addonName);
+						}
 					}
 				}
 			}
