@@ -5,3 +5,4 @@ Announce-War-End-Cause-To-All-Players: true
 # Value to store if War is in progress
 War-Declared: false
 Hyped-Up-On-Lemonade-And-Gummy-Worms: false
+Development-Stage-To-Listen-For: FULL

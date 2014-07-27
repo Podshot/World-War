@@ -15,6 +15,7 @@ import io.github.podshot.events.registerers.GunRegister;
 import io.github.podshot.events.registerers.StructureRegister;
 import io.github.podshot.files.PlayerDataYAML;
 import io.github.podshot.files.StructureYAML;
+import io.github.podshot.internals.ConfigInternals;
 import io.github.podshot.internals.Internals;
 import io.github.podshot.safeguards.PreventProfanity;
 import io.github.podshot.squads.RejoinSquadOnLogOn;
@@ -58,6 +59,9 @@ public final class WorldWar extends JavaPlugin {
 	private boolean generate;
 	private static WorldWar instance;
 	public boolean debug = true;
+	
+	private String version = "0.0.5";
+	private boolean notifyUpdate = false;
 
 	@Override
 	public void onEnable() {
@@ -69,6 +73,8 @@ public final class WorldWar extends JavaPlugin {
 		if (!pluginFolderF.exists()) {
 			this.generateFiles();
 		}
+		
+		this.checkUpdate();
 
 		this.getCommand("worldwar").setExecutor(new WorldWarCommand());
 		this.getCommand("worldwar").setTabCompleter(new WorldWarCommandTabCompleter());
@@ -104,6 +110,16 @@ public final class WorldWar extends JavaPlugin {
 		if (Internals.isWarDeclared()) {
 			this.setMetaData();
 		}
+	}
+
+	private void checkUpdate() {
+		CheckForUpdate cfu = new CheckForUpdate();
+		if (!(cfu.getVersion().equals(this.version))) {
+			if (cfu.getDevelopmentStage().equals(ConfigInternals.getDevelopmentStageToListen())) {
+				this.notifyUpdate  = true;
+			}
+		}
+		
 	}
 
 	private void generateFiles() {
@@ -151,5 +167,9 @@ public final class WorldWar extends JavaPlugin {
 	
 	public DisguiseCraftAPI getDCAPI() {
 		return this.dcAPI;
+	}
+
+	public boolean getNotifyUpdate() {
+		return this.notifyUpdate;
 	}
 }

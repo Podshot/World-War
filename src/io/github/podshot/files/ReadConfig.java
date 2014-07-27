@@ -15,6 +15,7 @@ public class ReadConfig {
 		ConfigInternals.setHUOLAQW(config.getBoolean("Hyped-Up-On-Lemonade-And-Gummy-Worms"));
 		ConfigInternals.setAnnounce(config.getBoolean("Announce-War-End-Cause-To-All-Players"));
 		//ConfigInternals.setDPAHBOE(config.getBoolean("Drop-Player-At-Highest-Block-On-Exit"));
+		ConfigInternals.setDevelopmentStageToListen(config.getString("Development-Stage-To-Listen-For"));
 	}
 
 }
