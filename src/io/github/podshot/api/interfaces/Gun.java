@@ -3,6 +3,8 @@ package io.github.podshot.api.interfaces;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
+
 public interface Gun {
 	
 	/**
@@ -24,5 +26,8 @@ public interface Gun {
 	 * @return An Integer of how many bullets the player can shoot
 	 */
 	int getMagSize();
+	
+	@EventHandler
+	public void onBulletHit(ItemProjectileHitEvent e);
 
 }

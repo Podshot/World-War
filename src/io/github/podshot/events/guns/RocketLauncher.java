@@ -1,9 +1,14 @@
 package io.github.podshot.events.guns;
 
+import io.github.podshot.api.Bullet;
 import io.github.podshot.api.interfaces.Gun;
 import io.github.podshot.internals.Internals;
 
+import java.util.Arrays;
+
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -12,8 +17,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.stirante.MoreProjectiles.Particles;
-import com.stirante.MoreProjectiles.TypedRunnable;
-import com.stirante.MoreProjectiles.projectile.ItemProjectile;
+import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
+import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
 
 public class RocketLauncher implements Gun, Listener {
 
@@ -41,6 +46,7 @@ public class RocketLauncher implements Gun, Listener {
 			if (e.getPlayer().getLevel() > 0) {
 				String gun = gunIS.getItemMeta().getDisplayName().toString();
 				if (gun.equals("Rocket Launcher")) {
+					/*
 					ItemProjectile bullet = new ItemProjectile("bullet-rocket", e.getPlayer(), new ItemStack(Material.STONE), 2.5F);
 					bullet.setIgnoreSomeBlocks(true);
 					bullet.boundingBox.shrink(2D, 2D, 2D);
@@ -51,6 +57,8 @@ public class RocketLauncher implements Gun, Listener {
 							Particles.LARGE_SMOKE.display(o.getEntity().getLocation(), 0, 0, 0, 0, 1);
 						}
 					});
+					*/
+					new Bullet("bullet-rocket", new ItemStack(Material.STONE), e.getPlayer(), 2.5F, Arrays.asList(Particles.FLAME, Particles.LARGE_SMOKE));
 					int lvl = e.getPlayer().getLevel() - 1;
 					e.getPlayer().setLevel(lvl);
 					e.setCancelled(true);
@@ -99,5 +107,19 @@ public class RocketLauncher implements Gun, Listener {
 		launcherIM.setDisplayName("Rocket Launcher");
 		launcher.setItemMeta(launcherIM);
 		return launcher;
+	}
+
+	@EventHandler
+	public void onBulletHit(ItemProjectileHitEvent e) {
+		if (Internals.isWarDeclared()) {
+			if (e.getHitType() == CustomProjectileHitEvent.HitType.BLOCK) {
+				if (e.getProjectile().getProjectileName().equals("bullet-rocket")) {
+					Block hitBlock = e.getHitBlock();
+					Location hitLoc = hitBlock.getLocation();
+					hitBlock.getWorld().createExplosion(hitLoc, 4.0F);
+					e.getProjectile().getEntity().remove();
+				}
+			}
+		}
 	}
 }

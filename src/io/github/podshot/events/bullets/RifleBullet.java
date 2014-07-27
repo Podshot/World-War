@@ -13,6 +13,7 @@ import org.bukkit.event.Listener;
 import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
 import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
 
+@Deprecated
 public class RifleBullet implements BulletHit, Listener {
 
 	@EventHandler

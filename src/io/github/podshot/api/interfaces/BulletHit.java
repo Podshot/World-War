@@ -4,6 +4,7 @@ import org.bukkit.event.EventHandler;
 
 import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
 
+@Deprecated
 public interface BulletHit {
 	
 	/**
