@@ -21,7 +21,7 @@ public class CheckForUpdate {
 		URL UPDATE_URL;
 		try {
 
-			UPDATE_URL = new URL("");
+			UPDATE_URL = new URL("https://raw.githubusercontent.com/Podshot/World-War/master/update.properties");
 			in = new BufferedReader(new InputStreamReader(UPDATE_URL.openStream()));
 
 			prop.load(in);
