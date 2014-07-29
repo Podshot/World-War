@@ -53,10 +53,16 @@ public class PlayerEvents implements Listener {
 						int rifleAmmo = PlayerDataYAML.getPlayerAmmoFromFile(player, "Rifle");
 						int rocketAmmo = PlayerDataYAML.getPlayerAmmoFromFile(player, "Rocket-Launcher");
 						int shotgunAmmo = PlayerDataYAML.getPlayerAmmoFromFile(player, "Shotgun");
+						int pistolAmmo = PlayerDataYAML.getPlayerAmmoFromFile(player, "Pistol");
 						
 						player.setMetadata("WorldWar.Ammo.Rifle", new FixedMetadataValue(plugin, rifleAmmo));
 						player.setMetadata("WorldWar.Ammo.Rocket", new FixedMetadataValue(plugin, rocketAmmo));
 						player.setMetadata("WorldWar.Ammo.Shotgun", new FixedMetadataValue(plugin, shotgunAmmo));
+						player.setMetadata("WorldWar.Ammo.Pistol", new FixedMetadataValue(plugin, pistolAmmo));
+						
+						if (player.hasPermission("worldwar.notifyUpdate") && plugin.getNotifyUpdate()) {
+							
+						}
 					}
 				}
 			}
@@ -91,12 +97,20 @@ public class PlayerEvents implements Listener {
 	@EventHandler
 	public void onPlayerMoveEvent(PlayerMoveEvent evt) {
 		if (Internals.isWarDeclared()) {
+			if (evt.getTo().getBlockX() == evt.getFrom().getBlockX() && evt.getTo().getBlockY() == evt.getFrom().getBlockY() && evt.getTo().getBlockZ() == evt.getFrom().getBlockZ()) return;
+			
+			if (PlayerAPI.isZoomedIn(evt.getPlayer().getUniqueId())) {
+				PlayerAPI.toggleZoom(evt.getPlayer().getUniqueId(), false);
+				evt.getPlayer().sendMessage("Your motion has stopped you from scoping");
+			}
+			
 			Player player = evt.getPlayer();
 			Location location = player.getLocation();
 			if (location.getY() > 256) {
 				Location newLoc = new Location(location.getWorld(), location.getX(), 256, location.getZ(), location.getYaw(), location.getPitch());
 				player.teleport(newLoc);
 			}
+			
 		}
 		return;
 	}
@@ -120,7 +134,20 @@ public class PlayerEvents implements Listener {
 					if (item.hasItemMeta()) {
 						if (item.getItemMeta().hasDisplayName()) {
 							if (item.getItemMeta().getDisplayName().equals("Sniper Rifle")) {
-								
+								PlayerAPI.toggleZoom(evt.getPlayer().getUniqueId(), true);
+							}
+						}
+					}
+				}
+			}
+		} else {
+			ItemStack item = player.getItemInHand();
+			if (item.getType() == Material.MONSTER_EGG) {
+				if (item.getDurability() == 60) {
+					if (item.hasItemMeta()) {
+						if (item.getItemMeta().hasDisplayName()) {
+							if (item.getItemMeta().getDisplayName().equals("Sniper Rifle")) {
+								PlayerAPI.toggleZoom(evt.getPlayer().getUniqueId(), false);
 							}
 						}
 					}

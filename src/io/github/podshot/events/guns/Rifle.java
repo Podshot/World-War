@@ -83,8 +83,8 @@ public class Rifle implements Listener, Gun {
 		}
 
 		ItemStack gunIS = e.getItem();
-		if (gunIS.getType().equals(Material.MONSTER_EGG) && gunIS.getDurability() == 51) {
-			if (gunIS.getItemMeta().getDisplayName().toString().equals("Standard Issue Rifle")) {
+		if (gunIS.getType() == Material.MONSTER_EGG && gunIS.getDurability() == 51) {
+			if (gunIS.getItemMeta().getDisplayName().equals("Standard Issue Rifle")) {
 				e.getPlayer().setLevel(this.getMagSize());
 				float progress = this.getMagSize() / this.getMagSize();
 				PlayerAPI.setAmmoAmount(e.getPlayer(), "Rifle", this.getMagSize());

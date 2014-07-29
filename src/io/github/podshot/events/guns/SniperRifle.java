@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
 import com.stirante.MoreProjectiles.projectile.ItemProjectile;
 
 public class SniperRifle implements Listener, Gun {
@@ -68,6 +69,13 @@ public class SniperRifle implements Listener, Gun {
 		sniperRifleIM.setDisplayName("Sniper Rifle");
 		sniperRifle.setItemMeta(sniperRifleIM);
 		return sniperRifle;
+	}
+
+	@Override
+	@EventHandler
+	public void onBulletHit(ItemProjectileHitEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
+import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
 import com.stirante.MoreProjectiles.projectile.ItemProjectile;
 
 public class Shotgun implements Gun, Listener {
@@ -81,6 +82,12 @@ public class Shotgun implements Gun, Listener {
 		gunIM.setDisplayName("Shotgun");
 		gun.setItemMeta(gunIM);
 		return gun;
+	}
+
+	@EventHandler
+	public void onBulletHit(ItemProjectileHitEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

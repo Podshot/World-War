@@ -41,6 +41,7 @@ public class PlayerDataYAML {
 		dataConfig.set("Players." + player.getUniqueId().toString() + ".Ammo.Rifle", PlayerAPI.getAmmoAmount(player, "Rifle"));
 		dataConfig.set("Players." + player.getUniqueId().toString() + ".Ammo.Rocket-Launcher", PlayerAPI.getAmmoAmount(player, "Rocket"));
 		dataConfig.set("Players." + player.getUniqueId().toString() + ".Ammo.Shotgun", PlayerAPI.getAmmoAmount(player, "Shotgun"));
+		dataConfig.set("Players." + player.getUniqueId().toString() + ".Ammo.Pistol", PlayerAPI.getAmmoAmount(player, "Pistol"));
 		
 		ExtraConfigHandler.saveConfig(plugin.fileSep + "PlayerData");
 	}
