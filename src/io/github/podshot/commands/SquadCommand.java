@@ -1,13 +1,13 @@
 package io.github.podshot.commands;
 
-import java.util.UUID;
-
 import io.github.podshot.WorldWar;
 import io.github.podshot.api.SquadAPI;
 import io.github.podshot.gui.SquadInviteGUI;
-import io.github.podshot.internals.Internals;
+import io.github.podshot.handlers.PlayerHandler;
 import io.github.podshot.squads.RemoveSquad;
 import io.github.podshot.squads.Squad;
+
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -82,14 +82,14 @@ public class SquadCommand implements CommandExecutor {
 						if (p.getName().equalsIgnoreCase(args[1].toString())) {
 							p.openInventory(SquadInviteGUI.getSquadInviteGUI(squadName));
 							p.setGameMode(GameMode.CREATIVE);
-							Internals.addPlayer(p.getName());
+							PlayerHandler.SquadGUIHandler.addPlayer(p.getUniqueId());
 							Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
 								@Override
 								public void run() {
 									p.setGameMode(GameMode.SURVIVAL);
-									if (Internals.isPlayerInList(p.getName())) {
+									if (PlayerHandler.SquadGUIHandler.isPlayerInList(p.getUniqueId())) {
 										p.closeInventory();
-										Internals.removePlayer(p.getName());
+										PlayerHandler.SquadGUIHandler.removePlayer(p.getUniqueId());
 									}
 								}
 							}, 1200L);
@@ -118,7 +118,7 @@ public class SquadCommand implements CommandExecutor {
 				}
 
 			} else if (args[0].equalsIgnoreCase("leave")) {
-
+				ret = false;
 			}
 		}
 		return ret;

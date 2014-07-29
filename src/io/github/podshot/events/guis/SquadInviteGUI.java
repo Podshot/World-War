@@ -3,6 +3,7 @@ package io.github.podshot.events.guis;
 import java.util.UUID;
 
 import io.github.podshot.api.SquadAPI;
+import io.github.podshot.handlers.PlayerHandler;
 import io.github.podshot.internals.Internals;
 
 import org.bukkit.Bukkit;
@@ -29,8 +30,8 @@ public class SquadInviteGUI implements Listener {
 			if (squadSplitPhase1.startsWith("Invite to join Squad: ")) {
 				evt.setCancelled(true);
 				player.closeInventory();
-				if (Internals.isPlayerInList(player.getName())) {
-					Internals.removePlayer(player.getName());
+				if (PlayerHandler.SquadGUIHandler.isPlayerInList(player.getUniqueId())) {
+					PlayerHandler.SquadGUIHandler.removePlayer(player.getUniqueId());
 				}
 				String squadSplitPhase2 = squadSplitPhase1.replace("Invite to join Squad: ", "");
 				player.sendMessage(squadSplitPhase2);
@@ -54,8 +55,8 @@ public class SquadInviteGUI implements Listener {
 			Inventory inv = evt.getInventory();
 			String squadSplitPhase1 = ChatColor.stripColor(inv.getName());
 			if (squadSplitPhase1.startsWith("Invite to join Squad: ")) {
-				if (Internals.isPlayerInList(player.getName())) {
-					Internals.removePlayer(player.getName());
+				if (PlayerHandler.SquadGUIHandler.isPlayerInList(player.getUniqueId())) {
+					PlayerHandler.SquadGUIHandler.removePlayer(player.getUniqueId());
 				}
 				player.setGameMode(GameMode.SURVIVAL);
 				String squadSplitPhase2 = squadSplitPhase1.replace("Invite to join Squad: ", "");
