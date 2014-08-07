@@ -13,6 +13,7 @@ public class CheckForUpdate {
 	private String developmentStage;
 	private String releaseDate;
 	private String targetedBukkitVersion;
+	private String update_url;
 
 	public CheckForUpdate() {
 		Properties prop = new Properties();
@@ -29,6 +30,7 @@ public class CheckForUpdate {
 			this.developmentStage = prop.getProperty("Development-Stage");
 			this.releaseDate = prop.getProperty("Release-Date");
 			this.targetedBukkitVersion = prop.getProperty("Targeted-Bukkit-Version");
+			this.update_url = prop.getProperty("Update-Url");
 			
 
 		} catch (IOException ex) {
@@ -58,6 +60,10 @@ public class CheckForUpdate {
 	
 	public String getTargetedBukkitVersion() {
 		return this.targetedBukkitVersion;
+	}
+	
+	public String getUpdateURL() {
+		return this.update_url;
 	}
 
 }
