@@ -5,6 +5,7 @@ import io.github.podshot.handlers.ItemStackHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+@Deprecated
 public class Debug {
 
 	public static void givePlayerRifle(Player p) {
