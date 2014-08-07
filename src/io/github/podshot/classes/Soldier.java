@@ -34,7 +34,7 @@ public class Soldier {
 			String savedInventory = InventoryManager.InventoryToString(player.getInventory());
 			PlayerDataYAML.saveInventoryToFile(player, savedInventory);
 			player.getInventory().clear();
-			player.getInventory().setContents((ItemStack[]) this.getClassInventory().toArray());
+			player.getInventory().setContents(this.getClassInventory());
 			String team = PlayerAPI.getTeam(player);
 			player.getInventory().setHelmet(this.getClassArmor(ArmorPiece.Helmet, team));
 			player.getInventory().setChestplate(this.getClassArmor(ArmorPiece.Chestplate, team));
@@ -97,13 +97,14 @@ public class Soldier {
 		return armor;
 	}
 
-	private List<ItemStack> getClassInventory() {
+	private ItemStack[] getClassInventory() {
 		List<ItemStack> items = new ArrayList<ItemStack>();
 		
 		ItemStack rifle = Rifle.getGun();
 		items.add(rifle);
 		
-		return items;
+		ItemStack[] itemArray = items.toArray(new ItemStack[items.size()]);
+		return itemArray;
 	}
 	
 	public static PlayerClasses getPlayerClassesType() {

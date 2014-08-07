@@ -17,19 +17,19 @@ public class WorldWarCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		boolean ret = false;
+		boolean toReturn = false;
 		if (label.equalsIgnoreCase("ww")) {
 			if (sender instanceof Player) {
 				Player player = (Player) sender;
 				if (args[0].equalsIgnoreCase("start")) {
 					if (player.hasPermission("worldwar.war.start")) {
-						ret = true;
+						toReturn = true;
 						WarHandler.startWar(player.getWorld());
 					}
 				}
 			}
 		}
-		return ret;
+		return toReturn;
 	}
 
 }

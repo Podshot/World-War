@@ -1,10 +1,13 @@
 package io.github.podshot.commands;
 
 import io.github.podshot.WorldWar;
+import io.github.podshot.events.guns.Rifle;
+import io.github.podshot.events.guns.RocketLauncher;
+import io.github.podshot.events.guns.Shotgun;
+import io.github.podshot.events.guns.SniperRifle;
 import io.github.podshot.gui.ClassChooser;
 import io.github.podshot.gui.WireGui;
 import io.github.podshot.inventories.InventoryManager;
-import io.github.podshot.structures.StructureGeneration;
 import me.astramg.resources.BlockGenerator;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -27,85 +30,99 @@ public class TestCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
-		boolean ret = false;
+		boolean toReturn = false;
 		if (sender instanceof Player) {
 			final Player player = (Player) sender;
-			if (args[0].equalsIgnoreCase("downward")) {
-				ret = true;
-				player.setFlying(false);
-				player.setFlySpeed(1.0F);
-			}
-			if (args[0].equalsIgnoreCase("Cgui")) {
-				ret = true;
-				player.openInventory(ClassChooser.getClassChooserGui());
-			}
-			if (args[0].equalsIgnoreCase("damage")) {
-				ret = true;
-				player.damage(2.0D);
-			}
-			if (args[0].equalsIgnoreCase("meta")) {
-				ret = true;
-				player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, args[1].toString()));
-			}
-			if (args[0].equalsIgnoreCase("getmeta")) {
-				ret = true;
-				for (MetadataValue val : player.getMetadata(args[1].toString())) {
-					if (val.getOwningPlugin().getName().equals("WorldWar")) {
-						player.sendMessage("Meta Data Value (" + args[1] + "): " + val.asString());
+
+			if (args.length >= 1) {
+				switch (args[0]) {
+				case "Cgui":
+					toReturn = true;
+					player.openInventory(ClassChooser.getClassChooserGui());
+					break;
+				case "meta":
+					toReturn = true;
+					if (args.length >= 2) {
+						player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, args[1].toString()));
 					}
+					break;
+				case "getmeta":
+					toReturn = true;
+					if (args.length >= 2) {
+						for (MetadataValue val : player.getMetadata(args[1].toString())) {
+							if (val.getOwningPlugin().getName().equals("WorldWar")) {
+								player.sendMessage("Meta Data Value (" + args[1] + "): " + val.asString());
+							}
+						}
+					}
+					break;
+				case "gen":
+					toReturn = true;
+					Location genLOC = player.getLocation();
+					//StructureGeneration.generateFlag(loc, "Blue");
+					new BlockGenerator(
+							new BlockGenerator.BlockLayer(";AGA").setBlockType('G', Material.GLASS),
+							new BlockGenerator.BlockLayer("AGA;ZAZ;AG").setBlockType('G', Material.GLASS).setBlockType('Z', Material.STONE),
+							new BlockGenerator.BlockLayer("AGA;GAG;AG").setBlockType('G', Material.GLASS),
+							new BlockGenerator.BlockLayer(";AGA").setBlockType('G', Material.GLASS)).generateWithTime(plugin, genLOC.subtract(1, 1, 1), 100L, true);
+					break;
+				case "spawn":
+					toReturn = true;
+					Location npcLOC = player.getLocation();
+					NPCRegistry registry = CitizensAPI.getNPCRegistry();
+					NPC npc = registry.createNPC(EntityType.COW, "NPC-Cow");
+					npc.spawn(npcLOC);
+					npc.getNavigator().setTarget(npcLOC);
+					break;
+				case "Wgui":
+					toReturn = true;
+					player.openInventory(WireGui.getWireGui());
+					break;
+				case "saveInv":
+					toReturn = true;
+					final String inv = InventoryManager.InventoryToString(player.getInventory());
+					player.sendMessage(inv);
+					player.getInventory().clear();
+					Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+
+						@Override
+						public void run() {
+							player.getInventory().setContents(InventoryManager.StringToInventory(inv).getContents());
+						}
+						
+					}, 1200);
+					break;
+				case "bomber":
+					toReturn = true;
+					//TODO Add vehicle stuff
+					break;
+				case "guns":
+					toReturn = true;
+					if (args.length >= 2) {
+						switch (args[1]) {
+						default:
+							break;
+						case "rifle":
+							player.getInventory().addItem(Rifle.getGun());
+							break;
+						case "rocket":
+							player.getInventory().addItem(RocketLauncher.getGun());
+							break;
+						case "sniper":
+							player.getInventory().addItem(SniperRifle.getGun());
+							break;
+						case "shotgun":
+							player.getInventory().addItem(Shotgun.getGun());
+							break;
+						}
+					}
+				default:
+					toReturn = false;
+					break;
 				}
 			}
-			if (args[0].equalsIgnoreCase("gen")) {
-				ret = true;
-				Location loc = player.getLocation();
-				//StructureGeneration.generateFlag(loc, "Blue");
-				new BlockGenerator(
-						new BlockGenerator.BlockLayer(";AGA").setBlockType('G', Material.GLASS),
-						new BlockGenerator.BlockLayer("AGA;ZAZ;AG").setBlockType('G', Material.GLASS).setBlockType('Z', Material.STONE),
-						new BlockGenerator.BlockLayer("AGA;GAG;AG").setBlockType('G', Material.GLASS),
-						new BlockGenerator.BlockLayer(";AGA").setBlockType('G', Material.GLASS)).generateWithTime(plugin, loc.subtract(1, 1, 1), 100L, true);
-			}
-			if (args[0].equalsIgnoreCase("spawn")) {
-				ret = true;
-				Location loc = player.getLocation();
-				NPCRegistry registry = CitizensAPI.getNPCRegistry();
-				NPC npc = registry.createNPC(EntityType.COW, "NPC-Cow");
-				npc.spawn(loc);
-				npc.getNavigator().setTarget(loc);
-			}
-			if (args[0].equalsIgnoreCase("fly")) {
-				ret = true;
-				player.setFlySpeed(0.5F);
-			}
-			if (args[0].equalsIgnoreCase("flag")) {
-				ret = true;
-				Location loc = new Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY() - 5, player.getLocation().getZ());
-				StructureGeneration.generateFlag(loc, "Blue");
-			}
-			if (args[0].equalsIgnoreCase("wgui")) {
-				ret = true;
-				player.openInventory(WireGui.getWireGui());
-			}
-			if (args[0].equalsIgnoreCase("saveInv")) {
-				ret = true;
-				final String inv = InventoryManager.InventoryToString(player.getInventory());
-				player.sendMessage(inv);
-				player.getInventory().clear();
-				Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
-
-					@Override
-					public void run() {
-						player.getInventory().setContents(InventoryManager.StringToInventory(inv).getContents());
-						
-					}
-					
-				}, 1200);
-			}
-			if (args[0].equalsIgnoreCase("bomber")) {
-				ret = true;
-			}
 		}
-		return ret;
+		return toReturn;
 	}
 
 }

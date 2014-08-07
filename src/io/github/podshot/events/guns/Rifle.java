@@ -1,10 +1,15 @@
 package io.github.podshot.events.guns;
 
+import java.util.UUID;
+
+import io.github.podshot.WorldWar;
 import io.github.podshot.api.Bullet;
 import io.github.podshot.api.PlayerAPI;
 import io.github.podshot.api.interfaces.Gun;
+import io.github.podshot.handlers.PlayerHandler;
 import io.github.podshot.internals.Internals;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -20,6 +25,8 @@ import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
 import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
 
 public class Rifle implements Listener, Gun {
+	
+	private WorldWar plugin = WorldWar.getInstance();
 
 	@EventHandler
 	public void onFireGun(PlayerInteractEvent e) {
@@ -39,6 +46,10 @@ public class Rifle implements Listener, Gun {
 		if (!(e.getItem().hasItemMeta())) {
 			return;
 		}
+		
+		if (PlayerHandler.RifleReloadHandler.isInList(e.getPlayer().getUniqueId())) {
+			return;
+		}
 
 		ItemStack gunIS = e.getItem();
 		if (gunIS.getType() == Material.MONSTER_EGG && gunIS.getDurability() == 51) {
@@ -52,11 +63,22 @@ public class Rifle implements Listener, Gun {
 					*/
 					new Bullet("bullet-rifle", new ItemStack(Material.STONE_BUTTON), e.getPlayer(), 2.0F);
 					int lvl = e.getPlayer().getLevel() - 1;
-					float progress = lvl / this.getMagSize();
+					float progress = (float) lvl/this.getMagSize();
+					this.plugin.logger.info("Progress: " + progress);
 					e.getPlayer().setExp(progress);
 					e.getPlayer().setLevel(lvl);
 					e.setCancelled(true);
 					PlayerAPI.setAmmoAmount(e.getPlayer(), "Rifle", lvl);
+					final UUID uuid = e.getPlayer().getUniqueId();
+					PlayerHandler.RifleReloadHandler.addToList(uuid);
+					Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
+
+						@Override
+						public void run() {
+							PlayerHandler.RifleReloadHandler.removeFromList(uuid);
+						}
+						
+					}, 20L);
 				}
 			}
 		}

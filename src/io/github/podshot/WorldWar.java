@@ -82,7 +82,6 @@ public final class WorldWar extends JavaPlugin {
 		this.getCommand("squad").setTabCompleter(new SquadCommandTabCompleter());
 		if (debug) {
 			this.getCommand("test").setExecutor(new TestCommand());
-			this.getCommand("test").setTabCompleter(new TestCommandTabCompleter());
 		}
 		new GunRegister();
 		new GuiRegister();
@@ -107,16 +106,19 @@ public final class WorldWar extends JavaPlugin {
 		Internals.setWarDeclared(isWarD);
 
 		this.setupDC();
-		if (Internals.isWarDeclared()) {
-			this.setMetaData();
-		}
+		//if (Internals.isWarDeclared()) {
+			//this.setMetaData();
+		//}
+		this.getLogger().info("Test Message");
+		new UpdatePlugin("Hi");
 	}
 
 	private void checkUpdate() {
 		CheckForUpdate cfu = new CheckForUpdate();
 		if (!(cfu.getVersion().equals(this.version))) {
 			if (cfu.getDevelopmentStage().equals(ConfigInternals.getDevelopmentStageToListen())) {
-				this.notifyUpdate  = true;
+				this.notifyUpdate = true;
+				new UpdatePlugin(cfu.getUpdateURL());
 			}
 		}
 		
