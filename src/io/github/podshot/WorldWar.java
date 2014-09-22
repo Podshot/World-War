@@ -1,6 +1,7 @@
 package io.github.podshot;
 
 import io.github.podshot.commands.SquadCommand;
+import io.github.podshot.commands.TeamCommand;
 import io.github.podshot.commands.TestCommand;
 import io.github.podshot.commands.WorldWarCommand;
 import io.github.podshot.commands.tabcompleters.*;
@@ -48,7 +49,7 @@ import pgDev.bukkit.DisguiseCraft.DisguiseCraft;
 import pgDev.bukkit.DisguiseCraft.api.DisguiseCraftAPI;
 
 
-@SuppressWarnings("unused")
+@SuppressWarnings({ "unused", "deprecation" })
 public final class WorldWar extends JavaPlugin {
 
 	public Logger logger;
@@ -60,7 +61,7 @@ public final class WorldWar extends JavaPlugin {
 	private static WorldWar instance;
 	public boolean debug = true;
 	
-	private String version = "0.0.5";
+	private String version = this.getDescription().getVersion();
 	private boolean notifyUpdate = false;
 
 	@Override
@@ -80,14 +81,16 @@ public final class WorldWar extends JavaPlugin {
 		this.getCommand("worldwar").setTabCompleter(new WorldWarCommandTabCompleter());
 		this.getCommand("squad").setExecutor(new SquadCommand());
 		this.getCommand("squad").setTabCompleter(new SquadCommandTabCompleter());
-		if (debug) {
+		this.getCommand("team").setExecutor(new TeamCommand());
+		if (this.debug) {
 			this.getCommand("test").setExecutor(new TestCommand());
 		}
 		new GunRegister();
 		new GuiRegister();
 		//new BlockRegister();
-		new StructureRegister();
+		//new StructureRegister();
 	
+		PreventProfanity.getWordList();
 		this.getServer().getPluginManager().registerEvents(new PreventProfanity(), this);
 		this.getServer().getPluginManager().registerEvents(new EntityEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new BlockEvents(), this);
@@ -95,7 +98,7 @@ public final class WorldWar extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new RejoinSquadOnLogOn(), this);
 		this.getServer().getPluginManager().registerEvents(new GunSwitch(), this);
 		this.getServer().getPluginManager().registerEvents(new KeepGun(), this);
-		PreventProfanity.getWordList();
+		this.getServer().getPluginManager().registerEvents(new BattleStatistics(), this);
 		
 		ExtraConfigHandler.initalize(this);
 		new StructureYAML();
@@ -150,13 +153,14 @@ public final class WorldWar extends JavaPlugin {
 				}
 			}
 		}
-		FileConfiguration config = this.getConfig();
 		if (Internals.isWarDeclared()) {
-			config.set("War-Declared", true);
+			this.getConfig().set("War-Declared", true);
 		} else {
-			config.set("War-Declared", false);
+			this.getConfig().set("War-Declared", false);
 		}
 		this.saveConfig();
+		BattleStatistics.saveStatistics();
+		instance = null;
 	}
 
 	public static WorldWar getInstance() {
