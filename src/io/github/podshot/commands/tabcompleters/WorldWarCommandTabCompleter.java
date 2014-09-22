@@ -16,7 +16,7 @@ public class WorldWarCommandTabCompleter implements TabCompleter {
 		List<String> list = new ArrayList<>();
 		
 		if (sender instanceof Player) {
-			if (cmd.getName().equalsIgnoreCase("ww")) {
+			if (cmd.getName().equalsIgnoreCase("worldwar")) {
 				if (args.length == 0) {
 					list.add("start");
 					list.add("debug");
