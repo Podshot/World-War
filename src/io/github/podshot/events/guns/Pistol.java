@@ -2,7 +2,7 @@ package io.github.podshot.events.guns;
 
 import io.github.podshot.api.Bullet;
 import io.github.podshot.api.PlayerAPI;
-import io.github.podshot.api.interfaces.Gun;
+import io.github.podshot.api.interfaces.IGun;
 import io.github.podshot.internals.Internals;
 
 import org.bukkit.Material;
@@ -10,7 +10,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -19,7 +18,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
 import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
 
-public class Pistol implements Gun, Listener {
+public class Pistol implements IGun {
 
 	@EventHandler
 	public void onFireGun(PlayerInteractEvent e) {
@@ -114,12 +113,12 @@ public class Pistol implements Gun, Listener {
 					hitTeam = PlayerAPI.getTeam(hitPlayer);
 					if (!(hitTeam.equals(shooterTeam))) {
 						if (e.getProjectile().getProjectileName().equals("bullet-pistol")) {
-							hitPlayer.damage(1.0D, shooter);
+							hitPlayer.damage(this.getPlayerDamage(), shooter);
 						}
 					}
 					e.getProjectile().getEntity().remove();
 				} else {
-					hitEntity.damage(1.0D, e.getProjectile().getShooter());
+					hitEntity.damage(this.getAnimalDamage(), e.getProjectile().getShooter());
 					e.getProjectile().getEntity().remove();
 				}
 			} else if (e.getHitType() == CustomProjectileHitEvent.HitType.BLOCK) {
@@ -127,6 +126,16 @@ public class Pistol implements Gun, Listener {
 			}
 		}
 		
+	}
+
+	@Override
+	public double getPlayerDamage() {
+		return 1.0D;
+	}
+
+	@Override
+	public double getAnimalDamage() {
+		return this.getPlayerDamage();
 	}
 	
 	

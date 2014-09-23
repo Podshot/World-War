@@ -1,13 +1,13 @@
 package io.github.podshot.events.guns;
 
-import java.util.UUID;
-
 import io.github.podshot.WorldWar;
 import io.github.podshot.api.Bullet;
 import io.github.podshot.api.PlayerAPI;
-import io.github.podshot.api.interfaces.Gun;
+import io.github.podshot.api.interfaces.IGun;
 import io.github.podshot.handlers.PlayerHandler;
 import io.github.podshot.internals.Internals;
+
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -15,7 +15,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -24,7 +23,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
 import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
 
-public class Rifle implements Listener, Gun {
+public class Rifle implements IGun {
 	
 	private WorldWar plugin = WorldWar.getInstance();
 
@@ -143,12 +142,12 @@ public class Rifle implements Listener, Gun {
 					hitTeam = PlayerAPI.getTeam(hitPlayer);
 					if (!(hitTeam.equals(shooterTeam))) {
 						if (e.getProjectile().getProjectileName().equals("bullet-rifle")) {
-							hitPlayer.damage(2.0D, shooter);								
+							hitPlayer.damage(this.getPlayerDamage(), shooter);								
 						}
 					}
 					e.getProjectile().getEntity().remove();
 				} else {
-					hitEntity.damage(2.0D, e.getProjectile().getShooter());
+					hitEntity.damage(this.getAnimalDamage(), e.getProjectile().getShooter());
 					e.getProjectile().getEntity().remove();
 				}
 			} else if (e.getHitType() == CustomProjectileHitEvent.HitType.BLOCK) {
@@ -157,5 +156,15 @@ public class Rifle implements Listener, Gun {
 		}
 		return;
 		
+	}
+
+	@Override
+	public double getPlayerDamage() {
+		return 2.0D;
+	}
+
+	@Override
+	public double getAnimalDamage() {
+		return this.getPlayerDamage();
 	}
 }

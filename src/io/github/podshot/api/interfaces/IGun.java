@@ -1,11 +1,12 @@
 package io.github.podshot.api.interfaces;
 
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
 
-public interface Gun {
+public interface IGun extends Listener {
 	
 	/**
 	 * Called whenever a Player right clicks
@@ -26,6 +27,10 @@ public interface Gun {
 	 * @return An Integer of how many bullets the player can shoot
 	 */
 	int getMagSize();
+	
+	double getPlayerDamage();
+	
+	double getAnimalDamage();
 	
 	@EventHandler
 	public void onBulletHit(ItemProjectileHitEvent e);

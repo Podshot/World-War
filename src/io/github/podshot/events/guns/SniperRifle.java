@@ -1,11 +1,10 @@
 package io.github.podshot.events.guns;
 
-import io.github.podshot.api.interfaces.Gun;
+import io.github.podshot.api.interfaces.IGun;
 import io.github.podshot.internals.Internals;
 
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -14,7 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
 import com.stirante.MoreProjectiles.projectile.ItemProjectile;
 
-public class SniperRifle implements Listener, Gun {
+public class SniperRifle implements IGun {
 
 	@EventHandler
 	public void onFireGun(PlayerInteractEvent e) {
@@ -62,7 +61,7 @@ public class SniperRifle implements Listener, Gun {
 		return 5;
 	}
 
-	public ItemStack getGun() {
+	public static ItemStack getGun() {
 		ItemStack sniperRifle = new ItemStack(Material.MONSTER_EGG);
 		sniperRifle.setDurability((short) 60);
 		ItemMeta sniperRifleIM = sniperRifle.getItemMeta();
@@ -76,6 +75,18 @@ public class SniperRifle implements Listener, Gun {
 	public void onBulletHit(ItemProjectileHitEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public double getPlayerDamage() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getAnimalDamage() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

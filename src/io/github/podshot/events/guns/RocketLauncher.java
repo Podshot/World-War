@@ -1,7 +1,7 @@
 package io.github.podshot.events.guns;
 
 import io.github.podshot.api.Bullet;
-import io.github.podshot.api.interfaces.Gun;
+import io.github.podshot.api.interfaces.IGun;
 import io.github.podshot.internals.Internals;
 
 import java.util.Arrays;
@@ -10,7 +10,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -20,7 +19,7 @@ import com.stirante.MoreProjectiles.Particles;
 import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
 import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
 
-public class RocketLauncher implements Gun, Listener {
+public class RocketLauncher implements IGun {
 
 	@EventHandler
 	public void onFireGun(final PlayerInteractEvent e) {
@@ -100,7 +99,7 @@ public class RocketLauncher implements Gun, Listener {
 		return 1;
 	}
 
-	public ItemStack getGun() {
+	public static ItemStack getGun() {
 		ItemStack launcher = new ItemStack(Material.MONSTER_EGG);
 		launcher.setDurability((short) 50);
 		ItemMeta launcherIM = launcher.getItemMeta();
@@ -121,5 +120,15 @@ public class RocketLauncher implements Gun, Listener {
 				}
 			}
 		}
+	}
+
+	@Override
+	public double getPlayerDamage() {
+		return 0;
+	}
+
+	@Override
+	public double getAnimalDamage() {
+		return 0;
 	}
 }
