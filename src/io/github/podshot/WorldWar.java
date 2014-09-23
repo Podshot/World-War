@@ -82,6 +82,7 @@ public final class WorldWar extends JavaPlugin {
 		this.getCommand("squad").setExecutor(new SquadCommand());
 		this.getCommand("squad").setTabCompleter(new SquadCommandTabCompleter());
 		this.getCommand("team").setExecutor(new TeamCommand());
+		this.getCommand("team").setTabCompleter(new TeamCommandTabCompleter());
 		if (this.debug) {
 			this.getCommand("test").setExecutor(new TestCommand());
 		}
@@ -114,6 +115,9 @@ public final class WorldWar extends JavaPlugin {
 		//}
 		this.getLogger().info("Test Message");
 		new UpdatePlugin("Hi");
+		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+		    PlayerEvents.doReloadFix(player);
+		}
 	}
 
 	private void checkUpdate() {

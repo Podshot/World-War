@@ -1,5 +1,5 @@
 name: WorldWar
-version: 0.0.5
+version: 0.0.6
 main: io.github.podshot.WorldWar
 description: World War Plugin
 
@@ -15,6 +15,9 @@ commands:
       squad:
            description: Squad Command
            usage: /<command> [arguments]
+      team:
+        description: Team Command
+        usage: /<command> [arguments]
 
 permissions:
       ww.start:
