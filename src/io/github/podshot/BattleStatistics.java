@@ -37,6 +37,10 @@ public class BattleStatistics implements Listener {
 		if (!(Internals.isWarDeclared())) {
 			return;
 		}
+		
+		if (evt.getEntity().getKiller() == null) {
+			return;
+		}
 
 		if (evt.getEntity().getType() == EntityType.PLAYER) {
 			Player killed = (Player) evt.getEntity();
