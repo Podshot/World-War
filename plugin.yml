@@ -1,6 +1,6 @@
 name: WorldWar
 version: 0.0.6
-main: io.github.podshot.WorldWar
+main: io.github.podshot.WorldWar.WorldWar
 description: World War Plugin
 
 commands:
