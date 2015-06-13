@@ -5,7 +5,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
 
-public interface Grenade {
+public interface IGrenade {
 	
 	/**
 	 * Called whenever a player throw a grenade

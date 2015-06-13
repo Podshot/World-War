@@ -1,9 +1,12 @@
 package io.github.podshot.safeguards;
 
 import io.github.podshot.WorldWar;
+import io.github.podshot.handlers.PlayerHandler;
 import io.github.podshot.internals.Internals;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -32,6 +35,14 @@ public class PreventProfanity implements Listener {
 					Player sender = evt.getPlayer();
 					evt.setCancelled(true);
 					sender.kickPlayer(ChatColor.RED + "Please be respectful and not use Profanity");
+				}
+			}
+			Set<Player> players = evt.getRecipients();
+			Iterator<Player> iter = players.iterator();
+			while (iter.hasNext()) {
+				Player p = iter.next();
+				if (PlayerHandler.BlockMessagesHandler.isInList(p.getUniqueId())) {
+					evt.getRecipients().remove(p);
 				}
 			}
 		}

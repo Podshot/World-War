@@ -8,6 +8,8 @@ import io.github.podshot.events.guns.SniperRifle;
 import io.github.podshot.gui.ClassChooser;
 import io.github.podshot.gui.WireGui;
 import io.github.podshot.inventories.InventoryManager;
+import io.github.podshot.structures.Base;
+import io.github.podshot.vehicles.Bomber;
 import me.astramg.resources.BlockGenerator;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -94,7 +96,8 @@ public class TestCommand implements CommandExecutor {
 					break;
 				case "bomber":
 					toReturn = true;
-					//TODO Add vehicle stuff
+					Bomber bomber = new Bomber();
+					bomber.respawnVehicle(player.getLocation());
 					break;
 				case "guns":
 					toReturn = true;
@@ -116,6 +119,10 @@ public class TestCommand implements CommandExecutor {
 							break;
 						}
 					}
+				case "base":
+					toReturn = true;
+					new Base(player.getLocation().add(0, -3, 0), "Blue");
+					break;
 				default:
 					toReturn = false;
 					break;

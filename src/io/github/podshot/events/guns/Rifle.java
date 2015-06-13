@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -61,6 +62,7 @@ public class Rifle implements IGun {
 					bullet.boundingBox.shrink(2D, 2D, 2D);
 					*/
 					new Bullet("bullet-rifle", new ItemStack(Material.STONE_BUTTON), e.getPlayer(), 2.0F);
+					e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.FIREWORK_BLAST, 0.5f, 0.6f);
 					int lvl = e.getPlayer().getLevel() - 1;
 					float progress = (float) lvl/this.getMagSize();
 					this.plugin.logger.info("Progress: " + progress);

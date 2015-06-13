@@ -4,7 +4,9 @@ import io.github.podshot.commands.SquadCommand;
 import io.github.podshot.commands.TeamCommand;
 import io.github.podshot.commands.TestCommand;
 import io.github.podshot.commands.WorldWarCommand;
-import io.github.podshot.commands.tabcompleters.*;
+import io.github.podshot.commands.tabcompleters.SquadCommandTabCompleter;
+import io.github.podshot.commands.tabcompleters.TeamCommandTabCompleter;
+import io.github.podshot.commands.tabcompleters.WorldWarCommandTabCompleter;
 import io.github.podshot.events.BlockEvents;
 import io.github.podshot.events.EntityEvents;
 import io.github.podshot.events.PlayerEvents;
@@ -13,43 +15,35 @@ import io.github.podshot.events.guns.KeepGun;
 import io.github.podshot.events.registerers.BlockRegister;
 import io.github.podshot.events.registerers.GuiRegister;
 import io.github.podshot.events.registerers.GunRegister;
-import io.github.podshot.events.registerers.StructureRegister;
 import io.github.podshot.files.PlayerDataYAML;
+import io.github.podshot.files.ReadConfig;
 import io.github.podshot.files.StructureYAML;
 import io.github.podshot.internals.ConfigInternals;
 import io.github.podshot.internals.Internals;
+import io.github.podshot.players.PlayerSorter;
 import io.github.podshot.safeguards.PreventProfanity;
 import io.github.podshot.squads.RejoinSquadOnLogOn;
 
 import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
+import java.util.Random;
 import java.util.logging.Logger;
-
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.npc.NPC;
-import net.citizensnpcs.api.npc.NPCDataStore;
-import net.citizensnpcs.api.npc.NPCRegistry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.xern.jogy34.xernutilities.handlers.ExtraConfigHandler;
-
 import pgDev.bukkit.DisguiseCraft.DisguiseCraft;
 import pgDev.bukkit.DisguiseCraft.api.DisguiseCraftAPI;
 
+import com.xern.jogy34.xernutilities.handlers.ExtraConfigHandler;
 
-@SuppressWarnings({ "unused", "deprecation" })
+
+@SuppressWarnings({ "unused" })
 public final class WorldWar extends JavaPlugin {
 
 	public Logger logger;
@@ -60,6 +54,7 @@ public final class WorldWar extends JavaPlugin {
 	private boolean generate;
 	private static WorldWar instance;
 	public boolean debug = true;
+	private Random random = new Random();
 	
 	private String version = this.getDescription().getVersion();
 	private boolean notifyUpdate = false;
@@ -75,7 +70,7 @@ public final class WorldWar extends JavaPlugin {
 			this.generateFiles();
 		}
 		
-		this.checkUpdate();
+		//this.checkUpdate();
 
 		this.getCommand("worldwar").setExecutor(new WorldWarCommand());
 		this.getCommand("worldwar").setTabCompleter(new WorldWarCommandTabCompleter());
@@ -88,7 +83,7 @@ public final class WorldWar extends JavaPlugin {
 		}
 		new GunRegister();
 		new GuiRegister();
-		//new BlockRegister();
+		new BlockRegister();
 		//new StructureRegister();
 	
 		PreventProfanity.getWordList();
@@ -107,6 +102,7 @@ public final class WorldWar extends JavaPlugin {
 		
 		FileConfiguration config = this.getConfig();
 		boolean isWarD = config.getBoolean("War-Declared");
+		new ReadConfig();
 		Internals.setWarDeclared(isWarD);
 
 		this.setupDC();
@@ -118,6 +114,8 @@ public final class WorldWar extends JavaPlugin {
 		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
 		    PlayerEvents.doReloadFix(player);
 		}
+		new PlayerSorter();
+		this.logger.info(PlayerSorter.getTeamWithMorePlayers());
 	}
 
 	private void checkUpdate() {
@@ -181,5 +179,9 @@ public final class WorldWar extends JavaPlugin {
 
 	public boolean getNotifyUpdate() {
 		return this.notifyUpdate;
+	}
+	
+	public Random getRandom() {
+		return this.random;
 	}
 }

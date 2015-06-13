@@ -1,6 +1,6 @@
 package io.github.podshot.events.guns;
 
-import io.github.podshot.api.interfaces.Gun;
+import io.github.podshot.api.interfaces.IGun;
 
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -9,7 +9,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class BombDiffuser implements Listener, Gun {
+import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
+
+public class BombDiffuser implements Listener, IGun {
 
 	@Override
 	@EventHandler
@@ -38,6 +40,25 @@ public class BombDiffuser implements Listener, Gun {
 		imBombD.setDisplayName("Bomb Diffuser");
 		bombD.setItemMeta(imBombD);
 		return bombD;
+	}
+
+	@Override
+	@EventHandler
+	public void onBulletHit(ItemProjectileHitEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public double getPlayerDamage() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getAnimalDamage() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

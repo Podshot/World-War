@@ -1,7 +1,7 @@
 package io.github.podshot.events.guns;
 
 import io.github.podshot.WorldWar;
-import io.github.podshot.api.interfaces.Grenade;
+import io.github.podshot.api.interfaces.IGrenade;
 import io.github.podshot.internals.Internals;
 
 import org.bukkit.Bukkit;
@@ -23,7 +23,7 @@ import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
 import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
 import com.stirante.MoreProjectiles.projectile.ItemProjectile;
 
-public class NormalGrenade implements Listener, Grenade {
+public class NormalGrenade implements Listener, IGrenade {
 	
 	private WorldWar plugin = WorldWar.getInstance();
 

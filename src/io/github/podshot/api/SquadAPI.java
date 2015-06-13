@@ -6,12 +6,15 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import com.xern.jogy34.xernutilities.handlers.ExtraConfigHandler;
 
 import io.github.podshot.WorldWar;
+import io.github.podshot.api.Proxy.ProxyType;
 
 /**
  * A class used to get info about squad related data
@@ -138,6 +141,97 @@ public class SquadAPI {
 		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "Squads");
 		UUID uuid = UUID.fromString(squadConfig.getString("Squads." + squad + ".Leader"));
 		return uuid;
+	}
+	
+	public static void setSquadObjective(String squad, Location loc) {
+		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "Squads");
+		int x = loc.getBlockX();
+		int y = loc.getBlockY();
+		int z = loc.getBlockZ();
+		String world = loc.getWorld().getName();
+		squadConfig.set("Squads." + squad + ".Objective.X", x);
+		squadConfig.set("Squads." + squad + ".Objective.Y", y);
+		squadConfig.set("Squads." + squad + ".Objective.Z", z);
+		squadConfig.set("Squads." + squad + ".Objective.World", world);
+		ExtraConfigHandler.saveConfig(plugin.fileSep + "Squads");
+	}
+	
+	public static Location getSquadObjective(String squad) {
+		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "Squads");
+		if (squadConfig.contains("Squads." + squad + ".Objective.X")) {
+			// I am assuming that the entire location has been saved
+			int x = squadConfig.getInt("Squads." + squad + ".Objective.X");
+			int y = squadConfig.getInt("Squads." + squad + ".Objective.Y");
+			int z = squadConfig.getInt("Squads." + squad + ".Objective.z");
+			String worldN = squadConfig.getString("Squads." + squad + ".Objective.World");
+			World world = Bukkit.getWorld(worldN);
+			return new Location(world, x, y, z);
+		}
+		return null;
+	}
+	
+	public static boolean hasSquadObjective(String squad) {
+		if (getSquadObjective(squad) != null) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static void removeSquadObjecive(String squad) {
+		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "Squads");
+		squadConfig.set("Squads." + squad + ".Objective.X", null);
+		squadConfig.set("Squads." + squad + ".Objective.Y", null);
+		squadConfig.set("Squads." + squad + ".Objective.Z", null);
+		squadConfig.set("Squads." + squad + ".Objective.World", null);
+		squadConfig.set("Squads." + squad + ".Objective", null);
+		ExtraConfigHandler.saveConfig(plugin.fileSep + "Squads");
+	}
+
+	public static List<Player> getMembers(String squadName) {
+		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "Squads");
+		List<String> memberNames = squadConfig.getStringList("Squads." + squadName + ".Members");
+		List<Player> members = new ArrayList<Player>();
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			if (memberNames.contains(p.getName())) {
+				members.add(p);
+			}
+		}
+		return members;
+	}
+	
+	public static List<UUID> getAllMembers(String squad) {
+		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "Squads");
+		List<String> memberUUIDS = squadConfig.getStringList("Squads." + squad + ".Members");
+		List<UUID> uuidList = new ArrayList<UUID>();
+		for (String sUUID : memberUUIDS) {
+			uuidList.add(UUID.fromString(sUUID));
+		}
+		return uuidList;
+	}
+
+	@Deprecated
+	public static boolean isInASquad(UUID uniqueId) {
+		boolean toReturn = false;
+		List<String> squads = getSquads();
+		for (String squad : squads) {
+			List<UUID> members = SquadAPI.getAllMembers(squad);
+			for (UUID member : members) {
+				if (member.equals(uniqueId)) {
+					toReturn = true;
+				}
+			}
+		}
+		return toReturn;
+	}
+	
+	@Proxy(ProxyType.Player_UUID)
+	public static String getSquadForPlayer(Player player) {
+		return getSquadForPlayer(player.getUniqueId());
+	}
+	
+	@Proxy(ProxyType.Player_UUID)
+	public static boolean isLeader(Player player, String squad) {
+		return isLeader(player.getUniqueId(), squad);
 	}
 
 }

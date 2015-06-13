@@ -1,9 +1,14 @@
 package io.github.podshot.events.guns;
 
+import io.github.podshot.WorldWar;
 import io.github.podshot.api.PlayerAPI;
 import io.github.podshot.api.interfaces.IGun;
+import io.github.podshot.handlers.PlayerHandler;
 import io.github.podshot.internals.Internals;
 
+import java.util.UUID;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -20,6 +25,8 @@ import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
 import com.stirante.MoreProjectiles.projectile.ItemProjectile;
 
 public class Shotgun implements IGun {
+	
+	private WorldWar plugin = WorldWar.getInstance();
 
 	@Override
 	@EventHandler
@@ -39,6 +46,10 @@ public class Shotgun implements IGun {
 		if (!(e.getItem().hasItemMeta())) {
 			return;
 		}
+		
+		if (PlayerHandler.ShotgunReloadHandler.isInList(e.getPlayer().getUniqueId())) {
+			return;
+		}
 
 		ItemStack gunIS = e.getItem();
 		if (gunIS.getType() == Material.MONSTER_EGG && gunIS.getDurability() == 52) {
@@ -50,21 +61,21 @@ public class Shotgun implements IGun {
 					bullet1.setIgnoreSomeBlocks(true);
 					bullet1.boundingBox.shrink(2D, 2D, 2D);
 					Vector b1v = bullet1.getEntity().getVelocity();
-					Vector b1vn = b1v.add(new Vector(0.125f, 0f, 0.125f));
+					Vector b1vn = b1v.add(new Vector(0.25f, 0f, 0.25f));
 					bullet1.getEntity().setVelocity(b1vn);
 
 					ItemProjectile bullet2 = new ItemProjectile("bullet-shotgun", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 2.0F);
 					bullet2.setIgnoreSomeBlocks(true);
 					bullet2.boundingBox.shrink(2D, 2D, 2D);
 					Vector b2v = bullet2.getEntity().getVelocity();
-					Vector b2vn = b2v.add(new Vector(-0.125f, 0f, -0.125f));
+					Vector b2vn = b2v.add(new Vector(-0.25f, 0.25f, -0.25f));
 					bullet2.getEntity().setVelocity(b2vn);
 					
 					ItemProjectile bullet3 = new ItemProjectile("bullet-shotgun", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 2.0F);
 					bullet3.setIgnoreSomeBlocks(true);
 					bullet3.boundingBox.shrink(2D, 2D, 2D);
 					Vector b3v = bullet3.getEntity().getVelocity();
-					Vector b3vn = b3v.add(new Vector(0.125f, 0f, -0.125f));
+					Vector b3vn = b3v.add(new Vector(0.25f, -0.25f, -0.25f));
 					bullet3.getEntity().setVelocity(b3vn);
 
 					int lvl = e.getPlayer().getLevel() - 1;
@@ -73,6 +84,17 @@ public class Shotgun implements IGun {
 					e.getPlayer().setExp(progress);
 					e.setCancelled(true);
 					PlayerAPI.setAmmoAmount(e.getPlayer(), "Shotgun", lvl);
+					
+					final UUID uuid = e.getPlayer().getUniqueId();
+					PlayerHandler.ShotgunReloadHandler.addToList(uuid);
+					Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
+
+						@Override
+						public void run() {
+							PlayerHandler.ShotgunReloadHandler.removeFromList(uuid);
+						}
+						
+					}, 40L);
 				}
 			}
 		}

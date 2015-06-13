@@ -7,9 +7,9 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public class ReadConfig {
 	
-	private WorldWar plugin = WorldWar.getInstance();
+	private static WorldWar plugin = WorldWar.getInstance();
 
-	public void readConfig() {
+	public ReadConfig() {
 		FileConfiguration config = plugin.getConfig();
 		ConfigInternals.setAATOE(config.getBoolean("Allow-Anyone-To-Enter-Vehicles"));
 		ConfigInternals.setHUOLAQW(config.getBoolean("Hyped-Up-On-Lemonade-And-Gummy-Worms"));
@@ -17,5 +17,14 @@ public class ReadConfig {
 		//ConfigInternals.setDPAHBOE(config.getBoolean("Drop-Player-At-Highest-Block-On-Exit"));
 		ConfigInternals.setDevelopmentStageToListen(config.getString("Development-Stage-To-Listen-For"));
 	}
+	
+	public static void addToTeam(String team) {
+		FileConfiguration config = plugin.getConfig();
+		int memberAmount = config.getInt("Teams."+team+".MemberAmount") + 1; 
+		config.set("Teams."+team+".MemberAmount", memberAmount);
+		plugin.saveConfig();
+	}
+	
+	
 
 }

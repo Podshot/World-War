@@ -1,5 +1,6 @@
 package io.github.podshot.events.guns;
 
+import io.github.podshot.api.PlayerAPI;
 import io.github.podshot.api.interfaces.IGun;
 import io.github.podshot.internals.Internals;
 
@@ -52,7 +53,32 @@ public class SniperRifle implements IGun {
 
 	@EventHandler
 	public void onGunReload(PlayerInteractEvent e) {
-		// TODO Auto-generated method stub
+		
+		if (!(Internals.isWarDeclared())) {
+			return;
+		}
+		
+		if (!(e.getAction() == Action.LEFT_CLICK_AIR)) {
+			return;
+		}
+		
+		if (e.getItem() == null) {
+			return;
+		}
+		
+		if (!(e.getItem().hasItemMeta())) {
+			return;
+		}
+		
+		ItemStack gunIS = e.getItem();
+		if (gunIS.getType() == Material.MONSTER_EGG && gunIS.getDurability() == 52) {
+			if (gunIS.getItemMeta().getDisplayName().equals("Sniper Rifle")) {
+				e.getPlayer().setLevel(this.getMagSize());
+				float progress = this.getMagSize() / this.getMagSize();
+				PlayerAPI.setAmmoAmount(e.getPlayer(), "Sniper Rifle", this.getMagSize());
+				e.getPlayer().setExp(progress);
+			}
+		}
 
 	}
 

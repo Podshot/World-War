@@ -5,10 +5,11 @@ import net.citizensnpcs.api.npc.NPC;
 
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
-public interface Vehicle {
+public interface IVehicle extends Listener {
 	
 	@EventHandler
 	void onPilotEnterVehicle(NPCRightClickEvent e);

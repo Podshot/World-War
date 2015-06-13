@@ -23,14 +23,14 @@ public class StructureYAML {
 	public StructureYAML() {
 		File structures = new File(plugin.getDataFolder() + plugin.fileSep + "Structures");
 		if (!structures.exists()) {
-			ExtraConfigHandler.getConfig(plugin.fileSep + "Structures");
-			ExtraConfigHandler.saveConfig(plugin.fileSep + "Structures");
+			ExtraConfigHandler.getConfig("Structures");
+			ExtraConfigHandler.saveConfig("Structures");
 			addConfigValues();
 		}
 	}
 
 	private static void addConfigValues() {
-		FileConfiguration structureConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "Structures" + plugin.fileSep + "Structures");
+		FileConfiguration structureConfig = ExtraConfigHandler.getConfig("Structures");
 		structureConfig.set("Structure.Flag.Red.X", 0);
 		structureConfig.set("Structure.Flag.Red.Y", 100);
 		structureConfig.set("Structure.Flag.Red.Z", 0);
@@ -44,11 +44,26 @@ public class StructureYAML {
 		structureConfig.set("Structure.Vehicle.Spawn.0-100-0", "Blaze");
 		
 
-		ExtraConfigHandler.saveConfig(plugin.fileSep + "Structures" + plugin.fileSep + "Structures");
+		ExtraConfigHandler.saveConfig("Structures");
+	}
+	
+	public static void setTeamSpawnpoint(Location loc, String team) {
+		
+	}
+	
+	public static Location getTeamSpawnpoint(String team) {
+		FileConfiguration config = ExtraConfigHandler.getConfig("Structures");
+		int x = config.getInt("Structure."+team+".Spawnpoint.X");
+		int y = config.getInt("Structure."+team+".Spawnpoint.Y");
+		int z = config.getInt("Structure."+team+".Spawnpoint.Z");
+		String name = config.getString("Structure."+team+".Spawnpoint.World");
+		World world = Bukkit.getWorld(name);
+		Location loc = new Location(world, x, y, z);
+		return loc;
 	}
 
 	public static Location getFlagPostition(String team) {
-		FileConfiguration config = ExtraConfigHandler.getConfig(plugin.fileSep + "Structures" + plugin.fileSep + "Structures");
+		FileConfiguration config = ExtraConfigHandler.getConfig("Structures");
 		int x = config.getInt("Structure.Flag." + team + ".X");
 		int y = config.getInt("Structure.Flag." + team + ".Y");
 		int z = config.getInt("Structure.Flag." + team + ".Z");
@@ -60,7 +75,7 @@ public class StructureYAML {
 	}
 	
 	public static void setFlagLocation(Location flag, String team) {
-		FileConfiguration flagConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "Structures" + plugin.fileSep + "Structures");
+		FileConfiguration flagConfig = ExtraConfigHandler.getConfig("Structures");
 		
 		int x = flag.getBlockX();
 		int y = flag.getBlockY();
@@ -72,11 +87,11 @@ public class StructureYAML {
 		flagConfig.set("Structure.Flag." + team + ".Z", z);
 		flagConfig.set("Structure.Flag." + team + ".World", w.getName());
 		
-		ExtraConfigHandler.saveConfig(plugin.fileSep + "Structures" + plugin.fileSep + "Structures");
+		ExtraConfigHandler.saveConfig("Structures");
 	}
 	
 	public static void setVehiclePad(Location loc, VehicleType type) {
-		FileConfiguration config = ExtraConfigHandler.getConfig(plugin.fileSep + "Structures" + plugin.fileSep + "Structures");
+		FileConfiguration config = ExtraConfigHandler.getConfig("Structures");
 		
 		int x = loc.getBlockX();
 		int y = loc.getBlockY();
@@ -97,7 +112,19 @@ public class StructureYAML {
 		config.set("Structure.Vehicle." + name + "Type", type);
 		*/
 		
-		ExtraConfigHandler.saveConfig(plugin.fileSep + "Structures" + plugin.fileSep + "Structures");
+		ExtraConfigHandler.saveConfig("Structures");
 	}
-
+	
+	public static void saveMortar(List<Location> mortars) {
+		FileConfiguration config = ExtraConfigHandler.getConfig("Structures");
+		String strLoc;
+		config.set("SpecialBlocks.Mortars", mortars);
+		ExtraConfigHandler.saveConfig("Structures");
+	}
+	
+	//public static List<Location> loadMortars() {
+		//List<Location> mortars = new ArrayList<Location>();
+		//for (boolean mortar : )
+		//return null;
+	//}
 }

@@ -2,24 +2,21 @@ package io.github.podshot.commands;
 
 import io.github.podshot.WorldWar;
 import io.github.podshot.api.SquadAPI;
+import io.github.podshot.events.blocks.SquadObjectiveBlock;
 import io.github.podshot.gui.SquadInviteGUI;
 import io.github.podshot.handlers.PlayerHandler;
 import io.github.podshot.squads.RemoveSquad;
 import io.github.podshot.squads.Squad;
 
-import java.util.Arrays;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 
@@ -28,7 +25,7 @@ public class SquadCommand implements CommandExecutor {
 	private WorldWar plugin = WorldWar.getInstance();
 
 	@SuppressWarnings("unused")
-	private String commandUsage = "/squad <create|disband|invite|kick|leave|waypoint> <Squad Name| |Player Name|Player Name| | mutipleValues>";
+	private String commandUsage = "/squad <create|disband|invite|kick|leave|objective> <Squad Name| |Player Name|Player Name| |mutipleValues>";
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2, String[] args) {
@@ -124,14 +121,21 @@ public class SquadCommand implements CommandExecutor {
 			} else if (args[0].equalsIgnoreCase("leave")) {
 				toReturn = false;
 			} else if (args[0].equalsIgnoreCase("waypoint")) {
-				if (args[1] == null) {
-					ItemStack waypointBlock = new ItemStack(Material.BEACON);
-					ItemMeta im = waypointBlock.getItemMeta();
-					im.setDisplayName("Set Squad Waypoint");
-					im.setLore(Arrays.asList("Squad: " + SquadAPI.getSquadForPlayer(player.getUniqueId())));
-					waypointBlock.setItemMeta(im);
-					
-					player.getInventory().addItem(waypointBlock);
+				if (args[1] == null) {					
+					player.getInventory().addItem(SquadObjectiveBlock.getSpecialBlock());
+					toReturn = true;
+				} else {
+					if (args[1].equalsIgnoreCase("remove")) {
+						String squadName = null;
+						for (MetadataValue val : player.getMetadata("WorldWar.Squad")) {
+							if (val.getOwningPlugin().getName().equals("WorldWar")) {
+								squadName = val.asString();
+							}
+						}
+						if (SquadAPI.isLeader(player, squadName)) {
+							SquadAPI.removeSquadObjecive(squadName);
+						}
+					}
 				}
 			}
 		}

@@ -1,6 +1,7 @@
 package io.github.podshot.events.structures;
 
 import io.github.podshot.WorldWar;
+import io.github.podshot.api.interfaces.IStructure;
 import io.github.podshot.internals.Internals;
 import me.astramg.resources.BlockGenerator;
 
@@ -8,16 +9,17 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.metadata.MetadataValue;
 
-public class Wall implements Listener {
+@Deprecated
+public class Wall implements IStructure {
 	
 	private WorldWar plugin = WorldWar.getInstance();
 
+	@SuppressWarnings("unused")
 	@EventHandler
 	public void onPlaceStructure(final BlockPlaceEvent evt) {
 		String warClass = null;
@@ -58,7 +60,8 @@ public class Wall implements Listener {
 						}
 					}
 					if (warClass.equals("Builder")) {
-						
+						BlockGenerator destroy = this.getBlocksArray(Material.AIR);
+						destroy.generate(evt.getClickedBlock().getLocation().add(-3, 0, 0), true);
 					} else {
 						evt.setCancelled(true);
 					}
@@ -75,5 +78,4 @@ public class Wall implements Listener {
 				new BlockGenerator.BlockLayer(";GGGGGGG").setBlockType('G', mat));
 		return structure;
 	}
-
 }

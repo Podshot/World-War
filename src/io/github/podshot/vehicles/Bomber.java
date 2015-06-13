@@ -3,7 +3,7 @@ package io.github.podshot.vehicles;
 import io.github.podshot.WorldWar;
 import io.github.podshot.api.Refactor;
 import io.github.podshot.api.VehicleAPI;
-import io.github.podshot.api.interfaces.Vehicle;
+import io.github.podshot.api.interfaces.IVehicle;
 import io.github.podshot.internals.ConfigInternals;
 import io.github.podshot.internals.Internals;
 import net.citizensnpcs.api.CitizensAPI;
@@ -31,7 +31,7 @@ import pgDev.bukkit.DisguiseCraft.api.DisguiseCraftAPI;
 import pgDev.bukkit.DisguiseCraft.disguise.Disguise;
 import pgDev.bukkit.DisguiseCraft.disguise.DisguiseType;
 
-public class Bomber implements Listener, Vehicle {
+public class Bomber implements Listener, IVehicle {
 
 	private WorldWar plugin = WorldWar.getInstance();
 	private DisguiseCraftAPI dcAPI = plugin.getDCAPI();
