@@ -162,6 +162,8 @@ public final class WorldWar extends JavaPlugin {
 		}
 		this.saveConfig();
 		BattleStatistics.saveStatistics();
+		PlayerDataYAML.saveYAML();
+		StructureYAML.saveYAML();
 		instance = null;
 	}
 

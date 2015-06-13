@@ -17,7 +17,7 @@ import com.xern.jogy34.xernutilities.handlers.ExtraConfigHandler;
 public class StructureYAML {
 
 	private static WorldWar plugin = WorldWar.getInstance();
-
+	private static FileConfiguration config;
 	private static List<String> list = new ArrayList<String>();
 	
 	public StructureYAML() {
@@ -25,26 +25,33 @@ public class StructureYAML {
 		if (!structures.exists()) {
 			ExtraConfigHandler.getConfig("Structures");
 			ExtraConfigHandler.saveConfig("Structures");
+			config = ExtraConfigHandler.getConfig("Structures");
 			addConfigValues();
+		} else {
+			config = ExtraConfigHandler.getConfig("Structures");
 		}
+	}
+	
+	public static void saveYAML() {
+		ExtraConfigHandler.saveConfig("Structures");
+	}
+	
+	public static void reloadYAML() {
+		config = ExtraConfigHandler.reloadConfig("Structures");
 	}
 
 	private static void addConfigValues() {
-		FileConfiguration structureConfig = ExtraConfigHandler.getConfig("Structures");
-		structureConfig.set("Structure.Flag.Red.X", 0);
-		structureConfig.set("Structure.Flag.Red.Y", 100);
-		structureConfig.set("Structure.Flag.Red.Z", 0);
-		structureConfig.set("Structure.Flag.Red.World", null);
+		config.set("Structure.Flag.Red.X", 0);
+		config.set("Structure.Flag.Red.Y", 100);
+		config.set("Structure.Flag.Red.Z", 0);
+		config.set("Structure.Flag.Red.World", null);
 
-		structureConfig.set("Structure.Flag.Blue.X", 0);
-		structureConfig.set("Structure.Flag.Blue.Y", 100);
-		structureConfig.set("Structure.Flag.Blue.Z", 0);
-		structureConfig.set("Structure.Flag.Blue.World", null);
+		config.set("Structure.Flag.Blue.X", 0);
+		config.set("Structure.Flag.Blue.Y", 100);
+		config.set("Structure.Flag.Blue.Z", 0);
+		config.set("Structure.Flag.Blue.World", null);
 		
-		structureConfig.set("Structure.Vehicle.Spawn.0-100-0", "Blaze");
-		
-
-		ExtraConfigHandler.saveConfig("Structures");
+		config.set("Structure.Vehicle.Spawn.0-100-0", "Blaze");
 	}
 	
 	public static void setTeamSpawnpoint(Location loc, String team) {
@@ -52,7 +59,6 @@ public class StructureYAML {
 	}
 	
 	public static Location getTeamSpawnpoint(String team) {
-		FileConfiguration config = ExtraConfigHandler.getConfig("Structures");
 		int x = config.getInt("Structure."+team+".Spawnpoint.X");
 		int y = config.getInt("Structure."+team+".Spawnpoint.Y");
 		int z = config.getInt("Structure."+team+".Spawnpoint.Z");
@@ -63,7 +69,6 @@ public class StructureYAML {
 	}
 
 	public static Location getFlagPostition(String team) {
-		FileConfiguration config = ExtraConfigHandler.getConfig("Structures");
 		int x = config.getInt("Structure.Flag." + team + ".X");
 		int y = config.getInt("Structure.Flag." + team + ".Y");
 		int z = config.getInt("Structure.Flag." + team + ".Z");
@@ -75,23 +80,20 @@ public class StructureYAML {
 	}
 	
 	public static void setFlagLocation(Location flag, String team) {
-		FileConfiguration flagConfig = ExtraConfigHandler.getConfig("Structures");
 		
 		int x = flag.getBlockX();
 		int y = flag.getBlockY();
 		int z = flag.getBlockZ();
 		World w = flag.getWorld();
 		
-		flagConfig.set("Structure.Flag." + team + ".X", x);
-		flagConfig.set("Structure.Flag." + team + ".Y", y);
-		flagConfig.set("Structure.Flag." + team + ".Z", z);
-		flagConfig.set("Structure.Flag." + team + ".World", w.getName());
+		config.set("Structure.Flag." + team + ".X", x);
+		config.set("Structure.Flag." + team + ".Y", y);
+		config.set("Structure.Flag." + team + ".Z", z);
+		config.set("Structure.Flag." + team + ".World", w.getName());
 		
-		ExtraConfigHandler.saveConfig("Structures");
 	}
 	
 	public static void setVehiclePad(Location loc, VehicleType type) {
-		FileConfiguration config = ExtraConfigHandler.getConfig("Structures");
 		
 		int x = loc.getBlockX();
 		int y = loc.getBlockY();
@@ -112,14 +114,11 @@ public class StructureYAML {
 		config.set("Structure.Vehicle." + name + "Type", type);
 		*/
 		
-		ExtraConfigHandler.saveConfig("Structures");
 	}
 	
 	public static void saveMortar(List<Location> mortars) {
-		FileConfiguration config = ExtraConfigHandler.getConfig("Structures");
 		String strLoc;
 		config.set("SpecialBlocks.Mortars", mortars);
-		ExtraConfigHandler.saveConfig("Structures");
 	}
 	
 	//public static List<Location> loadMortars() {
