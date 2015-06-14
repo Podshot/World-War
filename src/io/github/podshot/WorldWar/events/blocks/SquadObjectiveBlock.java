@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.podshot.WorldWar.api.SquadAPI;
+import io.github.podshot.WorldWar.api.SquadAPI_OLD;
 import io.github.podshot.WorldWar.api.interfaces.ISpecialBlock;
 import io.github.podshot.WorldWar.internals.Internals;
 import io.github.podshot.WorldWar.squads.SquadObjective;
@@ -33,11 +33,11 @@ public class SquadObjectiveBlock implements ISpecialBlock {
 			return;
 		}
 		
-		if (!(SquadAPI.isLeader(evt.getPlayer().getUniqueId(), SquadAPI.getSquadForPlayer(evt.getPlayer().getUniqueId())))) {
+		if (!(SquadAPI_OLD.isLeader(evt.getPlayer().getUniqueId(), SquadAPI_OLD.getSquadForPlayer(evt.getPlayer().getUniqueId())))) {
 			return;
 		}
 		
-		new SquadObjective(SquadAPI.getSquadForPlayer(evt.getPlayer().getUniqueId()), evt.getBlockPlaced().getLocation());
+		new SquadObjective(SquadAPI_OLD.getSquadForPlayer(evt.getPlayer().getUniqueId()), evt.getBlockPlaced().getLocation());
 		evt.setCancelled(true);
 		
 	}

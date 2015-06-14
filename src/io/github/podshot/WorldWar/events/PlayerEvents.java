@@ -5,7 +5,7 @@ import java.util.List;
 
 import io.github.podshot.WorldWar.WorldWar;
 import io.github.podshot.WorldWar.api.PlayerAPI;
-import io.github.podshot.WorldWar.api.SquadAPI;
+import io.github.podshot.WorldWar.api.SquadAPI_OLD;
 import io.github.podshot.WorldWar.files.PlayerDataYAML;
 import io.github.podshot.WorldWar.gui.ClassChooser;
 import io.github.podshot.WorldWar.gui.TeamChooser;
@@ -71,7 +71,7 @@ public class PlayerEvents implements Listener {
 						if (player.hasPermission("worldwar.notifyUpdate") && plugin.getNotifyUpdate()) {
 
 						}
-						if (!(SquadAPI.getSquadForPlayer(player.getUniqueId()).equals("Not in Squad"))) {
+						if (!(SquadAPI_OLD.getSquadForPlayer(player.getUniqueId()).equals("Not in Squad"))) {
 							if (player.getInventory().contains(new ItemStack(Material.COMPASS))) {
 								for (ItemStack item : player.getInventory().getContents()) {
 									if (item.getType() == Material.COMPASS) {
@@ -79,7 +79,7 @@ public class PlayerEvents implements Listener {
 											if (item.getItemMeta().hasDisplayName()) {
 												String name = ChatColor.stripColor(item.getItemMeta().getDisplayName());
 												if (name.equals("Squad Objective Locator")) {
-													Location objLoc = SquadAPI.getSquadObjective(SquadAPI.getSquadForPlayer(player.getUniqueId()));
+													Location objLoc = SquadAPI_OLD.getSquadObjective(SquadAPI_OLD.getSquadForPlayer(player.getUniqueId()));
 													ItemMeta im = item.getItemMeta();
 													im.setLore(null);
 													item.setItemMeta(im);
@@ -179,7 +179,7 @@ public class PlayerEvents implements Listener {
 				if (player.hasPermission("worldwar.notifyUpdate") && plugin.getNotifyUpdate()) {
 
 				}
-				if (!(SquadAPI.getSquadForPlayer(player.getUniqueId()).equals("Not in Squad"))) {
+				if (!(SquadAPI_OLD.getSquadForPlayer(player.getUniqueId()).equals("Not in Squad"))) {
 					if (player.getInventory().contains(new ItemStack(Material.COMPASS))) {
 						for (ItemStack item : player.getInventory().getContents()) {
 							if (item.getType() == Material.COMPASS) {
@@ -187,7 +187,7 @@ public class PlayerEvents implements Listener {
 									if (item.getItemMeta().hasDisplayName()) {
 										String name = ChatColor.stripColor(item.getItemMeta().getDisplayName());
 										if (name.equals("Squad Objective Locator")) {
-											Location objLoc = SquadAPI.getSquadObjective(SquadAPI.getSquadForPlayer(player.getUniqueId()));
+											Location objLoc = SquadAPI_OLD.getSquadObjective(SquadAPI_OLD.getSquadForPlayer(player.getUniqueId()));
 											ItemMeta im = item.getItemMeta();
 											im.setLore(null);
 											item.setItemMeta(im);

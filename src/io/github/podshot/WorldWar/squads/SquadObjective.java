@@ -1,6 +1,6 @@
 package io.github.podshot.WorldWar.squads;
 
-import io.github.podshot.WorldWar.api.SquadAPI;
+import io.github.podshot.WorldWar.api.SquadAPI_OLD;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +16,8 @@ public class SquadObjective {
 	
 	@SuppressWarnings("deprecation")
 	public SquadObjective(String squadName, Location objLoc) {
-		SquadAPI.setSquadObjective(squadName, objLoc);
-		for (Player member : SquadAPI.getMembers(squadName)) {
+		SquadAPI_OLD.setSquadObjective(squadName, objLoc);
+		for (Player member : SquadAPI_OLD.getMembers(squadName)) {
 			member.setCompassTarget(objLoc);
 			ItemStack gps = new ItemStack(Material.COMPASS);
 			ItemMeta gpsIM = gps.getItemMeta();

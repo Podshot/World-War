@@ -1,12 +1,12 @@
 package io.github.podshot.WorldWar.commands;
 
 import io.github.podshot.WorldWar.WorldWar;
-import io.github.podshot.WorldWar.api.SquadAPI;
+import io.github.podshot.WorldWar.api.SquadAPI_OLD;
 import io.github.podshot.WorldWar.events.blocks.SquadObjectiveBlock;
 import io.github.podshot.WorldWar.gui.SquadInviteGUI;
 import io.github.podshot.WorldWar.handlers.PlayerHandler;
 import io.github.podshot.WorldWar.squads.RemoveSquad;
-import io.github.podshot.WorldWar.squads.Squad;
+import io.github.podshot.WorldWar.squads.Squad_OLD;
 
 import java.util.UUID;
 
@@ -41,8 +41,8 @@ public class SquadCommand implements CommandExecutor {
 					}
 				}
 				if (!(onSquad)) {
-					if (!(SquadAPI.getSquads().contains(squadName))) {
-						new Squad(squadName, player.getUniqueId());
+					if (!(SquadAPI_OLD.getSquads().contains(squadName))) {
+						new Squad_OLD(squadName, player.getUniqueId());
 						player.setMetadata("WorldWar.Squad", new FixedMetadataValue(plugin, squadName));
 						player.setMetadata("WorldWar.inSquad", new FixedMetadataValue(plugin, true));
 					} else {
@@ -78,7 +78,7 @@ public class SquadCommand implements CommandExecutor {
 						squadName = val.asString();
 					}
 				}
-				if (SquadAPI.isLeader(player.getUniqueId(), squadName)) {
+				if (SquadAPI_OLD.isLeader(player.getUniqueId(), squadName)) {
 					for (final Player p : Bukkit.getOnlinePlayers()) {
 						if (p.getName().equalsIgnoreCase(args[1].toString())) {
 							p.openInventory(SquadInviteGUI.getSquadInviteGUI(squadName));
@@ -112,9 +112,9 @@ public class SquadCommand implements CommandExecutor {
 						playerUUID = p.getUniqueId();
 					}
 				}
-				if (SquadAPI.isLeader(player.getUniqueId(), squadName)) {
-					if (SquadAPI.isInSquad(player.getUniqueId(), squadName)) {
-						SquadAPI.removeMember(squadName, playerUUID);
+				if (SquadAPI_OLD.isLeader(player.getUniqueId(), squadName)) {
+					if (SquadAPI_OLD.isInSquad(player.getUniqueId(), squadName)) {
+						SquadAPI_OLD.removeMember(squadName, playerUUID);
 					}
 				}
 
@@ -132,8 +132,8 @@ public class SquadCommand implements CommandExecutor {
 								squadName = val.asString();
 							}
 						}
-						if (SquadAPI.isLeader(player, squadName)) {
-							SquadAPI.removeSquadObjecive(squadName);
+						if (SquadAPI_OLD.isLeader(player, squadName)) {
+							SquadAPI_OLD.removeSquadObjecive(squadName);
 						}
 					}
 				}

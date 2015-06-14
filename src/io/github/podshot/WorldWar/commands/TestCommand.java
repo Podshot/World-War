@@ -16,7 +16,6 @@ import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
