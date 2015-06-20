@@ -9,7 +9,7 @@ import io.github.podshot.WorldWar.events.guis.BuildingChooserGUI;
 public class StructureRegister {
 	
 	public StructureRegister() {
-		WorldWar plugin = WorldWar.getInstance();
+		//WorldWar plugin = WorldWar.getInstance();
 		//plugin.getServer().getPluginManager().registerEvents(new StructurePlace(), plugin);
 		//plugin.getServer().getPluginManager().registerEvents(new BuildingChooserGUI(), plugin);
 	}

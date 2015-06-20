@@ -51,7 +51,6 @@ public final class WorldWar extends JavaPlugin {
 	private String pluginFolder;
 	private File pluginFolderF;
 	private DisguiseCraftAPI dcAPI;
-	private boolean generate;
 	private static WorldWar instance;
 	public boolean debug = true;
 	private Random random = new Random();
