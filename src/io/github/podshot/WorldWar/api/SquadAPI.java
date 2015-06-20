@@ -18,6 +18,7 @@ public class SquadAPI {
 	private static WorldWar plugin = WorldWar.getInstance();
 	private static FileConfiguration config;
 	private static HashMap<String, Squad> squads = new HashMap<String, Squad>();
+	private static HashMap<UUID, Squad> leaders = new HashMap<UUID, Squad>();
 	
 	public SquadAPI() {
 		File squadYaml = new File(plugin.getDataFolder() + plugin.fileSep + "Squads");
@@ -29,7 +30,9 @@ public class SquadAPI {
 			config = ExtraConfigHandler.getConfig(plugin.fileSep + "Squads");
 			List<String> allSquads = config.getStringList("Squads.AllSquads");
 			for (String squadName : allSquads) {
-				squads.put(squadName, new Squad(squadName, config));
+				Squad parsedSquad = new Squad(squadName, config);
+				squads.put(squadName, parsedSquad);
+				leaders.put(parsedSquad.getSquadLeader(), parsedSquad);
 			}
 		}
 	}
@@ -72,6 +75,34 @@ public class SquadAPI {
 	
 	public static HashMap<String, Squad> getAllSquads() {
 		return squads;
+	}
+	
+	public static boolean isLeader(UUID player) {
+		return leaders.containsKey(player);
+	}
+	
+	public static Squad getSquadThePlayerLeads(UUID player) {
+		return leaders.get(player);
+	}
+	
+	public static boolean inSquad(UUID player) {
+		for (String squadName : squads.keySet()) {
+			Squad squad = squads.get(squadName);
+			if (squad.getSquadMembers().contains(player)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static Squad getSquadForPlayer(UUID player) {
+		for (String squadName : squads.keySet()) {
+			Squad squad = squads.get(squadName);
+			if (squad.getSquadMembers().contains(player)) {
+				return squad;
+			}
+		}
+		return null;
 	}
 
 }

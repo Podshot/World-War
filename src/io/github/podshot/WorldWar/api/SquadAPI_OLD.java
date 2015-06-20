@@ -27,6 +27,7 @@ public class SquadAPI_OLD {
 	 * Gets the list of all squads known to WorldWar
 	 * @return A List<String> of all squad names 
 	 */
+	@Deprecated
 	public static List<String> getSquads() {
 		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "Squads");
 		List<String> squads = squadConfig.getStringList("Squads.Global.SquadList");
@@ -40,6 +41,7 @@ public class SquadAPI_OLD {
 	 * @param squadName The name of the squad that the player might be the leader of
 	 * @return true if the player is the leader, false if otherwise
 	 */
+	@Deprecated
 	public static boolean isLeader(UUID uuid, String squadName) {
 		boolean ret = false;
 		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "Squads");
