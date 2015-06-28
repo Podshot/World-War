@@ -80,7 +80,7 @@ public class Shotgun implements IGun {
 
 					int lvl = e.getPlayer().getLevel() - 1;
 					e.getPlayer().setLevel(lvl);
-					float progress = (float) lvl/this.getMagSize();
+					float progress = (float) lvl/Shotgun.getMagSize();
 					e.getPlayer().setExp(progress);
 					e.setCancelled(true);
 					PlayerAPI.setAmmoAmount(e.getPlayer(), "Shotgun", lvl);
@@ -124,17 +124,16 @@ public class Shotgun implements IGun {
 		ItemStack gunIS = e.getItem();
 		if (gunIS.getType() == Material.MONSTER_EGG && gunIS.getDurability() == 52) {
 			if (gunIS.getItemMeta().getDisplayName().equals("Shotgun")) {
-				e.getPlayer().setLevel(this.getMagSize());
-				float progress = this.getMagSize() / this.getMagSize();
-				PlayerAPI.setAmmoAmount(e.getPlayer(), "Shotgun", this.getMagSize());
+				e.getPlayer().setLevel(Shotgun.getMagSize());
+				float progress = Shotgun.getMagSize() / Shotgun.getMagSize();
+				PlayerAPI.setAmmoAmount(e.getPlayer(), "Shotgun", Shotgun.getMagSize());
 				e.getPlayer().setExp(progress);
 			}
 		}
 
 	}
 
-	@Override
-	public int getMagSize() {
+	public static int getMagSize() {
 		return 8;
 	}
 

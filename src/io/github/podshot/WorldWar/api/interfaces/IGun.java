@@ -26,7 +26,7 @@ public interface IGun extends Listener {
 	 * Gets the amount of ammo the gun should have before not firing
 	 * @return An Integer of how many bullets the player can shoot
 	 */
-	int getMagSize();
+	//int getMagSize();
 	
 	double getPlayerDamage();
 	

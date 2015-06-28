@@ -1,5 +1,6 @@
 package io.github.podshot.WorldWar;
 
+import io.github.podshot.WorldWar.api.SquadAPI;
 import io.github.podshot.WorldWar.commands.SquadCommand;
 import io.github.podshot.WorldWar.commands.TeamCommand;
 import io.github.podshot.WorldWar.commands.TestCommand;
@@ -98,6 +99,7 @@ public final class WorldWar extends JavaPlugin {
 		ExtraConfigHandler.initalize(this);
 		new StructureYAML();
 		new PlayerDataYAML();
+		new SquadAPI();
 		
 		FileConfiguration config = this.getConfig();
 		boolean isWarD = config.getBoolean("War-Declared");
@@ -163,6 +165,7 @@ public final class WorldWar extends JavaPlugin {
 		BattleStatistics.saveStatistics();
 		PlayerDataYAML.saveYAML();
 		StructureYAML.saveYAML();
+		SquadAPI.saveYAML();
 		instance = null;
 	}
 

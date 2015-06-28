@@ -58,6 +58,7 @@ public class SquadAPI_OLD {
 	 * @param squadName Name of the squad that may contain the Player
 	 * @return true if they are in the specified squad, false otherwise
 	 */
+	@Deprecated
 	public static boolean isInSquad(UUID playerUUID, String squadName) {
 		boolean ret = false;
 		List<UUID> squadUUIDs = new ArrayList<UUID>();
@@ -78,6 +79,7 @@ public class SquadAPI_OLD {
 	 * @param squadName The name of the squad that the player should be added to
 	 * @param memberUUID The UUID of the player that should be added to the squad
 	 */
+	@Deprecated
 	public static void addMember(String squadName, UUID memberUUID) {
 		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.fileSep + "Squads");
 		List<String> existingMembers = squadConfig.getStringList("Squads." + squadName + ".Members");
@@ -102,6 +104,7 @@ public class SquadAPI_OLD {
 	 * @param squadName The name of the squad that the player should removed from
 	 * @param memberUUID The UUID of the player that should be removed from the squad
 	 */
+	@Deprecated
 	public static void removeMember(String squadName, UUID memberUUID) {
 		FileConfiguration squadConfig = ExtraConfigHandler.getConfig(plugin.getDataFolder() + plugin.fileSep + "Squads");
 		List<String> existingMembers = squadConfig.getStringList("Squads." + squadName + ".Members");

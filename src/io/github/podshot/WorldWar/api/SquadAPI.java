@@ -4,6 +4,7 @@ import io.github.podshot.WorldWar.WorldWar;
 import io.github.podshot.WorldWar.squads.Squad;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -21,30 +22,36 @@ public class SquadAPI {
 	private static HashMap<UUID, Squad> leaders = new HashMap<UUID, Squad>();
 	
 	public SquadAPI() {
-		File squadYaml = new File(plugin.getDataFolder() + plugin.fileSep + "Squads");
+		plugin.logger.info(plugin.getDataFolder() + plugin.fileSep + "Squads.yml");
+		File squadYaml = new File(plugin.getDataFolder() + plugin.fileSep + "Squads.yml");
+		plugin.logger.info("Exists: "+squadYaml.exists());
 		if (!squadYaml.exists()) {
-			ExtraConfigHandler.getConfig(plugin.fileSep + "Squads");
-			ExtraConfigHandler.saveConfig(plugin.fileSep + "Squads");
-			config = ExtraConfigHandler.getConfig(plugin.fileSep + "Squads");
+			ExtraConfigHandler.getConfig("Squads");
+			ExtraConfigHandler.saveConfig("Squads");
+			config = ExtraConfigHandler.getConfig("Squads");
 		} else {
-			config = ExtraConfigHandler.getConfig(plugin.fileSep + "Squads");
-			List<String> allSquads = config.getStringList("Squads.AllSquads");
+			plugin.logger.info("Loading from file...");
+			config = ExtraConfigHandler.getConfig("Squads");
+			List<String> allSquads = config.getStringList("AllSquads");
 			for (String squadName : allSquads) {
-				Squad parsedSquad = new Squad(squadName, config);
+				Squad parsedSquad = new Squad(squadName, UUID.fromString(config.getString("Squads."+squadName+".Leader")), config.getStringList("Squads."+squadName+".Members"), config.getString("Squads."+squadName+".Alligance"));
 				squads.put(squadName, parsedSquad);
 				leaders.put(parsedSquad.getSquadLeader(), parsedSquad);
 			}
+			plugin.logger.info("Squads: "+squads.size());
 		}
 	}
 	
 	public static void saveYAML() {
+		plugin.logger.info(squads.toString());
+		config.set("AllSquads", new ArrayList<String>(squads.keySet()));
 		for (String squadName : squads.keySet()) {
 			Squad squad = squads.get(squadName);
-			config.set("Squads." + squad.getSquadName() + ".Leader", squad.getSquadLeader());
+			config.set("Squads." + squad.getSquadName() + ".Leader", squad.getSquadLeader().toString());
 			config.set("Squads." + squad.getSquadName() + ".Members", squad.getSquadMembers());
 			config.set("Squads." + squad.getSquadName() + ".Alligance", squad.getAlligance());
 		}
-		ExtraConfigHandler.saveConfig(plugin.fileSep + "Squads");
+		ExtraConfigHandler.saveConfig("Squads");
 	}
 	
 	public static void reloadYAML() {
@@ -55,16 +62,9 @@ public class SquadAPI {
 		return !squads.containsKey(squadName);
 	}
 	
-	public static void addMember(String squadName, UUID uuid) {
-		if (squads.get(squadName).getSquadMembers().size() < 10) {
-			squads.get(squadName).addSquadMember(uuid);
-		}
+	public static Squad getSquadFromName(String squadName) {
+		return squads.get(squadName);
 	}
-	
-	public static void removeMember(String squadName, UUID uuid) {
-		squads.get(squadName).removeSquadMember(uuid);
-	}
-	
 	public static void createNewSquad(String squadName, UUID leader, String alligance) {
 		squads.put(squadName, new Squad(squadName, leader, alligance));
 	}
@@ -88,7 +88,7 @@ public class SquadAPI {
 	public static boolean inSquad(UUID player) {
 		for (String squadName : squads.keySet()) {
 			Squad squad = squads.get(squadName);
-			if (squad.getSquadMembers().contains(player)) {
+			if (squad.getSquadMembers().contains(player) || squad.getSquadLeader().equals(player)) {
 				return true;
 			}
 		}
@@ -98,11 +98,17 @@ public class SquadAPI {
 	public static Squad getSquadForPlayer(UUID player) {
 		for (String squadName : squads.keySet()) {
 			Squad squad = squads.get(squadName);
-			if (squad.getSquadMembers().contains(player)) {
+			if (squad.getSquadMembers().contains(player) || squad.getSquadLeader().equals(player)) {
 				return squad;
 			}
 		}
 		return null;
+	}
+	
+	public static void disbandSquad(String squadName) {
+		Squad squad = SquadAPI.getSquadFromName(squadName);
+		config.set("Squads." + squad.getSquadName(), null);
+		squads.remove(squadName);
 	}
 
 }

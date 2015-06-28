@@ -2,9 +2,11 @@ package io.github.podshot.WorldWar.events.guis;
 
 import java.util.UUID;
 
+import io.github.podshot.WorldWar.api.SquadAPI;
 import io.github.podshot.WorldWar.api.SquadAPI_OLD;
 import io.github.podshot.WorldWar.handlers.PlayerHandler;
 import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.squads.Squad;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -67,13 +69,13 @@ public class SquadInviteGUI implements Listener {
 	
 	private void accept(String squadName, Player player) {
 		player.sendMessage(ChatColor.GREEN + "You have joined the \"" + squadName + "\" squad");
-		UUID uuid = SquadAPI_OLD.getLeader(squadName);
+		Squad squad = SquadAPI.getSquadFromName(squadName);
 		for (Player p : Bukkit.getOnlinePlayers()) {
-			if (p.getUniqueId().equals(uuid)) {
+			if (p.getUniqueId().equals(squad.getSquadLeader()) || squad.getSquadMembers().contains(p.getUniqueId())) {
 				p.sendMessage(ChatColor.GREEN + player.getName() + " has joined your Squad!");
 			}
 		}
-		SquadAPI_OLD.addMember(squadName, player.getUniqueId());
+		squad.addSquadMember(player.getUniqueId());
 	}
 	
 	private void reject(String squadName, Player player) {

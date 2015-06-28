@@ -1,5 +1,7 @@
 package io.github.podshot.WorldWar.commands;
 
+import java.util.UUID;
+
 import io.github.podshot.WorldWar.WorldWar;
 import io.github.podshot.WorldWar.events.guns.Rifle;
 import io.github.podshot.WorldWar.events.guns.RocketLauncher;
@@ -122,6 +124,11 @@ public class TestCommand implements CommandExecutor {
 				case "base":
 					toReturn = true;
 					new Base(player.getLocation().add(0, -3, 0), "Blue");
+					break;
+				case "uuid":
+					toReturn = true;
+					player.sendMessage(player.getUniqueId().toString());
+					player.sendMessage(""+player.getUniqueId().equals(UUID.fromString("c5cb58eb-9507-3f40-9930-584d9d6a9db7")));
 					break;
 				default:
 					toReturn = false;

@@ -5,6 +5,7 @@ import java.util.List;
 
 import io.github.podshot.WorldWar.WorldWar;
 import io.github.podshot.WorldWar.api.PlayerAPI;
+import io.github.podshot.WorldWar.api.SquadAPI;
 import io.github.podshot.WorldWar.api.SquadAPI_OLD;
 import io.github.podshot.WorldWar.files.PlayerDataYAML;
 import io.github.podshot.WorldWar.gui.ClassChooser;
@@ -35,7 +36,6 @@ public class PlayerEvents implements Listener {
 	public void onPlayerJoinEvent(final PlayerJoinEvent e) {
 		Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
 			private PlayerJoinEvent evt = e;
-			@SuppressWarnings("deprecation")
 			@Override
 			public void run() {
 				if (Internals.isWarDeclared()) {
@@ -71,6 +71,10 @@ public class PlayerEvents implements Listener {
 						if (player.hasPermission("worldwar.notifyUpdate") && plugin.getNotifyUpdate()) {
 
 						}
+						if (SquadAPI.inSquad(player.getUniqueId()))
+							plugin.logger.info(SquadAPI.getSquadForPlayer(player.getUniqueId()).getSquadName());
+						//plugin.logger.info(SquadAPI.getSquadForPlayer(player.getUniqueId()).getSquadName() + ":" + SquadAPI.isLeader(player.getUniqueId()));
+						/*
 						if (!(SquadAPI_OLD.getSquadForPlayer(player.getUniqueId()).equals("Not in Squad"))) {
 							if (player.getInventory().contains(new ItemStack(Material.COMPASS))) {
 								for (ItemStack item : player.getInventory().getContents()) {
@@ -97,8 +101,8 @@ public class PlayerEvents implements Listener {
 									}
 								}
 							}
-
 						}
+						*/
 					}
 				}
 			}

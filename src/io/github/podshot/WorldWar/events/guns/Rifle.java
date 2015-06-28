@@ -64,7 +64,7 @@ public class Rifle implements IGun {
 					new Bullet("bullet-rifle", new ItemStack(Material.STONE_BUTTON), e.getPlayer(), 2.0F);
 					e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.FIREWORK_BLAST, 0.5f, 0.6f);
 					int lvl = e.getPlayer().getLevel() - 1;
-					float progress = (float) lvl/this.getMagSize();
+					float progress = (float) lvl/Rifle.getMagSize();
 					this.plugin.logger.info("Progress: " + progress);
 					e.getPlayer().setExp(progress);
 					e.getPlayer().setLevel(lvl);
@@ -108,16 +108,15 @@ public class Rifle implements IGun {
 		ItemStack gunIS = e.getItem();
 		if (gunIS.getType() == Material.MONSTER_EGG && gunIS.getDurability() == 51) {
 			if (gunIS.getItemMeta().getDisplayName().equals("Standard Issue Rifle")) {
-				e.getPlayer().setLevel(this.getMagSize());
-				float progress = this.getMagSize() / this.getMagSize();
-				PlayerAPI.setAmmoAmount(e.getPlayer(), "Rifle", this.getMagSize());
+				e.getPlayer().setLevel(Rifle.getMagSize());
+				float progress = Rifle.getMagSize() / Rifle.getMagSize();
+				PlayerAPI.setAmmoAmount(e.getPlayer(), "Rifle", Rifle.getMagSize());
 				e.getPlayer().setExp(progress);
 			}
 		}
 	}
 
-	@Override
-	public int getMagSize() {
+	public static int getMagSize() {
 		return 25;
 	}
 

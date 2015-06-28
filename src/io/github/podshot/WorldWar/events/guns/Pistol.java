@@ -85,7 +85,6 @@ public class Pistol implements IGun {
 		}
 	}
 
-	@Override
 	public int getMagSize() {
 		return 5;
 	}

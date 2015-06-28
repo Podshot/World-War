@@ -1,6 +1,7 @@
 package io.github.podshot.WorldWar.handlers;
 
 import io.github.podshot.WorldWar.WorldWar;
+import io.github.podshot.WorldWar.squads.Squad;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,22 +14,25 @@ import org.bukkit.Location;
 public class PlayerHandler {
 
 	public static class SquadGUIHandler {
-		private static List<UUID> squadGUIOpen = new ArrayList<UUID>();
-
-		public static void addPlayer(UUID uuid) {
-			squadGUIOpen.add(uuid);
+		private static HashMap<UUID, Squad> asking_squad = new HashMap<UUID, Squad>();
+		
+		public static void addPlayer(UUID uuid, Squad asking) {
+			asking_squad.put(uuid, asking);
 		}
 
 		public static void removePlayer(UUID uuid) {
-			squadGUIOpen.remove(uuid);
+			asking_squad.remove(uuid);
 		}
 
 		public static boolean isPlayerInList(UUID uuid) {
-			boolean toReturn = false;
-			if (squadGUIOpen.contains(uuid)) {
-				toReturn = true;
+			return asking_squad.containsKey(uuid);
+		}
+		
+		public static Squad getAskingSquad(UUID uuid) {
+			if (asking_squad.containsKey(uuid)) {
+				return asking_squad.get(uuid);
 			}
-			return toReturn;
+			return null;
 		}
 	}
 

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.bukkit.configuration.file.FileConfiguration;
-
 public class Squad {
 	
 	private String squadName;
@@ -19,12 +17,12 @@ public class Squad {
 		this.alligance = alligance;
 	}
 	
-	public Squad(String squadName, FileConfiguration config) {
+	public Squad(String squadName, UUID leader, List<String> members_str, String alligance) {
 		this.squadName = squadName;
-		leader = UUID.fromString(config.getString("Squads." + squadName + ".Leader"));
-		alligance = config.getString("Squads." + squadName + ".Alligance");
-		for (String uuid : config.getStringList("Squads." + squadName + ".Members")) {
-			members.add(UUID.fromString(uuid));
+		this.leader = leader;
+		this.alligance = alligance;
+		for (String member : members_str) {
+			this.members.add(UUID.fromString(member));
 		}
 	}
 	

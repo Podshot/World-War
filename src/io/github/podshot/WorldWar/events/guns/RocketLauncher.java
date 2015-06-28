@@ -91,13 +91,12 @@ public class RocketLauncher implements IGun {
 		ItemStack gunIS = e.getItem();
 		if (gunIS.getType().equals(Material.MONSTER_EGG) && gunIS.getDurability() == 50) {
 			if (gunIS.getItemMeta().getDisplayName().toString().equals("Rocket Launcher")) {
-				e.getPlayer().setLevel(this.getMagSize());
+				e.getPlayer().setLevel(RocketLauncher.getMagSize());
 			}
 		}
 	}
 
-	@Override
-	public int getMagSize() {
+	public static int getMagSize() {
 		return 1;
 	}
 

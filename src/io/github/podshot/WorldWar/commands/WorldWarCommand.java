@@ -18,7 +18,7 @@ public class WorldWarCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		boolean toReturn = false;
-		if (label.equalsIgnoreCase("ww")) {
+		if (label.equalsIgnoreCase("worldwar")) {
 			if (sender instanceof Player) {
 				Player player = (Player) sender;
 				if (args[0].equalsIgnoreCase("start")) {

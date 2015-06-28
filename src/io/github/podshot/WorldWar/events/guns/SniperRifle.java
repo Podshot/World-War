@@ -73,17 +73,16 @@ public class SniperRifle implements IGun {
 		ItemStack gunIS = e.getItem();
 		if (gunIS.getType() == Material.MONSTER_EGG && gunIS.getDurability() == 52) {
 			if (gunIS.getItemMeta().getDisplayName().equals("Sniper Rifle")) {
-				e.getPlayer().setLevel(this.getMagSize());
-				float progress = this.getMagSize() / this.getMagSize();
-				PlayerAPI.setAmmoAmount(e.getPlayer(), "Sniper Rifle", this.getMagSize());
+				e.getPlayer().setLevel(SniperRifle.getMagSize());
+				float progress = SniperRifle.getMagSize() / SniperRifle.getMagSize();
+				PlayerAPI.setAmmoAmount(e.getPlayer(), "Sniper Rifle", SniperRifle.getMagSize());
 				e.getPlayer().setExp(progress);
 			}
 		}
 
 	}
 
-	@Override
-	public int getMagSize() {
+	public static int getMagSize() {
 		return 5;
 	}
 

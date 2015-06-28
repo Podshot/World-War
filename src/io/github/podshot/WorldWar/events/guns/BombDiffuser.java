@@ -27,7 +27,6 @@ public class BombDiffuser implements Listener, IGun {
 
 	}
 
-	@Override
 	public int getMagSize() {
 		// TODO Auto-generated method stub
 		return 0;

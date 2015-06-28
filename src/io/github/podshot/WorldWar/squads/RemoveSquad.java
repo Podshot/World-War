@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 
 import com.xern.jogy34.xernutilities.handlers.ExtraConfigHandler;
 
+@Deprecated
 public class RemoveSquad {
 	
 	private WorldWar plugin = WorldWar.getInstance();

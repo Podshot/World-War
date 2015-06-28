@@ -5,6 +5,7 @@ import java.util.HashMap;
 import io.github.podshot.WorldWar.WorldWar;
 import io.github.podshot.WorldWar.squads.Squad_OLD;
 
+@Deprecated
 public class SquadHandler {
 	
 	private static WorldWar plugin = WorldWar.getInstance();
