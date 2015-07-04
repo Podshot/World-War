@@ -30,21 +30,18 @@ public class SquadAPI {
 			ExtraConfigHandler.saveConfig("Squads");
 			config = ExtraConfigHandler.getConfig("Squads");
 		} else {
-			plugin.logger.info("Loading from file...");
 			config = ExtraConfigHandler.getConfig("Squads");
-			List<String> allSquads = config.getStringList("AllSquads");
+			Set<String> allSquads = config.getConfigurationSection("Squads").getKeys(false);
 			for (String squadName : allSquads) {
 				Squad parsedSquad = new Squad(squadName, UUID.fromString(config.getString("Squads."+squadName+".Leader")), config.getStringList("Squads."+squadName+".Members"), config.getString("Squads."+squadName+".Alligance"));
 				squads.put(squadName, parsedSquad);
 				leaders.put(parsedSquad.getSquadLeader(), parsedSquad);
 			}
-			plugin.logger.info("Squads: "+squads.size());
 		}
 	}
 	
 	public static void saveYAML() {
 		plugin.logger.info(squads.toString());
-		config.set("AllSquads", new ArrayList<String>(squads.keySet()));
 		for (String squadName : squads.keySet()) {
 			Squad squad = squads.get(squadName);
 			config.set("Squads." + squad.getSquadName() + ".Leader", squad.getSquadLeader().toString());

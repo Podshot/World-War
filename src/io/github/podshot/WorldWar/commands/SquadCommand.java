@@ -8,8 +8,11 @@ import io.github.podshot.WorldWar.gui.SquadInviteGUI;
 import io.github.podshot.WorldWar.handlers.PlayerHandler;
 import io.github.podshot.WorldWar.squads.RemoveSquad;
 import io.github.podshot.WorldWar.squads.Squad;
+import io.github.podshot.WorldWar.squads.SquadObjective;
 import io.github.podshot.WorldWar.squads.Squad_OLD;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -90,6 +93,10 @@ public class SquadCommand implements CommandExecutor {
 						// TODO: Kick the player from the squad
 					}
 				}
+			} else if (args[0].equalsIgnoreCase("objective")) {
+				List<UUID> uuids = new ArrayList<UUID>();
+				uuids.add(player.getUniqueId());
+				new SquadObjective(player.getLocation().subtract(0, 1, 0), uuids, player.getWorld());
 			}
 		}
 		return false;

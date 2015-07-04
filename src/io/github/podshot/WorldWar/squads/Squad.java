@@ -10,6 +10,7 @@ public class Squad {
 	private UUID leader;
 	private List<UUID> members = new ArrayList<UUID>();
 	private String alligance;
+	private SquadObjective objective;
 	
 	public Squad(String squadName, UUID leader, String alligance) {
 		this.squadName = squadName;

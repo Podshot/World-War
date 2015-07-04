@@ -68,8 +68,8 @@ public class PlayerEvents implements Listener {
 						player.setMetadata("WorldWar.Ammo.Shotgun", new FixedMetadataValue(plugin, shotgunAmmo));
 						player.setMetadata("WorldWar.Ammo.Pistol", new FixedMetadataValue(plugin, pistolAmmo));
 
-						if (player.hasPermission("worldwar.notifyUpdate") && plugin.getNotifyUpdate()) {
-
+						if (player.hasPermission("worldwar.notifyUpdate") && plugin.getNeedsUpdate()) {
+							player.sendMessage(ChatColor.BOLD + "" + ChatColor.DARK_RED + "A updated version of WorldWar is available");
 						}
 						if (SquadAPI.inSquad(player.getUniqueId()))
 							plugin.logger.info(SquadAPI.getSquadForPlayer(player.getUniqueId()).getSquadName());
@@ -180,8 +180,8 @@ public class PlayerEvents implements Listener {
 				player.setMetadata("WorldWar.Ammo.Shotgun", new FixedMetadataValue(plugin, shotgunAmmo));
 				player.setMetadata("WorldWar.Ammo.Pistol", new FixedMetadataValue(plugin, pistolAmmo));
 
-				if (player.hasPermission("worldwar.notifyUpdate") && plugin.getNotifyUpdate()) {
-
+				if (player.hasPermission("worldwar.notifyUpdate") && plugin.getNeedsUpdate()) {
+					player.sendMessage(ChatColor.BOLD + "" + ChatColor.DARK_RED + "A updated version of WorldWar is available");
 				}
 				if (!(SquadAPI_OLD.getSquadForPlayer(player.getUniqueId()).equals("Not in Squad"))) {
 					if (player.getInventory().contains(new ItemStack(Material.COMPASS))) {

@@ -20,13 +20,15 @@ import io.github.podshot.WorldWar.events.registerers.GunRegister;
 import io.github.podshot.WorldWar.files.PlayerDataYAML;
 import io.github.podshot.WorldWar.files.ReadConfig;
 import io.github.podshot.WorldWar.files.StructureYAML;
-import io.github.podshot.WorldWar.internals.ConfigInternals;
 import io.github.podshot.WorldWar.internals.Internals;
 import io.github.podshot.WorldWar.players.PlayerSorter;
 import io.github.podshot.WorldWar.safeguards.PreventProfanity;
 import io.github.podshot.WorldWar.squads.RejoinSquadOnLogOn;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -34,6 +36,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
@@ -45,7 +48,7 @@ import pgDev.bukkit.DisguiseCraft.api.DisguiseCraftAPI;
 import com.xern.jogy34.xernutilities.handlers.ExtraConfigHandler;
 
 
-@SuppressWarnings({ "unused" })
+//@SuppressWarnings({ "unused" })
 public final class WorldWar extends JavaPlugin {
 
 	public Logger logger;
@@ -56,9 +59,9 @@ public final class WorldWar extends JavaPlugin {
 	private static WorldWar instance;
 	public boolean debug = true;
 	private Random random = new Random();
-	
+
 	private String version = this.getDescription().getVersion();
-	private boolean notifyUpdate = false;
+	private boolean needsUpdate = false;
 
 	@Override
 	public void onEnable() {
@@ -70,8 +73,7 @@ public final class WorldWar extends JavaPlugin {
 		if (!pluginFolderF.exists()) {
 			this.generateFiles();
 		}
-		
-		//this.checkUpdate();
+		ExtraConfigHandler.initalize(this);
 
 		this.getCommand("worldwar").setExecutor(new WorldWarCommand());
 		this.getCommand("worldwar").setTabCompleter(new WorldWarCommandTabCompleter());
@@ -86,7 +88,7 @@ public final class WorldWar extends JavaPlugin {
 		new GuiRegister();
 		new BlockRegister();
 		//new StructureRegister();
-	
+
 		PreventProfanity.getWordList();
 		this.getServer().getPluginManager().registerEvents(new PreventProfanity(), this);
 		this.getServer().getPluginManager().registerEvents(new EntityEvents(), this);
@@ -96,26 +98,22 @@ public final class WorldWar extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new GunSwitch(), this);
 		this.getServer().getPluginManager().registerEvents(new KeepGun(), this);
 		this.getServer().getPluginManager().registerEvents(new BattleStatistics(), this);
-		
-		ExtraConfigHandler.initalize(this);
+
 		new StructureYAML();
 		new PlayerDataYAML();
 		new SquadAPI();
-		
+
 		FileConfiguration config = this.getConfig();
-		boolean isWarD = config.getBoolean("War-Declared");
 		new ReadConfig();
-		Internals.setWarDeclared(isWarD);
+		Internals.setWarDeclared(config.getBoolean("War-Declared"));
 
 		this.setupDC();
 		//if (Internals.isWarDeclared()) {
-			//this.setMetaData();
+		//this.setMetaData();
 		//}
-		this.getLogger().info("Test Message");
-		//new UpdatePlugin("Hi");
 		checkUpdate();
 		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-		    PlayerEvents.doReloadFix(player);
+			PlayerEvents.doReloadFix(player);
 		}
 		new PlayerSorter();
 		this.logger.info(PlayerSorter.getTeamWithMorePlayers());
@@ -123,9 +121,26 @@ public final class WorldWar extends JavaPlugin {
 
 	@Refactor
 	private void checkUpdate() {
-		
-		CheckForUpdate cfu = new CheckForUpdate(this);
-		
+		InputStream in = null;
+		try {
+			in = new URL("https://raw.githubusercontent.com/Podshot/World-War/master/plugin.yml").openStream();
+			if (in != null) {
+				YamlConfiguration update = YamlConfiguration.loadConfiguration(in);
+				needsUpdate = update.getString("version") != this.version;
+			}
+		} catch (IOException e) {
+			logger.warning("Could not check for update");
+			//e.printStackTrace();
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+					logger.severe("Could not close update stream, memory leaks may occur!");
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	private void generateFiles() {
@@ -174,15 +189,15 @@ public final class WorldWar extends JavaPlugin {
 	private void setupDC() {
 		this.dcAPI = DisguiseCraft.getAPI();
 	}
-	
+
 	public DisguiseCraftAPI getDCAPI() {
 		return this.dcAPI;
 	}
 
-	public boolean getNotifyUpdate() {
-		return this.notifyUpdate;
+	public boolean getNeedsUpdate() {
+		return this.needsUpdate;
 	}
-	
+
 	public Random getRandom() {
 		return this.random;
 	}

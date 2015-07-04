@@ -53,6 +53,7 @@ public class GunSwitch implements Listener {
 						case "Standard Issue Rifle":
 							evt.getPlayer().setLevel(PlayerAPI.getAmmoAmount(evt.getPlayer(), "Rifle"));
 							float progress = PlayerAPI.getAmmoAmount(evt.getPlayer(), "Rifle") / Rifle.getMagSize();
+							evt.getPlayer().setExp(0f);
 							evt.getPlayer().setExp(progress);
 							break;
 						case "Rocket Launcher":
