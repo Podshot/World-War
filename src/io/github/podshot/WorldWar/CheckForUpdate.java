@@ -1,37 +1,29 @@
 package io.github.podshot.WorldWar;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.net.URL;
-import java.util.Properties;
+
+import org.bukkit.configuration.file.YamlConfiguration;
 
 public class CheckForUpdate {
 
-
-	private String version;
-	private String developmentStage;
-	private String releaseDate;
-	private String targetedBukkitVersion;
-	private String update_url;
-
-	public CheckForUpdate() {
-		Properties prop = new Properties();
-		BufferedReader in = null;
+	public CheckForUpdate(WorldWar plugin) {
+		plugin.getLogger().info("Checking for update");
+		InputStream in = null;
 
 		URL UPDATE_URL;
 		try {
-
-			UPDATE_URL = new URL("https://raw.githubusercontent.com/Podshot/World-War/master/update.properties");
-			in = new BufferedReader(new InputStreamReader(UPDATE_URL.openStream()));
-
-			prop.load(in);
-			this.version = prop.getProperty("Version");
-			this.developmentStage = prop.getProperty("Development-Stage");
-			this.releaseDate = prop.getProperty("Release-Date");
-			this.targetedBukkitVersion = prop.getProperty("Targeted-Bukkit-Version");
-			this.update_url = prop.getProperty("Update-Url");
+			UPDATE_URL = new URL("https://raw.githubusercontent.com/Podshot/World-War/master/plugin.yml");
+			in = UPDATE_URL.openStream();
 			
+			if (in != null) {
+				plugin.logger.info("stream was not null");
+				YamlConfiguration definedConfig = YamlConfiguration.loadConfiguration(in);
+				plugin.logger.warning("Ver: "+definedConfig.getString("version"));
+			} else {
+				plugin.logger.info("stream was null");
+			}
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -45,25 +37,4 @@ public class CheckForUpdate {
 			}
 		}
 	}
-	
-	public String getVersion() {
-		return this.version;
-	}
-	
-	public String getDevelopmentStage() {
-		return this.developmentStage;
-	}
-	
-	public String getReleaseDate() {
-		return this.releaseDate;
-	}
-	
-	public String getTargetedBukkitVersion() {
-		return this.targetedBukkitVersion;
-	}
-	
-	public String getUpdateURL() {
-		return this.update_url;
-	}
-
 }

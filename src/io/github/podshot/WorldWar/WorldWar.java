@@ -1,5 +1,6 @@
 package io.github.podshot.WorldWar;
 
+import io.github.podshot.WorldWar.api.Refactor;
 import io.github.podshot.WorldWar.api.SquadAPI;
 import io.github.podshot.WorldWar.commands.SquadCommand;
 import io.github.podshot.WorldWar.commands.TeamCommand;
@@ -111,7 +112,8 @@ public final class WorldWar extends JavaPlugin {
 			//this.setMetaData();
 		//}
 		this.getLogger().info("Test Message");
-		new UpdatePlugin("Hi");
+		//new UpdatePlugin("Hi");
+		checkUpdate();
 		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
 		    PlayerEvents.doReloadFix(player);
 		}
@@ -119,14 +121,10 @@ public final class WorldWar extends JavaPlugin {
 		this.logger.info(PlayerSorter.getTeamWithMorePlayers());
 	}
 
+	@Refactor
 	private void checkUpdate() {
-		CheckForUpdate cfu = new CheckForUpdate();
-		if (!(cfu.getVersion().equals(this.version))) {
-			if (cfu.getDevelopmentStage().equals(ConfigInternals.getDevelopmentStageToListen())) {
-				this.notifyUpdate = true;
-				new UpdatePlugin(cfu.getUpdateURL());
-			}
-		}
+		
+		CheckForUpdate cfu = new CheckForUpdate(this);
 		
 	}
 
