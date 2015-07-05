@@ -4,12 +4,12 @@ import io.github.podshot.WorldWar.WorldWar;
 import io.github.podshot.WorldWar.squads.Squad;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.xern.jogy34.xernutilities.handlers.ExtraConfigHandler;
@@ -29,11 +29,16 @@ public class SquadAPI {
 			ExtraConfigHandler.getConfig("Squads");
 			ExtraConfigHandler.saveConfig("Squads");
 			config = ExtraConfigHandler.getConfig("Squads");
+			config.createSection("Squads");
 		} else {
 			config = ExtraConfigHandler.getConfig("Squads");
 			Set<String> allSquads = config.getConfigurationSection("Squads").getKeys(false);
 			for (String squadName : allSquads) {
 				Squad parsedSquad = new Squad(squadName, UUID.fromString(config.getString("Squads."+squadName+".Leader")), config.getStringList("Squads."+squadName+".Members"), config.getString("Squads."+squadName+".Alligance"));
+				if (config.contains("Squads." + parsedSquad.getSquadName() + ".Objective")) {
+					World world = Bukkit.getWorld(UUID.fromString(config.getString("Squads." + parsedSquad.getSquadName() + ".Objective.World")));
+					parsedSquad.addObjective(config.getVector("Squads." + parsedSquad.getSquadName() + ".Objective").toLocation(world));
+				}
 				squads.put(squadName, parsedSquad);
 				leaders.put(parsedSquad.getSquadLeader(), parsedSquad);
 			}
@@ -47,6 +52,10 @@ public class SquadAPI {
 			config.set("Squads." + squad.getSquadName() + ".Leader", squad.getSquadLeader().toString());
 			config.set("Squads." + squad.getSquadName() + ".Members", squad.getSquadMembers());
 			config.set("Squads." + squad.getSquadName() + ".Alligance", squad.getAlligance());
+			if (squad.hasObjective()) {
+				config.set("Squads." + squad.getSquadName() + ".Objective.Vector", squad.getObjectiveLocation().toVector());
+				config.set("Squads." + squad.getSquadName() + ".Objective.World", squad.getObjectiveLocation().getWorld().getUID().toString());
+			}
 		}
 		ExtraConfigHandler.saveConfig("Squads");
 	}
@@ -106,6 +115,10 @@ public class SquadAPI {
 		Squad squad = SquadAPI.getSquadFromName(squadName);
 		config.set("Squads." + squad.getSquadName(), null);
 		squads.remove(squadName);
+		squad.removeObjective();
+		for (UUID uuid : squad.getSquadMembers()) {
+			squad.removeSquadMember(uuid);
+		}
 	}
 
 }

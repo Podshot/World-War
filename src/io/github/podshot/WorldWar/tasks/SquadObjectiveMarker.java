@@ -11,16 +11,15 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
-public class ObjectiveMarker implements Runnable {
+public class SquadObjectiveMarker extends BukkitRunnable {
 	
 	private List<UUID> members;
-	private String squadName;
 	private Location location;
 	
-	public ObjectiveMarker(Location loc, String squad, List<UUID> members) {
+	public SquadObjectiveMarker(Location loc, List<UUID> members) {
 		this.members = members;
-		this.squadName = squad;
 		this.location = loc.add(0, 25, 0);
 	}
 
@@ -39,6 +38,10 @@ public class ObjectiveMarker implements Runnable {
 		Color color2 = Color.ORANGE;
 		FireworkEffect effect = FireworkEffect.builder().trail(true).withColor(color1).withFade(color2).with(type).trail(true).build();
 		return effect;
+	}
+	
+	public void cancelObjectiveMarker() {
+		this.cancel();
 	}
 
 }
