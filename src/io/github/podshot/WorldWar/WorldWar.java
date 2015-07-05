@@ -1,6 +1,5 @@
 package io.github.podshot.WorldWar;
 
-import io.github.podshot.WorldWar.api.Refactor;
 import io.github.podshot.WorldWar.api.SquadAPI;
 import io.github.podshot.WorldWar.commands.SquadCommand;
 import io.github.podshot.WorldWar.commands.TeamCommand;
@@ -111,36 +110,12 @@ public final class WorldWar extends JavaPlugin {
 		//if (Internals.isWarDeclared()) {
 		//this.setMetaData();
 		//}
-		checkUpdate();
+		Bukkit.getScheduler().runTaskAsynchronously(this, new UpdateChecker(this));
 		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
 			PlayerEvents.doReloadFix(player);
 		}
 		new PlayerSorter();
 		this.logger.info(PlayerSorter.getTeamWithMorePlayers());
-	}
-
-	@Refactor
-	private void checkUpdate() {
-		InputStream in = null;
-		try {
-			in = new URL("https://raw.githubusercontent.com/Podshot/World-War/master/plugin.yml").openStream();
-			if (in != null) {
-				YamlConfiguration update = YamlConfiguration.loadConfiguration(in);
-				needsUpdate = update.getString("version") != this.version;
-			}
-		} catch (IOException e) {
-			logger.warning("Could not check for update");
-			//e.printStackTrace();
-		} finally {
-			if (in != null) {
-				try {
-					in.close();
-				} catch (IOException e) {
-					logger.severe("Could not close update stream, memory leaks may occur!");
-					e.printStackTrace();
-				}
-			}
-		}
 	}
 
 	private void generateFiles() {
@@ -200,5 +175,39 @@ public final class WorldWar extends JavaPlugin {
 
 	public Random getRandom() {
 		return this.random;
+	}
+	
+	public class UpdateChecker implements Runnable {
+		
+		private WorldWar caller;
+		
+		public UpdateChecker(WorldWar caller) {
+			this.caller = caller;
+		}
+
+		@Override
+		public void run() {
+			InputStream in = null;
+			try {
+				in = new URL("https://raw.githubusercontent.com/Podshot/World-War/master/plugin.yml").openStream();
+				if (in != null) {
+					YamlConfiguration update = YamlConfiguration.loadConfiguration(in);
+					caller.needsUpdate = update.getString("version") != caller.version;
+				}
+			} catch (IOException e) {
+				logger.warning("Could not check for update");
+				//e.printStackTrace();
+			} finally {
+				if (in != null) {
+					try {
+						in.close();
+					} catch (IOException e) {
+						logger.severe("Could not close update stream, memory leaks may occur!");
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		
 	}
 }
