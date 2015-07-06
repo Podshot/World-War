@@ -91,8 +91,18 @@ public class SquadCommand implements CommandExecutor {
 					}
 				}
 			} else if (args[0].equalsIgnoreCase("objective")) {
-				Squad squad = SquadAPI.getSquadThePlayerLeads(player.getUniqueId());
-				squad.addObjective(player.getLocation());
+				if (SquadAPI.isLeader(player.getUniqueId())) {
+					Squad squad = SquadAPI.getSquadThePlayerLeads(player.getUniqueId());
+					if (args[1].equalsIgnoreCase("create")) {
+						squad.addObjective(player.getLocation());
+					} else if (args[1].equalsIgnoreCase("modify")) {
+						// TODO: Remove the existing objective and give the Squad Leader another objective block
+					} else if (args[1].equalsIgnoreCase("remove")) {
+						// TODO: Remove the current objective
+					}
+				} else {
+					// TODO: Tell the player that only Squad Leaders can modify objectives
+				}
 			}
 		} else {
 			sender.sendMessage("You must be a player to use the \\squad command!");

@@ -20,7 +20,7 @@ public class SquadObjectiveMarker extends BukkitRunnable {
 	
 	public SquadObjectiveMarker(Location loc, List<UUID> members) {
 		this.members = members;
-		this.location = loc.add(0, 25, 0);
+		this.location = loc;
 	}
 
 	@Override
@@ -36,12 +36,7 @@ public class SquadObjectiveMarker extends BukkitRunnable {
 		Type type = Type.BURST;
 		Color color1 = Color.RED;
 		Color color2 = Color.ORANGE;
-		FireworkEffect effect = FireworkEffect.builder().trail(true).withColor(color1).withFade(color2).with(type).trail(true).build();
+		FireworkEffect effect = FireworkEffect.builder().trail(true).withColor(color1).withFade(color2).with(type).with(Type.BALL_LARGE).trail(true).build();
 		return effect;
 	}
-	
-	public void cancelObjectiveMarker() {
-		this.cancel();
-	}
-
 }

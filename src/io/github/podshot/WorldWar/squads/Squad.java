@@ -66,13 +66,13 @@ public class Squad {
 	public void addObjective(Location location) {
 		if (objective_location == null)
 			objective_location = location.add(0, 25, 0);
-		List<UUID> toSeeObjective = this.members;
+		List<UUID> toSeeObjective = new ArrayList<UUID>(this.members);
 		toSeeObjective.add(this.leader);
 		if (objective_task != null) {
 			objective_task.cancel();
 			objective_task = null;
 		}
-		objective_task = new SquadObjectiveMarker(objective_location, toSeeObjective).runTaskTimer(WorldWar.getInstance(), 10, 40);
+		objective_task = new SquadObjectiveMarker(objective_location, toSeeObjective).runTaskTimer(WorldWar.getInstance(), 10, 60);
 	}
 	
 	public void removeObjective() {
