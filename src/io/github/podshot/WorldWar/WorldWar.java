@@ -22,7 +22,6 @@ import io.github.podshot.WorldWar.files.StructureYAML;
 import io.github.podshot.WorldWar.internals.Internals;
 import io.github.podshot.WorldWar.players.PlayerSorter;
 import io.github.podshot.WorldWar.safeguards.PreventProfanity;
-import io.github.podshot.WorldWar.squads.RejoinSquadOnLogOn;
 
 import java.io.File;
 import java.io.IOException;
@@ -93,7 +92,6 @@ public final class WorldWar extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new EntityEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new BlockEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new PlayerEvents(), this);
-		this.getServer().getPluginManager().registerEvents(new RejoinSquadOnLogOn(), this);
 		this.getServer().getPluginManager().registerEvents(new GunSwitch(), this);
 		this.getServer().getPluginManager().registerEvents(new KeepGun(), this);
 		this.getServer().getPluginManager().registerEvents(new BattleStatistics(), this);

@@ -1,19 +1,20 @@
 package io.github.podshot.WorldWar.events.blocks;
 
+import io.github.podshot.WorldWar.api.SquadAPI;
+import io.github.podshot.WorldWar.api.interfaces.ISpecialBlock;
+import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.squads.Squad;
+
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import io.github.podshot.WorldWar.api.SquadAPI;
-import io.github.podshot.WorldWar.api.SquadAPI_OLD;
-import io.github.podshot.WorldWar.api.interfaces.ISpecialBlock;
-import io.github.podshot.WorldWar.internals.Internals;
-import io.github.podshot.WorldWar.squads.SquadObjective;
 
 public class SquadObjectiveBlock implements ISpecialBlock {
 
@@ -30,7 +31,7 @@ public class SquadObjectiveBlock implements ISpecialBlock {
 			return;
 		}
 		
-		if (evt.getBlockPlaced() != getSpecialBlock()) {
+		if (evt.getBlockPlaced().equals(getSpecialBlock())) {
 			return;
 		}
 		
@@ -38,7 +39,13 @@ public class SquadObjectiveBlock implements ISpecialBlock {
 			return;
 		}
 		
-		new SquadObjective(SquadAPI_OLD.getSquadForPlayer(evt.getPlayer().getUniqueId()), evt.getBlockPlaced().getLocation());
+		Squad squad = SquadAPI.getSquadThePlayerLeads(evt.getPlayer().getUniqueId());
+		squad.addObjective(evt.getBlockPlaced().getLocation());
+		for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
+			if (squad.getSquadMembers().contains(player.getUniqueId())) {
+				player.getPlayer().setCompassTarget(evt.getBlockPlaced().getLocation());
+			}
+		}
 		evt.setCancelled(true);
 		
 	}

@@ -1,7 +1,6 @@
 package io.github.podshot.WorldWar.squads;
 
 import io.github.podshot.WorldWar.WorldWar;
-import io.github.podshot.WorldWar.tasks.SquadObjectiveMarker;
 
 import java.util.ArrayList;
 import java.util.List;

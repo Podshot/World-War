@@ -1,4 +1,4 @@
-package io.github.podshot.WorldWar.tasks;
+package io.github.podshot.WorldWar.squads;
 
 import java.util.List;
 import java.util.UUID;

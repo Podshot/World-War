@@ -183,7 +183,7 @@ public class PlayerEvents implements Listener {
 				if (player.hasPermission("worldwar.notifyUpdate") && plugin.getNeedsUpdate()) {
 					player.sendMessage(ChatColor.BOLD + "" + ChatColor.DARK_RED + "A updated version of WorldWar is available");
 				}
-				if (!(SquadAPI_OLD.getSquadForPlayer(player.getUniqueId()).equals("Not in Squad"))) {
+				if (SquadAPI.inSquad(player.getUniqueId())) {
 					if (player.getInventory().contains(new ItemStack(Material.COMPASS))) {
 						for (ItemStack item : player.getInventory().getContents()) {
 							if (item.getType() == Material.COMPASS) {

@@ -19,6 +19,7 @@ import io.github.podshot.WorldWar.api.Proxy.ProxyType;
 /**
  * A class used to get info about squad related data
  */
+@Deprecated
 public class SquadAPI_OLD {
 	
 	private static WorldWar plugin = WorldWar.getInstance();
