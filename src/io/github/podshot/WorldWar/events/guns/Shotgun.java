@@ -58,22 +58,22 @@ public class Shotgun implements IGun {
 				if (gun.equals("Shotgun")) {
 
 					ItemProjectile bullet1 = new ItemProjectile("bullet-shotgun", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 2.0F);
-					bullet1.setIgnoreSomeBlocks(true);
-					bullet1.boundingBox.shrink(2D, 2D, 2D);
+					//bullet1.setIgnoreSomeBlocks(true);
+					//bullet1.boundingBox.shrink(2D, 2D, 2D);
 					Vector b1v = bullet1.getEntity().getVelocity();
 					Vector b1vn = b1v.add(new Vector(0.25f, 0f, 0.25f));
 					bullet1.getEntity().setVelocity(b1vn);
 
 					ItemProjectile bullet2 = new ItemProjectile("bullet-shotgun", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 2.0F);
-					bullet2.setIgnoreSomeBlocks(true);
-					bullet2.boundingBox.shrink(2D, 2D, 2D);
+					//bullet2.setIgnoreSomeBlocks(true);
+					//bullet2.boundingBox.shrink(2D, 2D, 2D);
 					Vector b2v = bullet2.getEntity().getVelocity();
 					Vector b2vn = b2v.add(new Vector(-0.25f, 0.25f, -0.25f));
 					bullet2.getEntity().setVelocity(b2vn);
 					
 					ItemProjectile bullet3 = new ItemProjectile("bullet-shotgun", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 2.0F);
-					bullet3.setIgnoreSomeBlocks(true);
-					bullet3.boundingBox.shrink(2D, 2D, 2D);
+					//bullet3.setIgnoreSomeBlocks(true);
+					//bullet3.boundingBox.shrink(2D, 2D, 2D);
 					Vector b3v = bullet3.getEntity().getVelocity();
 					Vector b3vn = b3v.add(new Vector(0.25f, -0.25f, -0.25f));
 					bullet3.getEntity().setVelocity(b3vn);

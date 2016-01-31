@@ -17,7 +17,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.stirante.MoreProjectiles.Particles;
 import com.stirante.MoreProjectiles.TypedRunnable;
 import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
 import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
@@ -51,11 +50,11 @@ public class NormalGrenade implements Listener, IGrenade {
 			if (grenade.getItemMeta().hasDisplayName()) {
 				if (grenade.getItemMeta().getDisplayName().equals("Normal Grenade")) {
 					ItemProjectile grenadeProjectile = new ItemProjectile("normal-grenade", e.getPlayer(), new ItemStack(Material.STONE), 0);
-					grenadeProjectile.boundingBox.shrink(2D, 2D, 2D);
+					//grenadeProjectile.boundingBox.shrink(2D, 2D, 2D);
 					grenadeProjectile.addTypedRunnable(new TypedRunnable<ItemProjectile>() {
 						@Override
 						public void run(ItemProjectile o) {
-							Particles.LARGE_SMOKE.display(o.getEntity().getLocation(), 0, 0, 0, 0, 1);
+							//Particles.LARGE_SMOKE.display(o.getEntity().getLocation(), 0, 0, 0, 0, 1);
 							for (Entity nearby : o.getEntity().getNearbyEntities(7.0D, 7.0D, 7.0D)) {
 								if (nearby.getType() == EntityType.PLAYER) {
 									Player player = (Player) nearby;

@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.citizensnpcs.api.npc.NPC;
-
 import org.bukkit.Location;
 
 public class BlockHandler {
@@ -16,8 +14,6 @@ public class BlockHandler {
 	public static class MortarHandler {
 		private static List<Location> mortars = new ArrayList<Location>();
 		private static List<Location> mortar_cooldown = new ArrayList<Location>();
-		@Deprecated
-		private static Map<Location, NPC> mortar_npcs = new HashMap<Location, NPC>();
 
 		public static void addMortar(Location loc) {
 			if (!(mortars.contains(loc))) {
@@ -49,22 +45,5 @@ public class BlockHandler {
 		public static void save() {
 			StructureYAML.saveMortar(mortars);
 		}
-
-		@Deprecated
-		public static void addMortarNPC(Location location, NPC mortar_npc) {
-			if (!(mortar_npcs.containsKey(location))) {
-				mortar_npcs.put(location, mortar_npc);
-			}
-		}
-		
-		@Deprecated
-		public static void removeMortarNPC(Location loc, NPC mortar_npc) {
-			if (mortar_npcs.containsKey(loc)) {
-				mortar_npcs.remove(loc);
-			}
-		}
-		
-		
 	}
-
 }

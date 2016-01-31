@@ -40,9 +40,6 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import pgDev.bukkit.DisguiseCraft.DisguiseCraft;
-import pgDev.bukkit.DisguiseCraft.api.DisguiseCraftAPI;
-
 import com.xern.jogy34.xernutilities.handlers.ExtraConfigHandler;
 
 
@@ -53,7 +50,6 @@ public final class WorldWar extends JavaPlugin {
 	public String fileSep;
 	private String pluginFolder;
 	private File pluginFolderF;
-	private DisguiseCraftAPI dcAPI;
 	private static WorldWar instance;
 	public boolean debug = true;
 	private Random random = new Random();
@@ -104,7 +100,6 @@ public final class WorldWar extends JavaPlugin {
 		new ReadConfig();
 		Internals.setWarDeclared(config.getBoolean("War-Declared"));
 
-		this.setupDC();
 		//if (Internals.isWarDeclared()) {
 		//this.setMetaData();
 		//}
@@ -156,17 +151,9 @@ public final class WorldWar extends JavaPlugin {
 	}
 
 	public static WorldWar getInstance() {
+
 		return instance;
 	}
-
-	private void setupDC() {
-		this.dcAPI = DisguiseCraft.getAPI();
-	}
-
-	public DisguiseCraftAPI getDCAPI() {
-		return this.dcAPI;
-	}
-
 	public boolean getNeedsUpdate() {
 		return this.needsUpdate;
 	}

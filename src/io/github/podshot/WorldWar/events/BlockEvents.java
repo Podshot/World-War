@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_7_R2.block.CraftSkull;
+import org.bukkit.craftbukkit.v1_8_R3.block.CraftSkull;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -77,7 +77,6 @@ public class BlockEvents implements Listener {
 		return;
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent evt) {
 		if (!(Internals.isWarDeclared())) {

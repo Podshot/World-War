@@ -1,5 +1,11 @@
 package io.github.podshot.WorldWar.classes;
 
+import io.github.podshot.WorldWar.api.PlayerAPI;
+import io.github.podshot.WorldWar.events.guns.Rifle;
+import io.github.podshot.WorldWar.files.PlayerDataYAML;
+import io.github.podshot.WorldWar.handlers.PlayerClasses;
+import io.github.podshot.WorldWar.inventories.InventoryManager;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -9,15 +15,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
-
-import com.comphenix.attribute.NbtFactory;
-import com.comphenix.attribute.NbtFactory.NbtCompound;
-
-import io.github.podshot.WorldWar.api.PlayerAPI;
-import io.github.podshot.WorldWar.events.guns.Rifle;
-import io.github.podshot.WorldWar.files.PlayerDataYAML;
-import io.github.podshot.WorldWar.handlers.PlayerClasses;
-import io.github.podshot.WorldWar.inventories.InventoryManager;
 
 public class Soldier {
 	
@@ -49,12 +46,15 @@ public class Soldier {
 		default:
 			break;
 		case Helmet:
+			/*
 			ItemStack helmet = NbtFactory.getCraftItemStack(new ItemStack(Material.IRON_HELMET));
 			NbtCompound Htags = NbtFactory.fromItemTag(helmet);
 			Htags.putPath("Unbreakable", (byte) 1);
 			armor = helmet;
+			*/
 			break;
 		case Chestplate:
+			/*
 			ItemStack chestplate = NbtFactory.getCraftItemStack(new ItemStack(Material.LEATHER_CHESTPLATE));
 			NbtCompound Ctags = NbtFactory.fromItemTag(chestplate);
 			Ctags.putPath("Unbreakable", (byte) 1);
@@ -66,8 +66,10 @@ public class Soldier {
 			}
 			chestplate.setItemMeta(lamChest);
 			armor = chestplate;
+			*/
 			break;
 		case Leggings:
+			/*
 			ItemStack leggings = NbtFactory.getCraftItemStack(new ItemStack(Material.LEATHER_LEGGINGS));
 			LeatherArmorMeta lamLeggings = (LeatherArmorMeta) leggings.getItemMeta();
 			NbtCompound Ltags = NbtFactory.fromItemTag(leggings);
@@ -79,8 +81,10 @@ public class Soldier {
 			}
 			leggings.setItemMeta(lamLeggings);
 			armor = leggings;
+			*/
 			break;
 		case Boots:
+			/*
 			ItemStack boots = NbtFactory.getCraftItemStack(new ItemStack(Material.LEATHER_BOOTS));
 			LeatherArmorMeta lamBoots = (LeatherArmorMeta) boots.getItemMeta();
 			NbtCompound Btags = NbtFactory.fromItemTag(boots);
@@ -92,6 +96,7 @@ public class Soldier {
 			}
 			boots.setItemMeta(lamBoots);
 			armor = boots;
+			*/
 			break;
 		}
 		return armor;

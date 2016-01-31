@@ -6,6 +6,7 @@ import io.github.podshot.WorldWar.internals.Internals;
 
 import java.util.Arrays;
 
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -16,7 +17,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.stirante.MoreProjectiles.Particles;
 import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
 import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
 
@@ -58,7 +58,7 @@ public class RocketLauncher implements IGun {
 						}
 					});
 					*/
-					new Bullet("bullet-rocket", new ItemStack(Material.STONE), e.getPlayer(), 2.5F, Arrays.asList(Particles.FLAME, Particles.LARGE_SMOKE));
+					new Bullet("bullet-rocket", new ItemStack(Material.STONE), e.getPlayer(), 2.5F, Arrays.asList(Effect.FLAME, Effect.LARGE_SMOKE));
 					e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.FIREWORK_LAUNCH, 1, 0.1f);
 					int lvl = e.getPlayer().getLevel() - 1;
 					e.getPlayer().setLevel(lvl);

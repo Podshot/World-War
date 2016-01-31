@@ -1,6 +1,7 @@
 package io.github.podshot.WorldWar.squads;
 
 import io.github.podshot.WorldWar.WorldWar;
+import io.github.podshot.WorldWar.api.SquadAPI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +79,7 @@ public class Squad {
 		objective_task.cancel();
 		objective_task = null;
 		objective_location = null;
+		SquadAPI.removeObjective(this);
 	}
 	
 	public boolean hasObjective() {

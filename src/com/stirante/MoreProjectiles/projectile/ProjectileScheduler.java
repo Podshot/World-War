@@ -1,68 +1,51 @@
 package com.stirante.MoreProjectiles.projectile;
 
+import com.stirante.MoreProjectiles.TypedRunnable;
+import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
+import net.minecraft.server.v1_8_R3.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+import org.bukkit.craftbukkit.v1_8_R3.block.CraftBlock;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftLivingEntity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.plugin.Plugin;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_7_R2.block.CraftBlock;
-import org.bukkit.craftbukkit.v1_7_R2.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_7_R2.entity.CraftLivingEntity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.util.Vector;
-
-import com.stirante.MoreProjectiles.TypedRunnable;
-import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
-
-import net.minecraft.server.v1_7_R2.AxisAlignedBB;
-import net.minecraft.server.v1_7_R2.Entity;
-import net.minecraft.server.v1_7_R2.EntityLiving;
-import net.minecraft.server.v1_7_R2.EnumMovingObjectType;
-import net.minecraft.server.v1_7_R2.IProjectile;
-import net.minecraft.server.v1_7_R2.MathHelper;
-import net.minecraft.server.v1_7_R2.MinecraftServer;
-import net.minecraft.server.v1_7_R2.MovingObjectPosition;
-import net.minecraft.server.v1_7_R2.Vec3D;
-
 /**
  * Projectile made from every possible entity passed as parameter. Entity is
  * moved in 1 tick scheduler.
- * 
+ *
  * @author stirante
- * 
  */
-public class ProjectileScheduler implements Runnable, IProjectile, CustomProjectile {
-    
-    private String                                   name;
-    private EntityLiving                             shooter;
-    private Entity                                   e;
-    private Random                                   random;
-    private int                                      age;
-    private int                                      lastTick;
-    private int                                      id;
-    private List<Runnable>                           runnables        = new ArrayList<Runnable>();
-    private List<TypedRunnable<ProjectileScheduler>> typedRunnables   = new ArrayList<TypedRunnable<ProjectileScheduler>>();
-    private boolean                                  ignoreSomeBlocks = false;
-    private Vector                                   bbv              = new Vector(1F, 1F, 1F);
-    
+public class ProjectileScheduler implements Runnable, IProjectile, CustomProjectile<ProjectileScheduler> {
+
+    private final String name;
+    private final EntityLiving shooter;
+    private final Entity e;
+    private final int id;
+    private final List<Runnable> runnables = new ArrayList<>();
+    private final List<TypedRunnable<ProjectileScheduler>> typedRunnables = new ArrayList<>();
+    private Random random;
+    private int age;
+    private int knockback;
+    private ArrayList<Material> ignoredMaterials = new ArrayList<>();
+    private Field f;
+
     /**
      * Creates new scheduler projectile
-     * 
-     * @param name
-     * projectile name used in events
-     * @param e
-     * parent entity
-     * @param shooter
-     * shooter
-     * @param power
-     * shoot power
-     * @param plugin
-     * plugin instance used to schedule task
+     *
+     * @param name    projectile name used in events
+     * @param e       parent entity
+     * @param shooter shooter
+     * @param power   shoot power
+     * @param plugin  plugin instance used to schedule task
      */
     public ProjectileScheduler(String name, org.bukkit.entity.Entity e, LivingEntity shooter, float power, Plugin plugin) {
         this.name = name;
@@ -72,60 +55,72 @@ public class ProjectileScheduler implements Runnable, IProjectile, CustomProject
             Field f = Entity.class.getDeclaredField("random");
             f.setAccessible(true);
             random = (Random) f.get(this.e);
+        } catch (SecurityException | IllegalAccessException | NoSuchFieldException t) {
+            throw new RuntimeException(t);
         }
-        catch (Throwable t) {
-            t.printStackTrace();
-        }
-        lastTick = MinecraftServer.currentTick;
         this.e.setPositionRotation(shooter.getLocation().getX(), shooter.getLocation().getY(), shooter.getLocation().getZ(), shooter.getLocation().getYaw(), shooter.getLocation().getPitch());
         this.e.locX -= (MathHelper.cos(this.e.yaw / 180.0F * 3.1415927F) * 0.16F);
-        this.e.locY -= 0.10000000149011612D;
+        this.e.locY += 1.5D;
         this.e.locZ -= (MathHelper.sin(this.e.yaw / 180.0F * 3.1415927F) * 0.16F);
         this.e.setPosition(this.e.locX, this.e.locY, this.e.locZ);
-        this.e.height = 0.0F;
         float f = 0.4F;
         this.e.motX = (-MathHelper.sin(this.e.yaw / 180.0F * 3.1415927F) * MathHelper.cos(this.e.pitch / 180.0F * 3.1415927F) * f);
         this.e.motZ = (MathHelper.cos(this.e.yaw / 180.0F * 3.1415927F) * MathHelper.cos(this.e.pitch / 180.0F * 3.1415927F) * f);
         this.e.motY = (-MathHelper.sin(this.e.pitch / 180.0F * 3.1415927F) * f);
         shoot(this.e.motX, this.e.motY, this.e.motZ, power * 1.5F, 1.0F);
         id = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, 1, 1);
+        try {
+            this.f = Entity.class.getDeclaredField("invulnerable");
+        } catch (NoSuchFieldException er) {
+            er.printStackTrace();
+        }
     }
-    
-    @SuppressWarnings("unchecked")
+
     @Override
     public void run() {
-        int elapsedTicks = MinecraftServer.currentTick - lastTick;
-        age += elapsedTicks;
-        lastTick = MinecraftServer.currentTick;
-        
-        if (this.age >= 1000) {
-            e.die();
-            Bukkit.getScheduler().cancelTask(id);
+        BlockPosition blockposition = new BlockPosition(e.locX, e.locY, e.locZ);
+        IBlockData iblockdata = e.world.getType(blockposition);
+        Block block = iblockdata.getBlock();
+
+        if (!ignoredMaterials.contains(Material.getMaterial(Block.getId(block)))) {
+            AxisAlignedBB axisalignedbb = block.a(e.world, blockposition, iblockdata);
+
+            if ((axisalignedbb != null) && (axisalignedbb.a(new Vec3D(e.locX, e.locY, e.locZ)))) {
+                float damageMultiplier = MathHelper.sqrt(e.motX * e.motX + e.motY * e.motY + e.motZ * e.motZ);
+                CustomProjectileHitEvent event = new CustomProjectileHitEvent(this, damageMultiplier, e.world.getWorld().getBlockAt((int) e.locX, (int) e.locY, (int) e.locZ), BlockFace.UP);
+                Bukkit.getPluginManager().callEvent(event);
+                if (!event.isCancelled()) {
+                    e.die();
+                    Bukkit.getScheduler().cancelTask(id);
+                }
+            }
         }
-        
-        Vec3D vec3d = Vec3D.a(e.locX, e.locY, e.locZ);
-        Vec3D vec3d1 = Vec3D.a(e.locX + e.motX, e.locY + e.motY, e.locZ + e.motZ);
+        age += 1;
+        Vec3D vec3d = new Vec3D(e.locX, e.locY, e.locZ);
+        Vec3D vec3d1 = new Vec3D(e.locX + e.motX, e.locY + e.motY, e.locZ + e.motZ);
         MovingObjectPosition movingobjectposition = e.world.rayTrace(vec3d, vec3d1, false, true, false);
-        
-        vec3d = Vec3D.a(e.locX, e.locY, e.locZ);
-        vec3d1 = Vec3D.a(e.locX + e.motX, e.locY + e.motY, e.locZ + e.motZ);
-        if (movingobjectposition != null) vec3d1 = Vec3D.a(movingobjectposition.pos.a, movingobjectposition.pos.b, movingobjectposition.pos.c);
-        
+
+        vec3d = new Vec3D(e.locX, e.locY, e.locZ);
+        vec3d1 = new Vec3D(e.locX + e.motX, e.locY + e.motY, e.locZ + e.motZ);
+        if (movingobjectposition != null) {
+            vec3d1 = new Vec3D(movingobjectposition.pos.a, movingobjectposition.pos.b, movingobjectposition.pos.c);
+        }
+
         Entity entity = null;
-        List<Entity> list = e.world.getEntities(e, e.boundingBox.a(e.motX, e.motY, e.motZ).grow(2.0D, 2.0D, 2.0D));
+        List list = e.world.getEntities(e, e.getBoundingBox().a(e.motX, e.motY, e.motZ).grow(1.0D, 1.0D, 1.0D));
         double d0 = 0.0D;
-        EntityLiving entityliving = shooter;
-        
-        for (int i = 0; i < list.size(); i++) {
-            Entity entity1 = list.get(i);
-            
-            if ((entity1.R()) && ((entity1 != entityliving))) {
-                AxisAlignedBB axisalignedbb = entity1.boundingBox.grow(bbv.getX(), bbv.getY(), bbv.getZ());
-                MovingObjectPosition movingobjectposition1 = axisalignedbb.a(vec3d, vec3d1);
-                
+
+        for (Object aList : list) {
+            Entity entity1 = (Entity) aList;
+
+            if ((entity1.ad()) && ((entity1 != shooter) || (age >= 5))) {
+                float f1 = 0.3F;
+                AxisAlignedBB axisalignedbb1 = entity1.getBoundingBox().grow(f1, f1, f1);
+                MovingObjectPosition movingobjectposition1 = axisalignedbb1.a(vec3d, vec3d1);
+
                 if (movingobjectposition1 != null) {
                     double d1 = vec3d.distanceSquared(movingobjectposition1.pos);
-                    
+
                     if ((d1 < d0) || (d0 == 0.0D)) {
                         entity = entity1;
                         d0 = d1;
@@ -133,53 +128,85 @@ public class ProjectileScheduler implements Runnable, IProjectile, CustomProject
                 }
             }
         }
-        
+
         if (entity != null) {
             movingobjectposition = new MovingObjectPosition(entity);
         }
-        
-        if (movingobjectposition != null) {
-            if (movingobjectposition.type == EnumMovingObjectType.BLOCK && !isIgnored(e.world.getWorld().getBlockAt(movingobjectposition.b, movingobjectposition.c, movingobjectposition.d).getType())) {
-                CustomProjectileHitEvent event = new CustomProjectileHitEvent(this, e.world.getWorld().getBlockAt(movingobjectposition.b, movingobjectposition.c, movingobjectposition.d), CraftBlock.notchToBlockFace(movingobjectposition.face));
-                Bukkit.getPluginManager().callEvent(event);
-                if (!event.isCancelled()) {
-                    e.die();
-                    Bukkit.getScheduler().cancelTask(id);
-                    
-                }
+
+        if ((movingobjectposition != null) && (movingobjectposition.entity != null) && ((movingobjectposition.entity instanceof EntityHuman))) {
+            EntityHuman entityhuman = (EntityHuman) movingobjectposition.entity;
+
+            if ((entityhuman.abilities.isInvulnerable) || (((shooter instanceof EntityHuman)) && (!((EntityHuman) shooter).a(entityhuman)))) {
+                movingobjectposition = null;
             }
-            else if (movingobjectposition.entity != null && movingobjectposition.entity instanceof EntityLiving) {
-                LivingEntity living = (LivingEntity) movingobjectposition.entity.getBukkitEntity();
-                CustomProjectileHitEvent event = new CustomProjectileHitEvent(this, living);
+
+        }
+
+        if (movingobjectposition != null) {
+            if (movingobjectposition.entity != null && movingobjectposition.entity instanceof EntityLiving) {
+                float damageMultiplier = MathHelper.sqrt(e.motX * e.motX + e.motY * e.motY + e.motZ * e.motZ);
+                CustomProjectileHitEvent event = new CustomProjectileHitEvent(this, damageMultiplier, (LivingEntity) movingobjectposition.entity.getBukkitEntity());
                 Bukkit.getPluginManager().callEvent(event);
                 if (!event.isCancelled()) {
+                    if (getKnockback() > 0) {
+                        float f4 = MathHelper.sqrt(e.motX * e.motX + e.motZ * e.motZ);
+                        if (f4 > 0.0F) {
+                            movingobjectposition.entity.g(e.motX * getKnockback() * 0.6000000238418579D / f4, 0.1D, e.motZ * getKnockback() * 0.6000000238418579D / f4);
+                        }
+                    }
                     e.die();
                     Bukkit.getScheduler().cancelTask(id);
+                }
+            } else if (movingobjectposition.a() != null) {
+                if (!ignoredMaterials.contains(Material.getMaterial(Block.getId(block)))) {
+                    e.motX = ((float) (movingobjectposition.pos.a - e.locX));
+                    e.motY = ((float) (movingobjectposition.pos.b - e.locY));
+                    e.motZ = ((float) (movingobjectposition.pos.c - e.locZ));
+                    float f3 = MathHelper.sqrt(e.motX * e.motX + e.motY * e.motY + e.motZ * e.motZ);
+                    e.locX -= e.motX / f3 * 0.0500000007450581D;
+                    e.locY -= e.motY / f3 * 0.0500000007450581D;
+                    e.locZ -= e.motZ / f3 * 0.0500000007450581D;
+                    float damageMultiplier = MathHelper.sqrt(e.motX * e.motX + e.motY * e.motY + e.motZ * e.motZ);
+                    CustomProjectileHitEvent event = new CustomProjectileHitEvent(this, damageMultiplier, e.world.getWorld().getBlockAt((int) movingobjectposition.pos.a, (int) movingobjectposition.pos.b, (int) movingobjectposition.pos.c), CraftBlock.notchToBlockFace(movingobjectposition.direction));
+                    Bukkit.getPluginManager().callEvent(event);
+                    if (!event.isCancelled()) {
+                        e.die();
+                        Bukkit.getScheduler().cancelTask(id);
+                    }
                 }
             }
         }
-        else if (e.onGround) {
-            CustomProjectileHitEvent event = new CustomProjectileHitEvent(this, e.getBukkitEntity().getLocation().getBlock().getRelative(BlockFace.DOWN), BlockFace.UP);
-            Bukkit.getPluginManager().callEvent(event);
-            if (!event.isCancelled()) {
+
+        e.locX += e.motX;
+        e.locY += e.motY;
+        e.locZ += e.motZ;
+        float f3 = 0.99F;
+        float f1 = 0.05F;
+        e.motX *= f3;
+        e.motY *= f3;
+        e.motZ *= f3;
+        e.motY -= f1;
+        e.setPosition(e.locX, e.locY, e.locZ);
+        if (e.isAlive()) {
+            if (this.age >= 1000) {
                 e.die();
                 Bukkit.getScheduler().cancelTask(id);
             }
-        }
-        if (e.isAlive()) {
             for (Runnable r : runnables) {
                 r.run();
             }
             for (TypedRunnable<ProjectileScheduler> r : typedRunnables) {
                 r.run(this);
             }
+        } else {
+            Bukkit.getScheduler().cancelTask(id);
         }
     }
-    
+
     @Override
     public void shoot(double d0, double d1, double d2, float f, float f1) {
         float f2 = MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
-        
+
         d0 /= f2;
         d1 /= f2;
         d2 /= f2;
@@ -193,102 +220,79 @@ public class ProjectileScheduler implements Runnable, IProjectile, CustomProject
         e.motY = d1;
         e.motZ = d2;
         float f3 = MathHelper.sqrt(d0 * d0 + d2 * d2);
-        
+
         e.lastYaw = e.yaw = (float) (Math.atan2(d0, d2) * 180.0D / 3.1415927410125732D);
         e.lastPitch = e.pitch = (float) (Math.atan2(d1, f3) * 180.0D / 3.1415927410125732D);
     }
-    
+
     @Override
     public EntityType getEntityType() {
         return e.getBukkitEntity().getType();
     }
-    
+
     @Override
     public org.bukkit.entity.Entity getEntity() {
         return e.getBukkitEntity();
     }
-    
+
     @Override
     public LivingEntity getShooter() {
         return (LivingEntity) shooter.getBukkitEntity();
     }
-    
+
     @Override
     public String getProjectileName() {
         return name;
     }
-    
+
+    @Override
+    public boolean isInvulnerable() {
+        return getEntity().spigot().isInvulnerable();
+    }
+
     @Override
     public void setInvulnerable(boolean value) {
         try {
-            Field f = getClass().getDeclaredField("invulnerable");
             f.setAccessible(true);
             f.set(this, value);
-        }
-        catch (Throwable t) {
+        } catch (SecurityException | IllegalAccessException t) {
             t.printStackTrace();
         }
     }
-    
-    @Override
-    public boolean isInvulnerable() {
-        return e.isInvulnerable();
-    }
-    
+
     @Override
     public void addRunnable(Runnable r) {
         runnables.add(r);
     }
-    
+
     @Override
     public void removeRunnable(Runnable r) {
         runnables.remove(r);
     }
-    
-    @SuppressWarnings("unchecked")
+
     @Override
-    public void addTypedRunnable(TypedRunnable<? extends CustomProjectile> r) {
-        typedRunnables.add((TypedRunnable<ProjectileScheduler>) r);
+    public void addTypedRunnable(TypedRunnable<ProjectileScheduler> r) {
+        typedRunnables.add(r);
     }
-    
+
     @Override
-    public void removeTypedRunnable(TypedRunnable<? extends CustomProjectile> r) {
+    public void removeTypedRunnable(TypedRunnable<ProjectileScheduler> r) {
         typedRunnables.remove(r);
     }
-    
-    private boolean isIgnored(Material m) {
-        if (!isIgnoringSomeBlocks()) return false;
-        switch (m) {
-            case AIR:
-            case GRASS:
-            case DOUBLE_PLANT:
-            case CROPS:
-            case CARROT:
-            case POTATO:
-            case SUGAR_CANE_BLOCK:
-            case DEAD_BUSH:
-            case LONG_GRASS:
-            case WATER:
-            case STATIONARY_WATER:
-            case SAPLING:
-                return true;
-            default:
-                return false;
-        }
-    }
-    
+
     @Override
-    public boolean isIgnoringSomeBlocks() {
-        return ignoreSomeBlocks;
+    public ArrayList<Material> getIgnoredBlocks() {
+        return ignoredMaterials;
     }
-    
+
     @Override
-    public void setIgnoreSomeBlocks(boolean ignoreSomeBlocks) {
-        this.ignoreSomeBlocks = ignoreSomeBlocks;
+    public int getKnockback() {
+        return knockback;
     }
-    
+
     @Override
-    public Vector getBoundingBoxSize() {
-        return bbv;
+    public void setKnockback(int i) {
+        knockback = i;
     }
+
 }

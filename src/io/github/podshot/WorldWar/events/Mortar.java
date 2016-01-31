@@ -4,8 +4,6 @@ import io.github.podshot.WorldWar.WorldWar;
 import io.github.podshot.WorldWar.api.interfaces.ISpecialBlock;
 import io.github.podshot.WorldWar.handlers.BlockHandler;
 import io.github.podshot.WorldWar.internals.Internals;
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.npc.NPC;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -71,7 +69,7 @@ public class Mortar implements Listener, ISpecialBlock {
 				}
 				BlockHandler.MortarHandler.addCooldown(evt.getClickedBlock().getLocation());
 				final ItemProjectile shot = new ItemProjectile("mortar-shot", evt.getClickedBlock().getLocation().add(0, 5, 0), new ItemStack(Material.STONE), evt.getPlayer(), 2f);
-				shot.boundingBox.shrink(1D, 1D, 1D);
+				//shot.boundingBox.shrink(1D, 1D, 1D);
 				shot.getEntity().setVelocity(new Vector(0,5,0));
 				Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
 
@@ -140,18 +138,6 @@ public class Mortar implements Listener, ISpecialBlock {
 		if (e.getProjectile().getProjectileName().equals("mortar-shot")) {
 			if (e.getHitType() == HitType.BLOCK) {
 				Location hit_loc = e.getHitBlock().getLocation();
-				NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.BAT, "strike");
-				npc.spawn(hit_loc);
-				npc.getNavigator().setTarget(hit_loc);
-				((LivingEntity) npc.getEntity()).addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1));
-				npc.setProtected(true);
-				for (Entity ent : npc.getEntity().getNearbyEntities(5,5,5)) {
-					if (ent instanceof LivingEntity) {
-						LivingEntity liv_ent = (LivingEntity) ent;
-						liv_ent.damage(this.getMortarDamage(), e.getProjectile().getShooter());
-					}
-				}
-				npc.destroy();
 				hit_loc.getWorld().createExplosion(hit_loc, 8f);
 			} else if (e.getHitType() == HitType.ENTITY) {
 				Location hit_loc = e.getHitEntity().getLocation();

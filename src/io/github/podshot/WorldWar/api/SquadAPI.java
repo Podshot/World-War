@@ -130,5 +130,9 @@ public class SquadAPI {
 			squad.removeSquadMember(uuid);
 		}
 	}
+	
+	public static void removeObjective(Squad squad) {
+		config.set("Squads." + squad.getSquadName() + ".Objective", null);
+	}
 
 }

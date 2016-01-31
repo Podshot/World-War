@@ -80,7 +80,6 @@ public class BomberEvents implements Listener {
 						Player player = e.getPlayer();
 						player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1000, 4));
 						player.setFlying(false);
-						plugin.getDCAPI().undisguisePlayer(player);
 					}
 				}
 			}

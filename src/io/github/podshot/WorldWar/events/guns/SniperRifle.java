@@ -40,8 +40,8 @@ public class SniperRifle implements IGun {
 				String gun = gunIS.getItemMeta().getDisplayName().toString();
 				if (gun.equals("Sniper Rifle")) {
 					ItemProjectile bullet = new ItemProjectile("bullet-sniper", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 2.5F);
-					bullet.setIgnoreSomeBlocks(true);
-					bullet.boundingBox.shrink(2D, 2D, 2D);
+					//bullet.setIgnoreSomeBlocks(true);
+					//bullet.boundingBox.shrink(2D, 2D, 2D);
 
 					int lvl = e.getPlayer().getLevel() - 1;
 					e.getPlayer().setLevel(lvl);

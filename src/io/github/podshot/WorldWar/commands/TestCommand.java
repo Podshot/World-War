@@ -1,7 +1,5 @@
 package io.github.podshot.WorldWar.commands;
 
-import java.util.UUID;
-
 import io.github.podshot.WorldWar.WorldWar;
 import io.github.podshot.WorldWar.events.guns.Rifle;
 import io.github.podshot.WorldWar.events.guns.RocketLauncher;
@@ -11,11 +9,10 @@ import io.github.podshot.WorldWar.gui.ClassChooser;
 import io.github.podshot.WorldWar.gui.WireGui;
 import io.github.podshot.WorldWar.inventories.InventoryManager;
 import io.github.podshot.WorldWar.structures.Base;
-import io.github.podshot.WorldWar.vehicles.Bomber;
+
+import java.util.UUID;
+
 import me.astramg.resources.BlockGenerator;
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.npc.NPC;
-import net.citizensnpcs.api.npc.NPCRegistry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -23,7 +20,6 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
@@ -70,14 +66,6 @@ public class TestCommand implements CommandExecutor {
 							new BlockGenerator.BlockLayer("AGA;GAG;AG").setBlockType('G', Material.GLASS),
 							new BlockGenerator.BlockLayer(";AGA").setBlockType('G', Material.GLASS)).generateWithTime(plugin, genLOC.subtract(1, 1, 1), 100L, true);
 					break;
-				case "spawn":
-					toReturn = true;
-					Location npcLOC = player.getLocation();
-					NPCRegistry registry = CitizensAPI.getNPCRegistry();
-					NPC npc = registry.createNPC(EntityType.COW, "NPC-Cow");
-					npc.spawn(npcLOC);
-					npc.getNavigator().setTarget(npcLOC);
-					break;
 				case "Wgui":
 					toReturn = true;
 					player.openInventory(WireGui.getWireGui());
@@ -95,11 +83,6 @@ public class TestCommand implements CommandExecutor {
 						}
 						
 					}, 1200);
-					break;
-				case "bomber":
-					toReturn = true;
-					Bomber bomber = new Bomber();
-					bomber.respawnVehicle(player.getLocation());
 					break;
 				case "guns":
 					toReturn = true;
@@ -121,6 +104,7 @@ public class TestCommand implements CommandExecutor {
 							break;
 						}
 					}
+					break;
 				case "base":
 					toReturn = true;
 					new Base(player.getLocation().add(0, -3, 0), "Blue");

@@ -23,6 +23,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
 import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
+import com.stirante.MoreProjectiles.projectile.OrbProjectile;
 
 public class Rifle implements IGun {
 	
@@ -62,6 +63,7 @@ public class Rifle implements IGun {
 					bullet.boundingBox.shrink(2D, 2D, 2D);
 					*/
 					new Bullet("bullet-rifle", new ItemStack(Material.STONE_BUTTON), e.getPlayer(), 2.0F);
+					//OrbProjectile bullet = new OrbProjectile("bullet-rifle", e.getPlayer(), 2.0f);
 					e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.FIREWORK_BLAST, 0.5f, 0.6f);
 					int lvl = e.getPlayer().getLevel() - 1;
 					float progress = (float) lvl/Rifle.getMagSize();
