@@ -24,17 +24,12 @@ import io.github.podshot.WorldWar.players.PlayerSorter;
 import io.github.podshot.WorldWar.safeguards.PreventProfanity;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.Random;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
@@ -52,10 +47,6 @@ public final class WorldWar extends JavaPlugin {
 	private File pluginFolderF;
 	private static WorldWar instance;
 	public boolean debug = true;
-	private Random random = new Random();
-
-	private String version = this.getDescription().getVersion();
-	private boolean needsUpdate = false;
 
 	@Override
 	public void onEnable() {
@@ -103,7 +94,6 @@ public final class WorldWar extends JavaPlugin {
 		//if (Internals.isWarDeclared()) {
 		//this.setMetaData();
 		//}
-		Bukkit.getScheduler().runTaskAsynchronously(this, new UpdateChecker(this));
 		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
 			PlayerEvents.doReloadFix(player);
 		}
@@ -153,46 +143,5 @@ public final class WorldWar extends JavaPlugin {
 	public static WorldWar getInstance() {
 
 		return instance;
-	}
-	public boolean getNeedsUpdate() {
-		return this.needsUpdate;
-	}
-
-	public Random getRandom() {
-		return this.random;
-	}
-	
-	public class UpdateChecker implements Runnable {
-		
-		private WorldWar caller;
-		
-		public UpdateChecker(WorldWar caller) {
-			this.caller = caller;
-		}
-
-		@Override
-		public void run() {
-			InputStream in = null;
-			try {
-				in = new URL("https://raw.githubusercontent.com/Podshot/World-War/master/plugin.yml").openStream();
-				if (in != null) {
-					YamlConfiguration update = YamlConfiguration.loadConfiguration(in);
-					caller.needsUpdate = update.getString("version") != caller.version;
-				}
-			} catch (IOException e) {
-				logger.warning("Could not check for update");
-				//e.printStackTrace();
-			} finally {
-				if (in != null) {
-					try {
-						in.close();
-					} catch (IOException e) {
-						logger.severe("Could not close update stream, memory leaks may occur!");
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-		
 	}
 }

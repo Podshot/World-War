@@ -21,7 +21,6 @@ public class SquadCommand implements CommandExecutor {
 	@SuppressWarnings("unused")
 	private String commandUsage = "/squad <create|disband|invite|kick|leave|objective> <Squad Name| |Player Name|Player Name| |mutipleValues>";
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2, String[] args) {
 		if (sender instanceof Player) {

@@ -3,6 +3,7 @@ package io.github.podshot.WorldWar.events.guns;
 import io.github.podshot.WorldWar.WorldWar;
 import io.github.podshot.WorldWar.api.Bullet;
 import io.github.podshot.WorldWar.api.PlayerAPI;
+import io.github.podshot.WorldWar.api.Sounds;
 import io.github.podshot.WorldWar.api.interfaces.IGun;
 import io.github.podshot.WorldWar.handlers.PlayerHandler;
 import io.github.podshot.WorldWar.internals.Internals;
@@ -23,6 +24,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
 import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
+import com.stirante.MoreProjectiles.projectile.ItemProjectile;
 import com.stirante.MoreProjectiles.projectile.OrbProjectile;
 
 public class Rifle implements IGun {
@@ -31,6 +33,7 @@ public class Rifle implements IGun {
 
 	@EventHandler
 	public void onFireGun(PlayerInteractEvent e) {
+		Player player = e.getPlayer();
 
 		if (!(Internals.isWarDeclared())) {
 			return;
@@ -54,7 +57,7 @@ public class Rifle implements IGun {
 
 		ItemStack gunIS = e.getItem();
 		if (gunIS.getType() == Material.MONSTER_EGG && gunIS.getDurability() == 51) {
-			if (e.getPlayer().getLevel() > 0) {
+			if (player.getLevel() > 0) {
 				String gun = gunIS.getItemMeta().getDisplayName().toString();
 				if (gun.equals("Standard Issue Rifle")) {
 					/*
@@ -62,17 +65,19 @@ public class Rifle implements IGun {
 					bullet.setIgnoreSomeBlocks(true);
 					bullet.boundingBox.shrink(2D, 2D, 2D);
 					*/
-					new Bullet("bullet-rifle", new ItemStack(Material.STONE_BUTTON), e.getPlayer(), 2.0F);
+					ItemProjectile bullet = Bullet.CreateRegularBullet("bullet-rifle", new ItemStack(Material.STONE_BUTTON), player, 2.0F);
 					//OrbProjectile bullet = new OrbProjectile("bullet-rifle", e.getPlayer(), 2.0f);
-					e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.FIREWORK_BLAST, 0.5f, 0.6f);
-					int lvl = e.getPlayer().getLevel() - 1;
+					//e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.FIREWORK_BLAST, 0.5f, 0.6f);
+					Sounds.PlayRifleSound(player);
+					bullet.getEntity().setVelocity(bullet.getEntity().getVelocity().multiply(3));
+					int lvl = player.getLevel() - 1;
 					float progress = (float) lvl/Rifle.getMagSize();
 					this.plugin.logger.info("Progress: " + progress);
-					e.getPlayer().setExp(progress);
-					e.getPlayer().setLevel(lvl);
+					player.setExp(progress);
+					player.setLevel(lvl);
 					e.setCancelled(true);
-					PlayerAPI.setAmmoAmount(e.getPlayer(), "Rifle", lvl);
-					final UUID uuid = e.getPlayer().getUniqueId();
+					PlayerAPI.setAmmoAmount(player, "Rifle", lvl);
+					final UUID uuid = player.getUniqueId();
 					PlayerHandler.RifleReloadHandler.addToList(uuid);
 					Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
 
@@ -90,6 +95,7 @@ public class Rifle implements IGun {
 
 	@EventHandler
 	public void onGunReload(PlayerInteractEvent e) {
+		Player player = e.getPlayer();
 
 		if (!(Internals.isWarDeclared())) {
 			return;
@@ -110,10 +116,10 @@ public class Rifle implements IGun {
 		ItemStack gunIS = e.getItem();
 		if (gunIS.getType() == Material.MONSTER_EGG && gunIS.getDurability() == 51) {
 			if (gunIS.getItemMeta().getDisplayName().equals("Standard Issue Rifle")) {
-				e.getPlayer().setLevel(Rifle.getMagSize());
+				player.setLevel(Rifle.getMagSize());
 				float progress = Rifle.getMagSize() / Rifle.getMagSize();
-				PlayerAPI.setAmmoAmount(e.getPlayer(), "Rifle", Rifle.getMagSize());
-				e.getPlayer().setExp(progress);
+				PlayerAPI.setAmmoAmount(player, "Rifle", Rifle.getMagSize());
+				player.setExp(progress);
 			}
 		}
 	}

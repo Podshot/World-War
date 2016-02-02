@@ -11,12 +11,13 @@ import com.stirante.MoreProjectiles.projectile.ItemProjectile;
 
 public class Bullet {
 
-	public Bullet(String bulletName, ItemStack item, Player p, float speed) {
+	public static ItemProjectile CreateRegularBullet(String bulletName, ItemStack item, Player p, float speed) {
 		ItemProjectile bullet = new ItemProjectile(bulletName, p, item, speed);
+		return bullet;
 	}
 	
-	public Bullet(String bulletName, ItemStack item, Player p, float speed, final List<Effect> particles) {
-		ItemProjectile bullet = new ItemProjectile(bulletName, p, item, speed);
+	public static ItemProjectile CreateRegularBullet(String bulletName, ItemStack item, Player p, float speed, final List<Effect> particles) {
+		ItemProjectile bullet = CreateRegularBullet(bulletName, item, p, speed);
 		//bullet.boundingBox.shrink(2.0D, 2.0D, 2.0D);
 		bullet.addTypedRunnable(new TypedRunnable<ItemProjectile>() {
 			@Override
@@ -26,6 +27,7 @@ public class Bullet {
 				}
 			}	
 		});
+		return bullet;
 	}
 
 }

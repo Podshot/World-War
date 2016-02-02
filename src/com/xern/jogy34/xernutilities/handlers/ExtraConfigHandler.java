@@ -41,7 +41,8 @@ public class ExtraConfigHandler
      * @param id Essentially the name of the custom config but it is also used to store the FileConfiguration
      * @return The custom FileConfiguration that was either created or reloaded.
      */
-    public static FileConfiguration reloadConfig(String id)
+    @SuppressWarnings("deprecation")
+	public static FileConfiguration reloadConfig(String id)
     {
         File customConfigFile = new File(plugin.getDataFolder(), id + ".yml");
         FileConfiguration customConfig = YamlConfiguration.loadConfiguration(customConfigFile);

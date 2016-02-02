@@ -17,6 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
 import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
+import com.stirante.MoreProjectiles.projectile.ItemProjectile;
 
 public class Pistol implements IGun {
 
@@ -43,7 +44,7 @@ public class Pistol implements IGun {
 			if (e.getPlayer().getLevel() > 0) {
 				String gun = gunIS.getItemMeta().getDisplayName();
 				if (gun.equals("Pistol")) {
-					new Bullet("bullet-pistol", new ItemStack(Material.STONE_BUTTON), e.getPlayer(), 2.0F);
+					ItemProjectile bullet = Bullet.CreateRegularBullet("bullet-pistol", new ItemStack(Material.STONE_BUTTON), e.getPlayer(), 2.0F);
 					int lvl = e.getPlayer().getLevel() - 1;
 					float progress = lvl / this.getMagSize();
 					e.getPlayer().setExp(progress);
