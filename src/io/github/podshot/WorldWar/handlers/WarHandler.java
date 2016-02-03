@@ -2,7 +2,6 @@ package io.github.podshot.WorldWar.handlers;
 
 import io.github.podshot.WorldWar.WorldWar;
 import io.github.podshot.WorldWar.files.BackUp;
-import io.github.podshot.WorldWar.internals.Internals;
 import io.github.podshot.WorldWar.structures.StructureGeneration;
 
 import java.io.File;
@@ -15,7 +14,9 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 public class WarHandler {
+	
 	private static WorldWar plugin = WorldWar.getInstance();
+	private static boolean warDeclared = false;
 
 	public static void startWar(World world) {
 		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "gamerule keepInventory true");
@@ -49,7 +50,7 @@ public class WarHandler {
 		StructureGeneration.generateFlag(rBase, "Red");
 
 
-		Internals.setWarDeclared(true);
+		warDeclared = true;
 	}
 
 	private static int randomCoords(int min, int max) {
@@ -62,7 +63,7 @@ public class WarHandler {
 	}
 	
 	public static void endWar(String cause) {
-		Internals.setWarDeclared(false);
+		warDeclared = false;
 		
 		plugin.logger.info("War has Ended");
 		
@@ -76,7 +77,13 @@ public class WarHandler {
 		default:
 			break;
 		}
-		
 	}
-
+	
+	public static boolean isWarDeclared() {
+		return warDeclared;
+	}
+	
+	public static void setWarDeclared(boolean bool) {
+		warDeclared = bool;
+	}
 }

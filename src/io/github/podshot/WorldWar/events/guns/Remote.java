@@ -1,8 +1,8 @@
 package io.github.podshot.WorldWar.events.guns;
 
-import java.util.List;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 
-import io.github.podshot.WorldWar.internals.Internals;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -17,7 +17,7 @@ public class Remote implements Listener {
 	@EventHandler
 	public void onUseRemote(PlayerInteractEvent e) {
 
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 

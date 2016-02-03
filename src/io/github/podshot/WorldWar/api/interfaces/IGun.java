@@ -22,6 +22,9 @@ public interface IGun extends Listener {
 	@EventHandler
 	public void onGunReload(PlayerInteractEvent e);
 	
+	@EventHandler
+	public void onBulletHit(ItemProjectileHitEvent e);
+	
 	/**
 	 * Gets the amount of ammo the gun should have before not firing
 	 * @return An Integer of how many bullets the player can shoot
@@ -31,8 +34,4 @@ public interface IGun extends Listener {
 	double getPlayerDamage();
 	
 	double getAnimalDamage();
-	
-	@EventHandler
-	public void onBulletHit(ItemProjectileHitEvent e);
-
 }

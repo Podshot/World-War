@@ -2,7 +2,7 @@ package io.github.podshot.WorldWar.events.blocks;
 
 import io.github.podshot.WorldWar.api.SquadAPI;
 import io.github.podshot.WorldWar.api.interfaces.ISpecialBlock;
-import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 import io.github.podshot.WorldWar.squads.Squad;
 
 import org.bukkit.Bukkit;
@@ -27,7 +27,7 @@ public class SquadObjectiveBlock implements ISpecialBlock {
 	@Override
 	@EventHandler
 	public void onPlaceBlock(BlockPlaceEvent evt) {
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 		

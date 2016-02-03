@@ -2,7 +2,7 @@ package io.github.podshot.WorldWar.events.guis;
 
 import io.github.podshot.WorldWar.WorldWar;
 import io.github.podshot.WorldWar.handlers.PlayerHandler;
-import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 import io.github.podshot.WorldWar.structures.Wall;
 
 import org.bukkit.ChatColor;
@@ -22,7 +22,7 @@ public class BuildingChooserGUI implements Listener {
 	@EventHandler
 	public void onSelectChoice(InventoryClickEvent evt) {
 
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 
@@ -55,7 +55,7 @@ public class BuildingChooserGUI implements Listener {
 	@EventHandler
 	public void onCloseInventory(InventoryCloseEvent evt) {
 
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 

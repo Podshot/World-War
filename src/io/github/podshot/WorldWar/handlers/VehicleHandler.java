@@ -1,7 +1,5 @@
 package io.github.podshot.WorldWar.handlers;
 
-import io.github.podshot.WorldWar.internals.Internals;
-
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,7 +13,7 @@ public class VehicleHandler implements Listener {
 	public void onPlayerDamage(EntityDamageByEntityEvent evt) {
 		String damagerTeam = null;
 		String damagedTeam = null;
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 

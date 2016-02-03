@@ -1,6 +1,6 @@
 package io.github.podshot.WorldWar.events.structures;
 
-import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 import me.astramg.resources.BlockGenerator;
 
 import org.bukkit.Material;
@@ -12,7 +12,7 @@ public class GuardTower {
 
 	@EventHandler
 	public void onPlaceStructure(BlockPlaceEvent evt) {
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 		

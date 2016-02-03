@@ -2,7 +2,7 @@ package io.github.podshot.WorldWar.events.guns;
 
 import io.github.podshot.WorldWar.api.PlayerAPI;
 import io.github.podshot.WorldWar.api.interfaces.IGun;
-import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -18,7 +18,7 @@ public class SniperRifle implements IGun {
 
 	@EventHandler
 	public void onFireGun(PlayerInteractEvent e) {
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 
@@ -54,7 +54,7 @@ public class SniperRifle implements IGun {
 	@EventHandler
 	public void onGunReload(PlayerInteractEvent e) {
 		
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 		

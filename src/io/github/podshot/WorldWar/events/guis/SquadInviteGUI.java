@@ -1,12 +1,11 @@
 package io.github.podshot.WorldWar.events.guis;
 
-import java.util.UUID;
-
 import io.github.podshot.WorldWar.api.SquadAPI;
-import io.github.podshot.WorldWar.api.SquadAPI_OLD;
 import io.github.podshot.WorldWar.handlers.PlayerHandler;
-import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 import io.github.podshot.WorldWar.squads.Squad;
+
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -24,7 +23,7 @@ public class SquadInviteGUI implements Listener {
 
 	@EventHandler
 	public void onSelectChoice(InventoryClickEvent evt) {
-		if (Internals.isWarDeclared()) {
+		if (WarHandler.isWarDeclared()) {
 			Player player = (Player) evt.getWhoClicked();
 			ItemStack itemClicked = evt.getCurrentItem();
 			Inventory inv = evt.getInventory();
@@ -52,7 +51,7 @@ public class SquadInviteGUI implements Listener {
 	
 	@EventHandler
 	public void onCloseInventory(InventoryCloseEvent evt) {
-		if (Internals.isWarDeclared()) {
+		if (WarHandler.isWarDeclared()) {
 			Player player = (Player) evt.getPlayer();
 			Inventory inv = evt.getInventory();
 			String squadSplitPhase1 = ChatColor.stripColor(inv.getName());
@@ -79,7 +78,7 @@ public class SquadInviteGUI implements Listener {
 	}
 	
 	private void reject(String squadName, Player player) {
-		UUID uuid = SquadAPI_OLD.getLeader(squadName);
+		UUID uuid = SquadAPI.getSquadFromName(squadName).getSquadLeader();
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			if (p.getUniqueId().equals(uuid)) {
 				p.sendMessage(ChatColor.GREEN + player.getName() + " has denied your request");

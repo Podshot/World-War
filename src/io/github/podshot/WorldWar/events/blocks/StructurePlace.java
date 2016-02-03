@@ -3,7 +3,7 @@ package io.github.podshot.WorldWar.events.blocks;
 import io.github.podshot.WorldWar.WorldWar;
 import io.github.podshot.WorldWar.gui.BuildingChooser;
 import io.github.podshot.WorldWar.handlers.PlayerHandler;
-import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -19,7 +19,7 @@ public class StructurePlace implements Listener {
 	
 	@EventHandler
 	public void onPlaceStructureBlock(BlockPlaceEvent evt) {
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 		

@@ -20,10 +20,12 @@ public class PlayerDataYAML {
 	
 	private static WorldWar plugin = WorldWar.getInstance();
 	private static FileConfiguration config;
+	private static boolean loaded;
 
 	/**
 	 * Constructor that creates a file named "PlayerData.yml" uses Jogy34's ExtraConfigHandler
 	 */
+	@Deprecated
 	public PlayerDataYAML() {
 		File playerDataYaml = new File(plugin.getDataFolder() + plugin.fileSep + "PlayerData");
 		if (!playerDataYaml.exists()) {
@@ -31,6 +33,20 @@ public class PlayerDataYAML {
 			ExtraConfigHandler.saveConfig(plugin.fileSep + "PlayerData");
 		}
 		config = ExtraConfigHandler.getConfig(plugin.fileSep + "PlayerData");
+	}
+	
+	public static void loadYAML() {
+		File playerDataYaml = new File(plugin.getDataFolder() + plugin.fileSep + "PlayerData");
+		if (!playerDataYaml.exists()) {
+			ExtraConfigHandler.getConfig("PlayerData");
+			ExtraConfigHandler.saveConfig("PlayerData");
+		}
+		config = ExtraConfigHandler.getConfig("PlayerData");
+		loaded = true;
+	}
+	
+	public static boolean isLoaded() {
+		return loaded;
 	}
 	
 	public static void saveYAML() {

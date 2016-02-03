@@ -2,7 +2,7 @@ package io.github.podshot.WorldWar.events.structures;
 
 import io.github.podshot.WorldWar.WorldWar;
 import io.github.podshot.WorldWar.api.interfaces.IStructure;
-import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 import me.astramg.resources.BlockGenerator;
 
 import org.bukkit.Bukkit;
@@ -23,7 +23,7 @@ public class Wall implements IStructure {
 	@EventHandler
 	public void onPlaceStructure(final BlockPlaceEvent evt) {
 		String warClass = null;
-		if (Internals.isWarDeclared()) {
+		if (WarHandler.isWarDeclared()) {
 			if (evt.getBlockPlaced().getType() == Material.SPONGE) {
 				Player placer = evt.getPlayer();
 				for (MetadataValue val : placer.getMetadata("WorldWar.Class")) {
@@ -51,7 +51,7 @@ public class Wall implements IStructure {
 	@EventHandler
 	public void onPickupStructure(PlayerInteractEvent evt) {
 		String warClass = null;
-		if (Internals.isWarDeclared()) {
+		if (WarHandler.isWarDeclared()) {
 			if (evt.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				if (evt.getClickedBlock().getType() == Material.SPONGE) {
 					for (MetadataValue val : evt.getPlayer().getMetadata("WorldWar.Class")) {

@@ -6,13 +6,12 @@ import io.github.podshot.WorldWar.api.PlayerAPI;
 import io.github.podshot.WorldWar.api.Sounds;
 import io.github.podshot.WorldWar.api.interfaces.IGun;
 import io.github.podshot.WorldWar.handlers.PlayerHandler;
-import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -25,7 +24,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
 import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
 import com.stirante.MoreProjectiles.projectile.ItemProjectile;
-import com.stirante.MoreProjectiles.projectile.OrbProjectile;
 
 public class Rifle implements IGun {
 	
@@ -35,7 +33,7 @@ public class Rifle implements IGun {
 	public void onFireGun(PlayerInteractEvent e) {
 		Player player = e.getPlayer();
 
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 
@@ -97,7 +95,7 @@ public class Rifle implements IGun {
 	public void onGunReload(PlayerInteractEvent e) {
 		Player player = e.getPlayer();
 
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 
@@ -141,7 +139,7 @@ public class Rifle implements IGun {
 	public void onBulletHit(ItemProjectileHitEvent e) {
 		String shooterTeam = null;
 		String hitTeam = null;
-		if (Internals.isWarDeclared()) {
+		if (WarHandler.isWarDeclared()) {
 			if (e.getHitType() == CustomProjectileHitEvent.HitType.ENTITY) {
 				LivingEntity hitEntity = e.getHitEntity();
 				if (hitEntity.getType() == EntityType.PLAYER) {

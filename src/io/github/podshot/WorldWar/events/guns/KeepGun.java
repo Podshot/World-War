@@ -1,6 +1,6 @@
 package io.github.podshot.WorldWar.events.guns;
 
-import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -12,7 +12,7 @@ public class KeepGun implements Listener {
 
 	@EventHandler
 	public void onUseOnGround(PlayerInteractEvent evt) {
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 

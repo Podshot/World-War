@@ -3,7 +3,7 @@ package io.github.podshot.WorldWar.events;
 import io.github.podshot.WorldWar.WorldWar;
 import io.github.podshot.WorldWar.api.interfaces.ISpecialBlock;
 import io.github.podshot.WorldWar.handlers.BlockHandler;
-import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -23,8 +23,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent.HitType;
@@ -38,7 +36,7 @@ public class Mortar implements Listener, ISpecialBlock {
 	@EventHandler
 	public void onClickBlock(final PlayerInteractEvent evt) {
 		boolean isMortar = false;
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 
@@ -107,7 +105,7 @@ public class Mortar implements Listener, ISpecialBlock {
 
 	@EventHandler
 	public void onPlaceBlock(BlockPlaceEvent evt) {
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 
@@ -132,7 +130,7 @@ public class Mortar implements Listener, ISpecialBlock {
 
 	@EventHandler
 	public void onMortarLand(ItemProjectileHitEvent e) {
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 		if (e.getProjectile().getProjectileName().equals("mortar-shot")) {

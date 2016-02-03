@@ -1,7 +1,7 @@
 package io.github.podshot.WorldWar;
 
 import io.github.podshot.WorldWar.api.PlayerAPI;
-import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -34,7 +34,7 @@ public class BattleStatistics implements Listener {
 
 	@EventHandler
 	public void onPlayerDeath(EntityDeathEvent evt) {
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 		

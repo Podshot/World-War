@@ -10,7 +10,7 @@ import io.github.podshot.WorldWar.api.SquadAPI_OLD;
 import io.github.podshot.WorldWar.files.PlayerDataYAML;
 import io.github.podshot.WorldWar.gui.ClassChooser;
 import io.github.podshot.WorldWar.gui.TeamChooser;
-import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 import io.github.podshot.WorldWar.players.PlayerSorter;
 
 import org.bukkit.Bukkit;
@@ -38,7 +38,7 @@ public class PlayerEvents implements Listener {
 			private PlayerJoinEvent evt = e;
 			@Override
 			public void run() {
-				if (Internals.isWarDeclared()) {
+				if (WarHandler.isWarDeclared()) {
 					Player player = evt.getPlayer();
 					String memberOfTeam = PlayerDataYAML.getPlayerTeam(player);
 					plugin.logger.info("Cheking to see if username is already stored");
@@ -109,7 +109,7 @@ public class PlayerEvents implements Listener {
 
 	@EventHandler
 	public void onPlayerQuitEvent(PlayerQuitEvent evt) {
-		if (Internals.isWarDeclared()) {
+		if (WarHandler.isWarDeclared()) {
 			Player player = evt.getPlayer();
 			String team = PlayerAPI.getTeam(player);
 			plugin.logger.info("Saving player");
@@ -124,7 +124,7 @@ public class PlayerEvents implements Listener {
 
 	@EventHandler
 	public void onPlayerRespawn(PlayerRespawnEvent evt) {
-		if (Internals.isWarDeclared()) {
+		if (WarHandler.isWarDeclared()) {
 			Player player = evt.getPlayer();
 			player.openInventory(ClassChooser.getClassChooserGui());
 		}
@@ -133,7 +133,7 @@ public class PlayerEvents implements Listener {
 
 	@EventHandler
 	public void onPlayerMoveEvent(PlayerMoveEvent evt) {
-		if (Internals.isWarDeclared()) {
+		if (WarHandler.isWarDeclared()) {
 			if (evt.getTo().getBlockX() == evt.getFrom().getBlockX() && evt.getTo().getBlockY() == evt.getFrom().getBlockY() && evt.getTo().getBlockZ() == evt.getFrom().getBlockZ()) return;
 
 			Player player = evt.getPlayer();
@@ -149,7 +149,7 @@ public class PlayerEvents implements Listener {
 
 	@SuppressWarnings("deprecation")
 	public static void doReloadFix(Player player) {
-		if (Internals.isWarDeclared()) {
+		if (WarHandler.isWarDeclared()) {
 			String memberOfTeam = PlayerDataYAML.getPlayerTeam(player);
 			plugin.logger.info("Cheking to see if username is already stored");
 			if (memberOfTeam == null) {

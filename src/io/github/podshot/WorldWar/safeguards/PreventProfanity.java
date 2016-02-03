@@ -2,7 +2,7 @@ package io.github.podshot.WorldWar.safeguards;
 
 import io.github.podshot.WorldWar.WorldWar;
 import io.github.podshot.WorldWar.handlers.PlayerHandler;
-import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 
 import java.util.Iterator;
 import java.util.List;
@@ -22,7 +22,7 @@ public class PreventProfanity implements Listener {
 	@EventHandler
 	public void onChatEvent(AsyncPlayerChatEvent evt) {
 		boolean positive = false;
-		if (Internals.isWarDeclared()) {
+		if (WarHandler.isWarDeclared()) {
 			if (evt.isAsynchronous()) {
 				String message = evt.getMessage();
 				for (String word : wordList) {

@@ -4,7 +4,7 @@ import io.github.podshot.WorldWar.WorldWar;
 import io.github.podshot.WorldWar.api.PlayerAPI;
 import io.github.podshot.WorldWar.api.interfaces.IGun;
 import io.github.podshot.WorldWar.handlers.PlayerHandler;
-import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 
 import java.util.UUID;
 
@@ -31,7 +31,7 @@ public class Shotgun implements IGun {
 	@Override
 	@EventHandler
 	public void onFireGun(PlayerInteractEvent e) {
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 
@@ -105,7 +105,7 @@ public class Shotgun implements IGun {
 	@EventHandler
 	public void onGunReload(PlayerInteractEvent e) {
 
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 
@@ -150,7 +150,7 @@ public class Shotgun implements IGun {
 	public void onBulletHit(ItemProjectileHitEvent e) {
 		String shooterTeam = null;
 		String hitTeam = null;
-		if (Internals.isWarDeclared()) {
+		if (WarHandler.isWarDeclared()) {
 			if (e.getHitType() == CustomProjectileHitEvent.HitType.ENTITY) {
 				LivingEntity hitEntity = e.getHitEntity();
 				if (hitEntity.getType() == EntityType.PLAYER) {

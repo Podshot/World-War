@@ -1,7 +1,7 @@
 package io.github.podshot.WorldWar.events.guis;
 
 import io.github.podshot.WorldWar.gui.WireGui;
-import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 
 import java.util.Random;
 
@@ -22,7 +22,7 @@ public class WireCutGUI implements Listener {
 	public void onWireCut(InventoryClickEvent e) {
 		boolean chooseRightWire = false;
 		String coord = null;
-		if (Internals.isWarDeclared()) {
+		if (WarHandler.isWarDeclared()) {
 			Player player = (Player) e.getWhoClicked();
 			ItemStack clicked = e.getCurrentItem();
 			Inventory inv = e.getInventory();

@@ -19,7 +19,9 @@ public class StructureYAML {
 	private static WorldWar plugin = WorldWar.getInstance();
 	private static FileConfiguration config;
 	private static List<String> list = new ArrayList<String>();
+	private static boolean loaded;
 	
+	@Deprecated
 	public StructureYAML() {
 		File structures = new File(plugin.getDataFolder() + plugin.fileSep + "Structures");
 		if (!structures.exists()) {
@@ -30,6 +32,22 @@ public class StructureYAML {
 		} else {
 			config = ExtraConfigHandler.getConfig("Structures");
 		}
+	}
+	
+	public static void loadYAML() {
+		File structures = new File(plugin.getDataFolder() + plugin.fileSep + "Structures");
+		if (!structures.exists()) {
+			ExtraConfigHandler.getConfig("Structures");
+			ExtraConfigHandler.saveConfig("Structures");
+			config = ExtraConfigHandler.getConfig("Structures");
+			addConfigValues();
+		}
+		config = ExtraConfigHandler.getConfig("Structures");
+		loaded = true;
+	}
+	
+	public static boolean isLoaded() {
+		return loaded;
 	}
 	
 	public static void saveYAML() {

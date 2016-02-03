@@ -22,8 +22,9 @@ public class SquadAPI {
 	private static FileConfiguration config;
 	private static HashMap<String, Squad> squads = new HashMap<String, Squad>();
 	private static HashMap<UUID, Squad> leaders = new HashMap<UUID, Squad>();
+	private static boolean loaded;
 	
-	public SquadAPI() {
+	public static void loadYAML() {
 		plugin.logger.info(plugin.getDataFolder() + plugin.fileSep + "Squads.yml");
 		File squadYaml = new File(plugin.getDataFolder() + plugin.fileSep + "Squads.yml");
 		plugin.logger.info("Exists: "+squadYaml.exists());
@@ -46,6 +47,11 @@ public class SquadAPI {
 				leaders.put(parsedSquad.getSquadLeader(), parsedSquad);
 			}
 		}
+		loaded = true;
+	}
+	
+	public static boolean isLoaded() {
+		return loaded;
 	}
 	
 	public static void saveYAML() {

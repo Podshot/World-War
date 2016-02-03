@@ -3,7 +3,7 @@ package io.github.podshot.WorldWar.events.guis;
 import io.github.podshot.WorldWar.WorldWar;
 import io.github.podshot.WorldWar.gui.ClassChooser;
 import io.github.podshot.WorldWar.handlers.PlayerClasses;
-import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -20,7 +20,7 @@ public class ClassSelectorGUI implements Listener {
 	
 	@EventHandler
 	public void onSelectClass(InventoryClickEvent evt) {
-		if (Internals.isWarDeclared()) {
+		if (WarHandler.isWarDeclared()) {
 			Player player = (Player) evt.getWhoClicked();
 			ItemStack clicked = evt.getCurrentItem();
 			Inventory inv = evt.getInventory();

@@ -8,7 +8,7 @@ import io.github.podshot.WorldWar.events.guns.Shotgun;
 
 public class GunRegister {
 
-	public GunRegister() {
+	public GunRegister() {		
 		WorldWar plugin = WorldWar.getInstance();
 		plugin.getServer().getPluginManager().registerEvents(new Rifle(), plugin);
 		plugin.getServer().getPluginManager().registerEvents(new Remote(), plugin);

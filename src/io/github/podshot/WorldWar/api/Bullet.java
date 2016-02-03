@@ -12,7 +12,8 @@ import com.stirante.MoreProjectiles.projectile.ItemProjectile;
 public class Bullet {
 
 	public static ItemProjectile CreateRegularBullet(String bulletName, ItemStack item, Player p, float speed) {
-		ItemProjectile bullet = new ItemProjectile(bulletName, p, item, speed);
+		//ItemProjectile bullet = new ItemProjectile(bulletName, p, item, speed);
+		ItemProjectile bullet = new ItemProjectile(bulletName, p.getEyeLocation(), item, p, speed);
 		return bullet;
 	}
 	

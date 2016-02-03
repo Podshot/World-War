@@ -2,7 +2,7 @@ package io.github.podshot.WorldWar.events;
 
 import io.github.podshot.WorldWar.WorldWar;
 import io.github.podshot.WorldWar.gui.WireGui;
-import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 
 import java.util.ArrayList;
 
@@ -79,7 +79,7 @@ public class BlockEvents implements Listener {
 	
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent evt) {
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 		

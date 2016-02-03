@@ -1,7 +1,7 @@
 package io.github.podshot.WorldWar.events.guns;
 
 import io.github.podshot.WorldWar.api.PlayerAPI;
-import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -14,7 +14,7 @@ public class GunSwitch implements Listener {
 
 	@EventHandler
 	public void onGunSwitch(PlayerItemHeldEvent evt) {
-		if (Internals.isWarDeclared()) {
+		if (WarHandler.isWarDeclared()) {
 			Inventory inv = evt.getPlayer().getInventory();
 			int slot = evt.getNewSlot();
 			int oldSlot = evt.getPreviousSlot();

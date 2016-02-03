@@ -2,7 +2,7 @@ package io.github.podshot.WorldWar.events.guns;
 
 import io.github.podshot.WorldWar.WorldWar;
 import io.github.podshot.WorldWar.api.interfaces.IGrenade;
-import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -29,7 +29,7 @@ public class NormalGrenade implements Listener, IGrenade {
 	@Override
 	@EventHandler
 	public void onThrowGrenade(PlayerInteractEvent e) {
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 		
@@ -72,7 +72,7 @@ public class NormalGrenade implements Listener, IGrenade {
 	@Override
 	@EventHandler
 	public void onGrenadeLand(final ItemProjectileHitEvent e) {
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 		

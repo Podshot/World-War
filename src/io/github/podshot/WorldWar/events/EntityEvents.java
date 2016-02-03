@@ -1,6 +1,6 @@
 package io.github.podshot.WorldWar.events;
 
-import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,7 +11,7 @@ public class EntityEvents implements Listener {
 	
 	@EventHandler
 	public void onSpawnEvent(CreatureSpawnEvent evt) {
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 		if (evt.getSpawnReason() == SpawnReason.SPAWNER_EGG) {

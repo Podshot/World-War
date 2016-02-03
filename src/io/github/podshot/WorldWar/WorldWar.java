@@ -19,7 +19,7 @@ import io.github.podshot.WorldWar.events.registerers.GunRegister;
 import io.github.podshot.WorldWar.files.PlayerDataYAML;
 import io.github.podshot.WorldWar.files.ReadConfig;
 import io.github.podshot.WorldWar.files.StructureYAML;
-import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 import io.github.podshot.WorldWar.players.PlayerSorter;
 import io.github.podshot.WorldWar.safeguards.PreventProfanity;
 
@@ -83,13 +83,13 @@ public final class WorldWar extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new KeepGun(), this);
 		this.getServer().getPluginManager().registerEvents(new BattleStatistics(), this);
 
-		new StructureYAML();
-		new PlayerDataYAML();
-		new SquadAPI();
+		StructureYAML.loadYAML();
+		PlayerDataYAML.loadYAML();
+		SquadAPI.loadYAML();
 
 		FileConfiguration config = this.getConfig();
 		new ReadConfig();
-		Internals.setWarDeclared(config.getBoolean("War-Declared"));
+		WarHandler.setWarDeclared(config.getBoolean("War-Declared"));
 
 		//if (Internals.isWarDeclared()) {
 		//this.setMetaData();
@@ -127,7 +127,7 @@ public final class WorldWar extends JavaPlugin {
 				}
 			}
 		}
-		if (Internals.isWarDeclared()) {
+		if (WarHandler.isWarDeclared()) {
 			this.getConfig().set("War-Declared", true);
 		} else {
 			this.getConfig().set("War-Declared", false);

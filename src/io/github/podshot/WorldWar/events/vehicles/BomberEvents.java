@@ -1,8 +1,8 @@
 package io.github.podshot.WorldWar.events.vehicles;
 
 import io.github.podshot.WorldWar.WorldWar;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 import io.github.podshot.WorldWar.internals.ConfigInternals;
-import io.github.podshot.WorldWar.internals.Internals;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -23,7 +23,7 @@ public class BomberEvents implements Listener {
 
 	@EventHandler
 	public void onDropRegularBombs(PlayerInteractEvent e) {
-		if (Internals.isWarDeclared()) {
+		if (WarHandler.isWarDeclared()) {
 			if (e.getAction() == Action.RIGHT_CLICK_AIR) {
 				ItemStack used = e.getItem();
 				if (used.getType() == Material.SULPHUR && used.getItemMeta().getDisplayName().equals("Drop Regular Bombs")) {
@@ -42,7 +42,7 @@ public class BomberEvents implements Listener {
 
 	@EventHandler
 	public void onDropNapalmBombs(PlayerInteractEvent e) {
-		if (Internals.isWarDeclared()) {
+		if (WarHandler.isWarDeclared()) {
 			if (e.getAction() == Action.RIGHT_CLICK_AIR) {
 				ItemStack used = e.getItem();
 				if (used.getType() == Material.BLAZE_POWDER && used.getItemMeta().getDisplayName().equals("Drop Napalm Bombs")) {
@@ -62,7 +62,7 @@ public class BomberEvents implements Listener {
 
 	@EventHandler
 	public void onPlayerLeaveBomber(PlayerInteractEvent e) {
-		if (Internals.isWarDeclared()) {
+		if (WarHandler.isWarDeclared()) {
 			if (e.getAction() == Action.RIGHT_CLICK_AIR) {
 				if (ConfigInternals.getDPAHBOE()) {
 					ItemStack used = e.getItem();

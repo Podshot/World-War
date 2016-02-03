@@ -3,14 +3,13 @@ package io.github.podshot.WorldWar.events.guns;
 import io.github.podshot.WorldWar.api.Bullet;
 import io.github.podshot.WorldWar.api.Sounds;
 import io.github.podshot.WorldWar.api.interfaces.IGun;
-import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 
 import java.util.Arrays;
 
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
@@ -27,7 +26,7 @@ public class RocketLauncher implements IGun {
 	@EventHandler
 	public void onFireGun(final PlayerInteractEvent e) {
 		
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 
@@ -75,7 +74,7 @@ public class RocketLauncher implements IGun {
 	@EventHandler
 	public void onGunReload(PlayerInteractEvent e) {
 		
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 
@@ -114,7 +113,7 @@ public class RocketLauncher implements IGun {
 
 	@EventHandler
 	public void onBulletHit(ItemProjectileHitEvent e) {
-		if (Internals.isWarDeclared()) {
+		if (WarHandler.isWarDeclared()) {
 			if (e.getHitType() == CustomProjectileHitEvent.HitType.BLOCK) {
 				if (e.getProjectile().getProjectileName().equals("bullet-rocket")) {
 					Block hitBlock = e.getHitBlock();

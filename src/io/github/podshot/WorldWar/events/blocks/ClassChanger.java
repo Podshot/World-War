@@ -3,7 +3,7 @@ package io.github.podshot.WorldWar.events.blocks;
 import io.github.podshot.WorldWar.WorldWar;
 import io.github.podshot.WorldWar.api.interfaces.ISpecialBlock;
 import io.github.podshot.WorldWar.gui.ClassChooser;
-import io.github.podshot.WorldWar.internals.Internals;
+import io.github.podshot.WorldWar.handlers.WarHandler;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -23,7 +23,7 @@ public class ClassChanger implements Listener, ISpecialBlock {
 	@EventHandler
 	public void onClickBlock(PlayerInteractEvent evt) {
 		boolean isClassChanger = false;
-		if (Internals.isWarDeclared()) {
+		if (WarHandler.isWarDeclared()) {
 			if (evt.getAction() == Action.LEFT_CLICK_BLOCK) {
 				Block clickedBlock = evt.getClickedBlock();
 				if (clickedBlock.getType() == Material.COMMAND) {
@@ -44,7 +44,7 @@ public class ClassChanger implements Listener, ISpecialBlock {
 	@Override
 	@EventHandler
 	public void onPlaceBlock(BlockPlaceEvent evt) {
-		if (!(Internals.isWarDeclared())) {
+		if (!(WarHandler.isWarDeclared())) {
 			return;
 		}
 		
