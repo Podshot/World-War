@@ -7,8 +7,7 @@ import io.github.podshot.WorldWar.events.guis.WireCutGUI;
 
 public class GuiRegister {
 	
-	public GuiRegister() {
-		WorldWar plugin = WorldWar.getInstance();
+	public static void register(WorldWar plugin) {
 		plugin.getServer().getPluginManager().registerEvents(new WireCutGUI(), plugin);
 		plugin.getServer().getPluginManager().registerEvents(new ClassSelectorGUI(), plugin);
 		plugin.getServer().getPluginManager().registerEvents(new SquadInviteGUI(), plugin);

@@ -8,8 +8,16 @@ import io.github.podshot.WorldWar.events.guns.Shotgun;
 
 public class GunRegister {
 
+	@Deprecated
 	public GunRegister() {		
 		WorldWar plugin = WorldWar.getInstance();
+		plugin.getServer().getPluginManager().registerEvents(new Rifle(), plugin);
+		plugin.getServer().getPluginManager().registerEvents(new Remote(), plugin);
+		plugin.getServer().getPluginManager().registerEvents(new RocketLauncher(), plugin);
+		plugin.getServer().getPluginManager().registerEvents(new Shotgun(), plugin);
+	}
+	
+	public static void register(WorldWar plugin) {
 		plugin.getServer().getPluginManager().registerEvents(new Rifle(), plugin);
 		plugin.getServer().getPluginManager().registerEvents(new Remote(), plugin);
 		plugin.getServer().getPluginManager().registerEvents(new RocketLauncher(), plugin);

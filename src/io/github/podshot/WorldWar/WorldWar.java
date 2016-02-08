@@ -21,7 +21,6 @@ import io.github.podshot.WorldWar.files.ReadConfig;
 import io.github.podshot.WorldWar.files.StructureYAML;
 import io.github.podshot.WorldWar.handlers.WarHandler;
 import io.github.podshot.WorldWar.players.PlayerSorter;
-import io.github.podshot.WorldWar.safeguards.PreventProfanity;
 
 import java.io.File;
 import java.util.logging.Logger;
@@ -66,16 +65,16 @@ public final class WorldWar extends JavaPlugin {
 		this.getCommand("squad").setTabCompleter(new SquadCommandTabCompleter());
 		this.getCommand("team").setExecutor(new TeamCommand());
 		this.getCommand("team").setTabCompleter(new TeamCommandTabCompleter());
+		
 		if (this.debug) {
 			this.getCommand("test").setExecutor(new TestCommand());
 		}
-		new GunRegister();
-		new GuiRegister();
-		new BlockRegister();
+		
+		GunRegister.register(this);
+		GuiRegister.register(this);
+		BlockRegister.register(this);
 		//new StructureRegister();
 
-		PreventProfanity.getWordList();
-		this.getServer().getPluginManager().registerEvents(new PreventProfanity(), this);
 		this.getServer().getPluginManager().registerEvents(new EntityEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new BlockEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new PlayerEvents(), this);
@@ -88,7 +87,7 @@ public final class WorldWar extends JavaPlugin {
 		SquadAPI.loadYAML();
 
 		FileConfiguration config = this.getConfig();
-		new ReadConfig();
+		ReadConfig.loadConfig();
 		WarHandler.setWarDeclared(config.getBoolean("War-Declared"));
 
 		//if (Internals.isWarDeclared()) {

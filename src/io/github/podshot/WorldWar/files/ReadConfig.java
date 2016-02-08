@@ -8,9 +8,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 public class ReadConfig {
 	
 	private static WorldWar plugin = WorldWar.getInstance();
+	private static FileConfiguration config;
 
-	public ReadConfig() {
-		FileConfiguration config = plugin.getConfig();
+	public static void loadConfig() {
+		config = plugin.getConfig();
 		ConfigInternals.setAATOE(config.getBoolean("Allow-Anyone-To-Enter-Vehicles"));
 		ConfigInternals.setHUOLAQW(config.getBoolean("Hyped-Up-On-Lemonade-And-Gummy-Worms"));
 		ConfigInternals.setAnnounce(config.getBoolean("Announce-War-End-Cause-To-All-Players"));
