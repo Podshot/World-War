@@ -2,6 +2,7 @@ package io.github.podshot.WorldWar.api;
 
 import io.github.podshot.WorldWar.WorldWar;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -16,6 +17,7 @@ import org.bukkit.metadata.MetadataValue;
 public class PlayerAPI {
 	
 	private static WorldWar plugin = WorldWar.getInstance();
+	private static HashMap<UUID, Team> teamMap = new HashMap<UUID, Team>();
 	
 	/**
 	 * Gets the Team the specified player is on from a player object
@@ -49,6 +51,17 @@ public class PlayerAPI {
 			}
 		}
 		return team;	
+	}
+	
+	public static void setTeam(Player player, Team team) {
+		setTeam(player.getUniqueId(), team);
+	}
+	
+	public static void setTeam(UUID uuid, Team team) {
+		if (teamMap.containsKey(uuid)) {
+			teamMap.remove(uuid);
+		}
+		teamMap.put(uuid, team);
 	}
 	
 	/**
