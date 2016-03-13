@@ -1,6 +1,7 @@
 package io.github.podshot.WorldWar.events.guns;
 
 import io.github.podshot.WorldWar.api.Bullet;
+import io.github.podshot.WorldWar.api.GunType;
 import io.github.podshot.WorldWar.api.Sounds;
 import io.github.podshot.WorldWar.api.interfaces.IGun;
 import io.github.podshot.WorldWar.handlers.WarHandler;
@@ -59,9 +60,9 @@ public class RocketLauncher implements IGun {
 						}
 					});
 					*/
-					ItemProjectile bullet = Bullet.CreateRegularBullet("bullet-rocket", new ItemStack(Material.STONE), e.getPlayer(), 2.5F, Arrays.asList(Effect.FLAME, Effect.LARGE_SMOKE));
+					ItemProjectile bullet = Bullet.createRegularBullet("bullet-rocket", new ItemStack(Material.STONE), e.getPlayer(), 2.5F, Arrays.asList(Effect.FLAME, Effect.LARGE_SMOKE));
 					//e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.FIREWORK_LAUNCH, 1, 0.1f);
-					Sounds.PlayRocketSound(e.getPlayer());
+					Sounds.playRocketSound(e.getPlayer());
 					int lvl = e.getPlayer().getLevel() - 1;
 					e.getPlayer().setLevel(lvl);
 					e.setCancelled(true);
@@ -100,6 +101,10 @@ public class RocketLauncher implements IGun {
 
 	public static int getMagSize() {
 		return 1;
+	}
+	
+	public static GunType getGunType() {
+		return GunType.ROCKET_LAUNCHER;
 	}
 
 	public static ItemStack getGun() {

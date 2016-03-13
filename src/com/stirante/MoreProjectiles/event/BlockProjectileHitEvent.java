@@ -24,7 +24,8 @@ public class BlockProjectileHitEvent extends CustomProjectileHitEvent {
      * @param mat  block id
      * @param data damage value of block
      */
-    public BlockProjectileHitEvent(CustomProjectile pro, float damageMultiplier, Block b, BlockFace f, Material mat, int data) {
+    @SuppressWarnings("rawtypes")
+	public BlockProjectileHitEvent(CustomProjectile pro, float damageMultiplier, Block b, BlockFace f, Material mat, int data) {
         super(pro, damageMultiplier, b, f);
         this.mat = mat;
         this.data = data;
@@ -38,7 +39,8 @@ public class BlockProjectileHitEvent extends CustomProjectileHitEvent {
      * @param mat  block id
      * @param data damage value of block
      */
-    public BlockProjectileHitEvent(CustomProjectile pro, float damageMultiplier, LivingEntity ent, Material mat, int data) {
+    @SuppressWarnings("rawtypes")
+	public BlockProjectileHitEvent(CustomProjectile pro, float damageMultiplier, LivingEntity ent, Material mat, int data) {
         super(pro, damageMultiplier, ent);
         this.mat = mat;
         this.data = data;

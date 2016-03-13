@@ -1,32 +1,23 @@
 package io.github.podshot.WorldWar.events;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.github.podshot.WorldWar.WorldWar;
+import io.github.podshot.WorldWar.api.GunType;
 import io.github.podshot.WorldWar.api.PlayerAPI;
 import io.github.podshot.WorldWar.api.SquadAPI;
-import io.github.podshot.WorldWar.api.SquadAPI_OLD;
+import io.github.podshot.WorldWar.api.WorldWarTeam;
 import io.github.podshot.WorldWar.files.PlayerDataYAML;
-import io.github.podshot.WorldWar.gui.ClassChooser;
 import io.github.podshot.WorldWar.gui.TeamChooser;
 import io.github.podshot.WorldWar.handlers.WarHandler;
 import io.github.podshot.WorldWar.players.PlayerSorter;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.metadata.FixedMetadataValue;
 
 public class PlayerEvents implements Listener {
 
@@ -46,27 +37,18 @@ public class PlayerEvents implements Listener {
 						plugin.logger.info("Name is not present in the player file");
 						player.openInventory(TeamChooser.getTeamChooserGui());
 						evt.getPlayer().sendMessage("You are logged in");
-						PlayerAPI.setAmmoAmount(player, "Rifle", 25);
-						PlayerAPI.setAmmoAmount(player, "Rocket-Launcher", 1);
-						PlayerDataYAML.setPlayerAmmoToFile(player);
+						PlayerAPI.setAmmoAmount(player, GunType.RIFLE, 25);
+						PlayerAPI.setAmmoAmount(player, GunType.ROCKET_LAUNCHER, 1);
+						PlayerDataYAML.setPlayerAmmoToFile(player.getUniqueId());
 					} else {
 						if (memberOfTeam.equals("Blue")) {
 							plugin.logger.info("Player's team is Blue");
-							player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Blue"));
+							PlayerAPI.setTeam(player, WorldWarTeam.BLUE);
 							PlayerSorter.addPlayer(player.getUniqueId(), "Blue");
 						} else if (memberOfTeam.equals("Red")) {
 							plugin.logger.info("Player's team is Red");
-							player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Red"));
+							PlayerAPI.setTeam(player, WorldWarTeam.RED);
 						}
-						int rifleAmmo = PlayerDataYAML.getPlayerAmmoFromFile(player, "Rifle");
-						int rocketAmmo = PlayerDataYAML.getPlayerAmmoFromFile(player, "Rocket-Launcher");
-						int shotgunAmmo = PlayerDataYAML.getPlayerAmmoFromFile(player, "Shotgun");
-						int pistolAmmo = PlayerDataYAML.getPlayerAmmoFromFile(player, "Pistol");
-
-						player.setMetadata("WorldWar.Ammo.Rifle", new FixedMetadataValue(plugin, rifleAmmo));
-						player.setMetadata("WorldWar.Ammo.Rocket", new FixedMetadataValue(plugin, rocketAmmo));
-						player.setMetadata("WorldWar.Ammo.Shotgun", new FixedMetadataValue(plugin, shotgunAmmo));
-						player.setMetadata("WorldWar.Ammo.Pistol", new FixedMetadataValue(plugin, pistolAmmo));
 						
 						if (SquadAPI.inSquad(player.getUniqueId()))
 							plugin.logger.info(SquadAPI.getSquadForPlayer(player.getUniqueId()).getSquadName());
@@ -111,22 +93,14 @@ public class PlayerEvents implements Listener {
 	public void onPlayerQuitEvent(PlayerQuitEvent evt) {
 		if (WarHandler.isWarDeclared()) {
 			Player player = evt.getPlayer();
-			String team = PlayerAPI.getTeam(player);
+			WorldWarTeam team = PlayerAPI.getTeam(player);
+			plugin.logger.info(team.toString());
 			plugin.logger.info("Saving player");
 			if (team != null) {
 				plugin.logger.info("Team is not \"null\" saving data");
 				PlayerDataYAML.setPlayerToTeam(player, team);
-				PlayerDataYAML.setPlayerAmmoToFile(player);
+				PlayerDataYAML.setPlayerAmmoToFile(player.getUniqueId());
 			}
-		}
-		return;
-	}
-
-	@EventHandler
-	public void onPlayerRespawn(PlayerRespawnEvent evt) {
-		if (WarHandler.isWarDeclared()) {
-			Player player = evt.getPlayer();
-			player.openInventory(ClassChooser.getClassChooserGui());
 		}
 		return;
 	}
@@ -145,66 +119,5 @@ public class PlayerEvents implements Listener {
 
 		}
 		return;
-	}
-
-	@SuppressWarnings("deprecation")
-	public static void doReloadFix(Player player) {
-		if (WarHandler.isWarDeclared()) {
-			String memberOfTeam = PlayerDataYAML.getPlayerTeam(player);
-			plugin.logger.info("Cheking to see if username is already stored");
-			if (memberOfTeam == null) {
-				plugin.logger.info("Name is not present in the player file");
-				player.openInventory(TeamChooser.getTeamChooserGui());
-				player.sendMessage("You are logged in");
-				PlayerAPI.setAmmoAmount(player, "Rifle", 25);
-				PlayerAPI.setAmmoAmount(player, "Rocket-Launcher", 1);
-				PlayerDataYAML.setPlayerAmmoToFile(player);
-			} else {
-				if (memberOfTeam.equals("Blue")) {
-					plugin.logger.info("Player's team is Blue");
-					player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Blue"));
-				} else if (memberOfTeam.equals("Red")) {
-					plugin.logger.info("Player's team is Red");
-					player.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Red"));
-				}
-				int rifleAmmo = PlayerDataYAML.getPlayerAmmoFromFile(player, "Rifle");
-				int rocketAmmo = PlayerDataYAML.getPlayerAmmoFromFile(player, "Rocket-Launcher");
-				int shotgunAmmo = PlayerDataYAML.getPlayerAmmoFromFile(player, "Shotgun");
-				int pistolAmmo = PlayerDataYAML.getPlayerAmmoFromFile(player, "Pistol");
-
-				player.setMetadata("WorldWar.Ammo.Rifle", new FixedMetadataValue(plugin, rifleAmmo));
-				player.setMetadata("WorldWar.Ammo.Rocket", new FixedMetadataValue(plugin, rocketAmmo));
-				player.setMetadata("WorldWar.Ammo.Shotgun", new FixedMetadataValue(plugin, shotgunAmmo));
-				player.setMetadata("WorldWar.Ammo.Pistol", new FixedMetadataValue(plugin, pistolAmmo));
-
-				if (SquadAPI.inSquad(player.getUniqueId())) {
-					if (player.getInventory().contains(new ItemStack(Material.COMPASS))) {
-						for (ItemStack item : player.getInventory().getContents()) {
-							if (item.getType() == Material.COMPASS) {
-								if (item.hasItemMeta()) {
-									if (item.getItemMeta().hasDisplayName()) {
-										String name = ChatColor.stripColor(item.getItemMeta().getDisplayName());
-										if (name.equals("Squad Objective Locator")) {
-											Location objLoc = SquadAPI_OLD.getSquadObjective(SquadAPI_OLD.getSquadForPlayer(player.getUniqueId()));
-											ItemMeta im = item.getItemMeta();
-											im.setLore(null);
-											item.setItemMeta(im);
-											List<String> lore = new ArrayList<String>();
-											lore.add("X: " + objLoc.getBlockX());
-											lore.add("Y: " + objLoc.getBlockY());
-											lore.add("Z: " + objLoc.getBlockZ());
-											ItemMeta nim = item.getItemMeta();
-											nim.setLore(lore);
-											item.setItemMeta(nim);
-											player.updateInventory();
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
 	}
 }

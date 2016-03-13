@@ -2,8 +2,10 @@ package io.github.podshot.WorldWar.events.guns;
 
 import io.github.podshot.WorldWar.WorldWar;
 import io.github.podshot.WorldWar.api.Bullet;
+import io.github.podshot.WorldWar.api.GunType;
 import io.github.podshot.WorldWar.api.PlayerAPI;
 import io.github.podshot.WorldWar.api.Sounds;
+import io.github.podshot.WorldWar.api.WorldWarTeam;
 import io.github.podshot.WorldWar.api.interfaces.IGun;
 import io.github.podshot.WorldWar.handlers.PlayerHandler;
 import io.github.podshot.WorldWar.handlers.WarHandler;
@@ -63,10 +65,10 @@ public class Rifle implements IGun {
 					bullet.setIgnoreSomeBlocks(true);
 					bullet.boundingBox.shrink(2D, 2D, 2D);
 					*/
-					ItemProjectile bullet = Bullet.CreateRegularBullet("bullet-rifle", new ItemStack(Material.STONE_BUTTON), player, 2.0F);
+					ItemProjectile bullet = Bullet.createRegularBullet("bullet-rifle", new ItemStack(Material.STONE_BUTTON), player, 2.0F);
 					//OrbProjectile bullet = new OrbProjectile("bullet-rifle", e.getPlayer(), 2.0f);
 					//e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.FIREWORK_BLAST, 0.5f, 0.6f);
-					Sounds.PlayRifleSound(player);
+					Sounds.playRifleSound(player);
 					bullet.getEntity().setVelocity(bullet.getEntity().getVelocity().multiply(3));
 					int lvl = player.getLevel() - 1;
 					float progress = (float) lvl/Rifle.getMagSize();
@@ -74,7 +76,7 @@ public class Rifle implements IGun {
 					player.setExp(progress);
 					player.setLevel(lvl);
 					e.setCancelled(true);
-					PlayerAPI.setAmmoAmount(player, "Rifle", lvl);
+					PlayerAPI.setAmmoAmount(player, GunType.RIFLE, lvl);
 					final UUID uuid = player.getUniqueId();
 					PlayerHandler.RifleReloadHandler.addToList(uuid);
 					Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
@@ -116,7 +118,7 @@ public class Rifle implements IGun {
 			if (gunIS.getItemMeta().getDisplayName().equals("Standard Issue Rifle")) {
 				player.setLevel(Rifle.getMagSize());
 				float progress = Rifle.getMagSize() / Rifle.getMagSize();
-				PlayerAPI.setAmmoAmount(player, "Rifle", Rifle.getMagSize());
+				PlayerAPI.setAmmoAmount(player, GunType.RIFLE, Rifle.getMagSize());
 				player.setExp(progress);
 			}
 		}
@@ -137,8 +139,8 @@ public class Rifle implements IGun {
 
 	@EventHandler
 	public void onBulletHit(ItemProjectileHitEvent e) {
-		String shooterTeam = null;
-		String hitTeam = null;
+		WorldWarTeam shooterTeam = null;
+		WorldWarTeam hitTeam = null;
 		if (WarHandler.isWarDeclared()) {
 			if (e.getHitType() == CustomProjectileHitEvent.HitType.ENTITY) {
 				LivingEntity hitEntity = e.getHitEntity();
@@ -147,7 +149,7 @@ public class Rifle implements IGun {
 					Player shooter = (Player) e.getProjectile().getShooter();
 					shooterTeam = PlayerAPI.getTeam(shooter);
 					hitTeam = PlayerAPI.getTeam(hitPlayer);
-					if (!(hitTeam.equals(shooterTeam))) {
+					if (!(hitTeam == shooterTeam)) {
 						if (e.getProjectile().getProjectileName().equals("bullet-rifle")) {
 							hitPlayer.damage(this.getPlayerDamage(), shooter);								
 						}

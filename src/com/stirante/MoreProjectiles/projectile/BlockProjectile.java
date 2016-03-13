@@ -1,11 +1,23 @@
 package com.stirante.MoreProjectiles.projectile;
 
-import com.stirante.MoreProjectiles.TypedRunnable;
-import com.stirante.MoreProjectiles.event.BlockProjectileHitEvent;
-import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
-import net.minecraft.server.v1_8_R3.*;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+
+import net.minecraft.server.v1_8_R3.AxisAlignedBB;
+import net.minecraft.server.v1_8_R3.Block;
+import net.minecraft.server.v1_8_R3.BlockPosition;
+import net.minecraft.server.v1_8_R3.Entity;
+import net.minecraft.server.v1_8_R3.EntityFallingBlock;
+import net.minecraft.server.v1_8_R3.EntityHuman;
+import net.minecraft.server.v1_8_R3.EntityLiving;
+import net.minecraft.server.v1_8_R3.IBlockData;
+import net.minecraft.server.v1_8_R3.IProjectile;
+import net.minecraft.server.v1_8_R3.MathHelper;
+import net.minecraft.server.v1_8_R3.MovingObjectPosition;
+import net.minecraft.server.v1_8_R3.Vec3D;
+
 import org.bukkit.Bukkit;
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -15,9 +27,9 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftLivingEntity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
+import com.stirante.MoreProjectiles.TypedRunnable;
+import com.stirante.MoreProjectiles.event.BlockProjectileHitEvent;
+import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
 
 /**
  * Projectile made from falling block entity.
@@ -137,7 +149,8 @@ public class BlockProjectile extends EntityFallingBlock implements CustomProject
         return (LivingEntity) shooter.getBukkitEntity();
     }
 
-    @Override
+    @SuppressWarnings({ "rawtypes", "deprecation" })
+	@Override
     public void t_() {
         K();
         BlockPosition blockposition = new BlockPosition(locX, locY, locZ);

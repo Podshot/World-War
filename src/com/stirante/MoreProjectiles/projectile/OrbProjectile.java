@@ -138,7 +138,8 @@ public class OrbProjectile extends EntityExperienceOrb implements CustomProjecti
         return name;
     }
 
-    @Override
+    @SuppressWarnings({ "rawtypes", "deprecation" })
+	@Override
     public void t_() {
         K();
         BlockPosition blockposition = new BlockPosition(locX, locY, locZ);

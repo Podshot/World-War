@@ -1,20 +1,19 @@
 package io.github.podshot.WorldWar.commands;
 
 import io.github.podshot.WorldWar.WorldWar;
+import io.github.podshot.WorldWar.api.GunType;
+import io.github.podshot.WorldWar.api.PlayerAPI;
 import io.github.podshot.WorldWar.events.guns.Rifle;
 import io.github.podshot.WorldWar.events.guns.RocketLauncher;
 import io.github.podshot.WorldWar.events.guns.Shotgun;
 import io.github.podshot.WorldWar.events.guns.SniperRifle;
-import io.github.podshot.WorldWar.gui.ClassChooser;
 import io.github.podshot.WorldWar.gui.WireGui;
 import io.github.podshot.WorldWar.inventories.InventoryManager;
 import io.github.podshot.WorldWar.structures.Base;
-
-import java.util.UUID;
-
 import me.astramg.resources.BlockGenerator;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -36,10 +35,6 @@ public class TestCommand implements CommandExecutor {
 
 			if (args.length >= 1) {
 				switch (args[0]) {
-				case "Cgui":
-					toReturn = true;
-					player.openInventory(ClassChooser.getClassChooserGui());
-					break;
 				case "meta":
 					toReturn = true;
 					if (args.length >= 2) {
@@ -109,10 +104,9 @@ public class TestCommand implements CommandExecutor {
 					toReturn = true;
 					new Base(player.getLocation().add(0, -3, 0), "Blue");
 					break;
-				case "uuid":
+				case "ammo":
 					toReturn = true;
-					player.sendMessage(player.getUniqueId().toString());
-					player.sendMessage(""+player.getUniqueId().equals(UUID.fromString("c5cb58eb-9507-3f40-9930-584d9d6a9db7")));
+					player.sendMessage(ChatColor.YELLOW + "" + PlayerAPI.getAmmoAmount(player, GunType.RIFLE));
 					break;
 				default:
 					toReturn = false;

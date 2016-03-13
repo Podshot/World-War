@@ -1,6 +1,5 @@
 package io.github.podshot.WorldWar.events.guns;
 
-import io.github.podshot.WorldWar.api.PlayerAPI;
 import io.github.podshot.WorldWar.api.interfaces.IGun;
 import io.github.podshot.WorldWar.handlers.WarHandler;
 
@@ -75,7 +74,7 @@ public class SniperRifle implements IGun {
 			if (gunIS.getItemMeta().getDisplayName().equals("Sniper Rifle")) {
 				e.getPlayer().setLevel(SniperRifle.getMagSize());
 				float progress = SniperRifle.getMagSize() / SniperRifle.getMagSize();
-				PlayerAPI.setAmmoAmount(e.getPlayer(), "Sniper Rifle", SniperRifle.getMagSize());
+				//PlayerAPI.setAmmoAmount(e.getPlayer(), "Sniper Rifle", SniperRifle.getMagSize());
 				e.getPlayer().setExp(progress);
 			}
 		}

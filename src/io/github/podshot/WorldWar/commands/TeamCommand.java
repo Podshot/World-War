@@ -2,6 +2,7 @@ package io.github.podshot.WorldWar.commands;
 
 import io.github.podshot.WorldWar.BattleStatistics;
 import io.github.podshot.WorldWar.api.PlayerAPI;
+import io.github.podshot.WorldWar.api.WorldWarTeam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +20,13 @@ public class TeamCommand implements CommandExecutor {
 		boolean toReturn = false;
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
-			String team = PlayerAPI.getTeam(player);
+			WorldWarTeam team = PlayerAPI.getTeam(player);
 			if (args.length >= 1) {
 				switch(args[0].toLowerCase()) {
 				default:
 					break;
 				case "info":
-					if (team.equals("Blue")) {
+					if (team == WorldWarTeam.BLUE) {
 						List<String> message = new ArrayList<String>();
 						message.add(ChatColor.AQUA + "=====Info for Blue Team=====");
 						message.add(ChatColor.AQUA + "-Team Deaths: " + BattleStatistics.getBlueDeaths());

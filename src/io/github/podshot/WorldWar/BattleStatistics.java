@@ -1,6 +1,7 @@
 package io.github.podshot.WorldWar;
 
 import io.github.podshot.WorldWar.api.PlayerAPI;
+import io.github.podshot.WorldWar.api.WorldWarTeam;
 import io.github.podshot.WorldWar.handlers.WarHandler;
 
 import org.bukkit.entity.EntityType;
@@ -44,8 +45,8 @@ public class BattleStatistics implements Listener {
 
 		if (evt.getEntity().getType() == EntityType.PLAYER) {
 			Player killed = (Player) evt.getEntity();
-			String KilledTeam = PlayerAPI.getTeam(killed);
-			if (KilledTeam.equals("Blue")) {
+			WorldWarTeam KilledTeam = PlayerAPI.getTeam(killed);
+			if (KilledTeam == WorldWarTeam.BLUE) {
 				deaths_blue = deaths_blue + 1;
 			} else {
 				deaths_red = deaths_red + 1;
@@ -59,8 +60,8 @@ public class BattleStatistics implements Listener {
 				|| evt.getEntity().getType() == EntityType.WITHER) {
 			if (evt.getEntity().getKiller().getType() == EntityType.PLAYER) {
 				Player killer = evt.getEntity().getKiller();
-				String KillerTeam = PlayerAPI.getTeam(killer);
-				if (KillerTeam.equals("Blue")) {
+				WorldWarTeam KillerTeam = PlayerAPI.getTeam(killer);
+				if (KillerTeam == WorldWarTeam.BLUE) {
 					kills_blue_p = kills_blue_m + 1;
 				} else {
 					kills_red_p = kills_red_m + 1;
@@ -70,8 +71,8 @@ public class BattleStatistics implements Listener {
 		}
 		if (evt.getEntity().getKiller().getType() == EntityType.PLAYER) {
 			Player killer = evt.getEntity().getKiller();
-			String KillerTeam = PlayerAPI.getTeam(killer);
-			if (KillerTeam.equals("Blue")) {
+			WorldWarTeam KillerTeam = PlayerAPI.getTeam(killer);
+			if (KillerTeam == WorldWarTeam.BLUE) {
 				kills_blue_p = kills_blue_p + 1;
 			} else {
 				kills_red_p = kills_red_p + 1;

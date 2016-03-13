@@ -1,7 +1,9 @@
 package io.github.podshot.WorldWar.events.guns;
 
 import io.github.podshot.WorldWar.api.Bullet;
+import io.github.podshot.WorldWar.api.GunType;
 import io.github.podshot.WorldWar.api.PlayerAPI;
+import io.github.podshot.WorldWar.api.WorldWarTeam;
 import io.github.podshot.WorldWar.api.interfaces.IGun;
 import io.github.podshot.WorldWar.handlers.WarHandler;
 
@@ -44,13 +46,13 @@ public class Pistol implements IGun {
 			if (e.getPlayer().getLevel() > 0) {
 				String gun = gunIS.getItemMeta().getDisplayName();
 				if (gun.equals("Pistol")) {
-					ItemProjectile bullet = Bullet.CreateRegularBullet("bullet-pistol", new ItemStack(Material.STONE_BUTTON), e.getPlayer(), 2.0F);
+					ItemProjectile bullet = Bullet.createRegularBullet("bullet-pistol", new ItemStack(Material.STONE_BUTTON), e.getPlayer(), 2.0F);
 					int lvl = e.getPlayer().getLevel() - 1;
 					float progress = lvl / this.getMagSize();
 					e.getPlayer().setExp(progress);
 					e.getPlayer().setLevel(lvl);
 					e.setCancelled(true);
-					PlayerAPI.setAmmoAmount(e.getPlayer(), "Pistol", lvl);
+					PlayerAPI.setAmmoAmount(e.getPlayer(), GunType.PISTOL, lvl);
 				}
 			}
 		}
@@ -80,7 +82,7 @@ public class Pistol implements IGun {
 			if (gunIS.getItemMeta().getDisplayName().equals("Pistol")) {
 				e.getPlayer().setLevel(this.getMagSize());
 				float progress = this.getMagSize() / this.getMagSize();
-				PlayerAPI.setAmmoAmount(e.getPlayer(), "Pistol", this.getMagSize());
+				PlayerAPI.setAmmoAmount(e.getPlayer(), GunType.PISTOL, this.getMagSize());
 				e.getPlayer().setExp(progress);
 			}
 		}
@@ -101,8 +103,8 @@ public class Pistol implements IGun {
 
 	@EventHandler
 	public void onBulletHit(ItemProjectileHitEvent e) {
-		String shooterTeam = null;
-		String hitTeam = null;
+		WorldWarTeam shooterTeam = null;
+		WorldWarTeam hitTeam = null;
 		if (WarHandler.isWarDeclared()) {
 			if (e.getHitType() == CustomProjectileHitEvent.HitType.ENTITY) {
 				LivingEntity hitEntity = e.getHitEntity();
@@ -111,7 +113,7 @@ public class Pistol implements IGun {
 					Player shooter = (Player) e.getProjectile().getShooter();
 					shooterTeam = PlayerAPI.getTeam(shooter);
 					hitTeam = PlayerAPI.getTeam(hitPlayer);
-					if (!(hitTeam.equals(shooterTeam))) {
+					if (!(hitTeam == shooterTeam)) {
 						if (e.getProjectile().getProjectileName().equals("bullet-pistol")) {
 							hitPlayer.damage(this.getPlayerDamage(), shooter);
 						}

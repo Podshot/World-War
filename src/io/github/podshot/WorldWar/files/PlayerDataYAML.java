@@ -1,8 +1,10 @@
 package io.github.podshot.WorldWar.files;
 
 import io.github.podshot.WorldWar.WorldWar;
+import io.github.podshot.WorldWar.api.GunType;
 import io.github.podshot.WorldWar.api.PlayerAPI;
 import io.github.podshot.WorldWar.api.Refactor;
+import io.github.podshot.WorldWar.api.WorldWarTeam;
 
 import java.io.File;
 import java.util.UUID;
@@ -50,22 +52,22 @@ public class PlayerDataYAML {
 	}
 	
 	public static void saveYAML() {
-		ExtraConfigHandler.saveConfig(plugin.fileSep + "PlayerData");
+		ExtraConfigHandler.saveConfig("PlayerData");
 	}
 	
 	public static void reloadYAML() {
-		config = ExtraConfigHandler.reloadConfig(plugin.fileSep + "PlayerData");
+		config = ExtraConfigHandler.reloadConfig("PlayerData");
 	}
 	
 	/**
 	 * Sets the player's ammo amount to the PlayerData file
 	 * @param player The player to save the ammo for
 	 */
-	public static void setPlayerAmmoToFile(Player player) {
-		config.set("Players." + player.getUniqueId().toString() + ".Ammo.Rifle", PlayerAPI.getAmmoAmount(player, "Rifle"));
-		config.set("Players." + player.getUniqueId().toString() + ".Ammo.Rocket-Launcher", PlayerAPI.getAmmoAmount(player, "Rocket"));
-		config.set("Players." + player.getUniqueId().toString() + ".Ammo.Shotgun", PlayerAPI.getAmmoAmount(player, "Shotgun"));
-		config.set("Players." + player.getUniqueId().toString() + ".Ammo.Pistol", PlayerAPI.getAmmoAmount(player, "Pistol"));
+	public static void setPlayerAmmoToFile(UUID player) {
+		config.set("Players." + player.toString() + ".Ammo.Rifle", PlayerAPI.getAmmoAmount(player, GunType.RIFLE));
+		config.set("Players." + player.toString() + ".Ammo.Rocket-Launcher", PlayerAPI.getAmmoAmount(player, GunType.ROCKET_LAUNCHER));
+		config.set("Players." + player.toString() + ".Ammo.Shotgun", PlayerAPI.getAmmoAmount(player, GunType.SHOTGUN));
+		config.set("Players." + player.toString() + ".Ammo.Pistol", PlayerAPI.getAmmoAmount(player, GunType.PISTOL));
 	}
 	
 	/**
@@ -85,9 +87,13 @@ public class PlayerDataYAML {
 	 * Sets the player's team to the PlayerData file
 	 * @param player The player that we want to set the team of
 	 * @param team The name of the team
-	 */
-	public static void setPlayerToTeam(Player player, String team) {
-		config.set("Players." + player.getUniqueId().toString() + ".Team", team);
+	 */	
+	public static void setPlayerToTeam(Player player, WorldWarTeam team) {
+		config.set("Players." + player.getUniqueId().toString() + ".Team", team.toString());
+	}
+	
+	public static void setPlayerToTeam(UUID uuid, WorldWarTeam team) {
+		config.set("Players." +uuid.toString() + ".Team", team.toString());
 	}
 	
 	/**
@@ -95,6 +101,7 @@ public class PlayerDataYAML {
 	 * @param player 
 	 * @return
 	 */
+	@Refactor
 	public static String getPlayerTeam(Player player) {
 		String team = config.getString("Players." + player.getUniqueId().toString() + ".Team");
 		return team;
@@ -130,7 +137,7 @@ public class PlayerDataYAML {
 	}
 	
 	/**
-	 * Same method as @see {@link #getPlayerAmmoFromFile(Player, String)} just with UUID compability
+	 * Same method as @see {@link #getPlayerAmmoFromFile(Player, String)} just with UUID compatibility
 	 * @param uuid
 	 * @param gun
 	 * @return
@@ -143,27 +150,29 @@ public class PlayerDataYAML {
 	}
 	
 	/**
-	 * Same method as @see {@link #setPlayerToTeam(Player, String)} just with UUID compability
+	 * Same method as @see {@link #setPlayerToTeam(Player, String)} just with UUID compatibility
 	 * @param uuid
 	 * @param team
 	 */
+	@Deprecated
 	public static void setPlayerToTeam(UUID uuid, String team) {
 		config.set("Players." + uuid.toString() + ".Team", team);
 		ExtraConfigHandler.saveConfig(plugin.fileSep + "PlayerData");
 	}
 	
 	/**
-	 * Same method as @see {@link #getPlayerTeam(Player)} just with UUID compability
+	 * Same method as @see {@link #getPlayerTeam(Player)} just with UUID compatibility
 	 * @param uuid
 	 * @return
 	 */
+	@Deprecated
 	public String getPlayerTeam(UUID uuid) {
 		String team = config.getString("Players." + uuid.toString() + ".Team");
 		return team;
 	}
 	
 	/**
-	 * Same method as @see {@link #isPlayerOnTeam(Player)} just with UUID compability
+	 * Same method as @see {@link #isPlayerOnTeam(Player)} just with UUID compatibility
 	 * @param uuid
 	 * @return
 	 */
@@ -173,17 +182,17 @@ public class PlayerDataYAML {
 	}
 	
 	/**
-	 * Same method as @see {@link #saveInventoryToFile(Player, String)} just with UUID compability
+	 * Same method as @see {@link #saveInventoryToFile(Player, String)} just with UUID compatibility
 	 * @param uuid
 	 * @param inv
 	 */
 	public static void saveInventoryToFile(UUID uuid, String inv) {
 		config.set("Players." + uuid.toString() + ".Inventory", inv);
-		ExtraConfigHandler.saveConfig(plugin.fileSep + "PlayerData");
+		ExtraConfigHandler.saveConfig("PlayerData");
 	}
 	
 	/**
-	 * Same method as @see {@link #getInventoryFromFile(Player)} just with UUID compability
+	 * Same method as @see {@link #getInventoryFromFile(Player)} just with UUID compatibility
 	 * @param uuid
 	 * @return
 	 */
@@ -191,5 +200,4 @@ public class PlayerDataYAML {
 		String inventory = config.getString("Players." + uuid.toString() + ".Inventory");
 		return inventory;
 	}
-	
 }

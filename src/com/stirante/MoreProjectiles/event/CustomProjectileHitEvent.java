@@ -16,7 +16,8 @@ import org.bukkit.event.HandlerList;
 public class CustomProjectileHitEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
-    private final CustomProjectile projectile;
+    @SuppressWarnings("rawtypes")
+	private final CustomProjectile projectile;
     private final float damageMultiplier;
     private LivingEntity entity;
     private Block block;
@@ -29,7 +30,8 @@ public class CustomProjectileHitEvent extends Event implements Cancellable {
      * @param pro projectile
      * @param ent hit entity
      */
-    public CustomProjectileHitEvent(CustomProjectile pro, float damageMultiplier, LivingEntity ent) {
+    @SuppressWarnings("rawtypes")
+	public CustomProjectileHitEvent(CustomProjectile pro, float damageMultiplier, LivingEntity ent) {
         projectile = pro;
         entity = ent;
         this.damageMultiplier = damageMultiplier;
@@ -42,7 +44,8 @@ public class CustomProjectileHitEvent extends Event implements Cancellable {
      * @param b   hit block
      * @param f   block face
      */
-    public CustomProjectileHitEvent(CustomProjectile pro, float damageMultiplier, Block b, BlockFace f) {
+    @SuppressWarnings("rawtypes")
+	public CustomProjectileHitEvent(CustomProjectile pro, float damageMultiplier, Block b, BlockFace f) {
         projectile = pro;
         block = b;
         face = f;
@@ -68,7 +71,8 @@ public class CustomProjectileHitEvent extends Event implements Cancellable {
      *
      * @return projectile
      */
-    public CustomProjectile getProjectile() {
+    @SuppressWarnings("rawtypes")
+	public CustomProjectile getProjectile() {
         return projectile;
     }
 

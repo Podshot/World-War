@@ -1,5 +1,6 @@
 package io.github.podshot.WorldWar.events.guns;
 
+import io.github.podshot.WorldWar.api.GunType;
 import io.github.podshot.WorldWar.api.PlayerAPI;
 import io.github.podshot.WorldWar.handlers.WarHandler;
 
@@ -27,16 +28,16 @@ public class GunSwitch implements Listener {
 						default:
 							break;
 						case "Standard Issue Rifle":
-							PlayerAPI.setAmmoAmount(evt.getPlayer(), "Rifle", evt.getPlayer().getLevel());
+							PlayerAPI.setAmmoAmount(evt.getPlayer(), GunType.RIFLE, evt.getPlayer().getLevel());
 							break;
 						case "Rocket Launcher":
-							PlayerAPI.setAmmoAmount(evt.getPlayer(), "Rocket", evt.getPlayer().getLevel());
+							PlayerAPI.setAmmoAmount(evt.getPlayer(), GunType.ROCKET_LAUNCHER, evt.getPlayer().getLevel());
 							break;
 						case "Shotgun":
-							PlayerAPI.setAmmoAmount(evt.getPlayer(), "Shotgun", evt.getPlayer().getLevel());
+							PlayerAPI.setAmmoAmount(evt.getPlayer(), GunType.SHOTGUN, evt.getPlayer().getLevel());
 							break;
 						case "Pistol":
-							PlayerAPI.setAmmoAmount(evt.getPlayer(), "Pistol", evt.getPlayer().getLevel());
+							PlayerAPI.setAmmoAmount(evt.getPlayer(), GunType.PISTOL, evt.getPlayer().getLevel());
 							break;
 						}
 					}
@@ -51,19 +52,19 @@ public class GunSwitch implements Listener {
 						default:
 							break;
 						case "Standard Issue Rifle":
-							evt.getPlayer().setLevel(PlayerAPI.getAmmoAmount(evt.getPlayer(), "Rifle"));
-							float progress = PlayerAPI.getAmmoAmount(evt.getPlayer(), "Rifle") / Rifle.getMagSize();
+							evt.getPlayer().setLevel(PlayerAPI.getAmmoAmount(evt.getPlayer(), GunType.RIFLE));
+							float progress = PlayerAPI.getAmmoAmount(evt.getPlayer(), GunType.RIFLE) / Rifle.getMagSize();
 							evt.getPlayer().setExp(0f);
 							evt.getPlayer().setExp(progress);
 							break;
 						case "Rocket Launcher":
-							evt.getPlayer().setLevel(PlayerAPI.getAmmoAmount(evt.getPlayer(), "Rocket"));
+							evt.getPlayer().setLevel(PlayerAPI.getAmmoAmount(evt.getPlayer(), GunType.ROCKET_LAUNCHER));
 							break;
 						case "Shotgun":
-							evt.getPlayer().setLevel(PlayerAPI.getAmmoAmount(evt.getPlayer(), "Shotgun"));
+							evt.getPlayer().setLevel(PlayerAPI.getAmmoAmount(evt.getPlayer(), GunType.SHOTGUN));
 							break;
 						case "Pistol":
-							evt.getPlayer().setLevel(PlayerAPI.getAmmoAmount(evt.getPlayer(), "Pistol"));
+							evt.getPlayer().setLevel(PlayerAPI.getAmmoAmount(evt.getPlayer(), GunType.PISTOL));
 							break;
 						}
 					}

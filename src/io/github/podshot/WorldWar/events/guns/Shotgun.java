@@ -1,7 +1,9 @@
 package io.github.podshot.WorldWar.events.guns;
 
 import io.github.podshot.WorldWar.WorldWar;
+import io.github.podshot.WorldWar.api.GunType;
 import io.github.podshot.WorldWar.api.PlayerAPI;
+import io.github.podshot.WorldWar.api.WorldWarTeam;
 import io.github.podshot.WorldWar.api.interfaces.IGun;
 import io.github.podshot.WorldWar.handlers.PlayerHandler;
 import io.github.podshot.WorldWar.handlers.WarHandler;
@@ -83,7 +85,7 @@ public class Shotgun implements IGun {
 					float progress = (float) lvl/Shotgun.getMagSize();
 					e.getPlayer().setExp(progress);
 					e.setCancelled(true);
-					PlayerAPI.setAmmoAmount(e.getPlayer(), "Shotgun", lvl);
+					PlayerAPI.setAmmoAmount(e.getPlayer(), GunType.SHOTGUN, lvl);
 					
 					final UUID uuid = e.getPlayer().getUniqueId();
 					PlayerHandler.ShotgunReloadHandler.addToList(uuid);
@@ -126,7 +128,7 @@ public class Shotgun implements IGun {
 			if (gunIS.getItemMeta().getDisplayName().equals("Shotgun")) {
 				e.getPlayer().setLevel(Shotgun.getMagSize());
 				float progress = Shotgun.getMagSize() / Shotgun.getMagSize();
-				PlayerAPI.setAmmoAmount(e.getPlayer(), "Shotgun", Shotgun.getMagSize());
+				PlayerAPI.setAmmoAmount(e.getPlayer(), GunType.SHOTGUN, Shotgun.getMagSize());
 				e.getPlayer().setExp(progress);
 			}
 		}
@@ -148,8 +150,8 @@ public class Shotgun implements IGun {
 
 	@EventHandler
 	public void onBulletHit(ItemProjectileHitEvent e) {
-		String shooterTeam = null;
-		String hitTeam = null;
+		WorldWarTeam shooterTeam = null;
+		WorldWarTeam hitTeam = null;
 		if (WarHandler.isWarDeclared()) {
 			if (e.getHitType() == CustomProjectileHitEvent.HitType.ENTITY) {
 				LivingEntity hitEntity = e.getHitEntity();
@@ -158,7 +160,7 @@ public class Shotgun implements IGun {
 					Player shooter = (Player) e.getProjectile().getShooter();
 					shooterTeam = PlayerAPI.getTeam(shooter);
 					hitTeam = PlayerAPI.getTeam(hitPlayer);
-					if (!(hitTeam.equals(shooterTeam))) {
+					if (!(hitTeam == shooterTeam)) {
 						if (e.getProjectile().getProjectileName().equals("bullet-shotgun")) {
 							hitPlayer.damage(this.getPlayerDamage(), shooter);
 						}

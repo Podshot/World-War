@@ -76,7 +76,8 @@ public class ProjectileScheduler implements Runnable, IProjectile, CustomProject
         }
     }
 
-    @Override
+    @SuppressWarnings({ "rawtypes", "deprecation" })
+	@Override
     public void run() {
         BlockPosition blockposition = new BlockPosition(e.locX, e.locY, e.locZ);
         IBlockData iblockdata = e.world.getType(blockposition);

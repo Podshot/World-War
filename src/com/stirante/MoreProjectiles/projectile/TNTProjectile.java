@@ -137,7 +137,8 @@ public class TNTProjectile extends EntityTNTPrimed implements CustomProjectile<T
         return name;
     }
 
-    @Override
+    @SuppressWarnings({ "rawtypes", "deprecation" })
+	@Override
     public void t_() {
         K();
         if (this.fuseTicks-- <= 0) {

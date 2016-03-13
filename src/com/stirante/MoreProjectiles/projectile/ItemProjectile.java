@@ -107,7 +107,8 @@ public class ItemProjectile extends EntityItem implements IProjectile, CustomPro
         }
     }
 
-    @Override
+    @SuppressWarnings({ "rawtypes", "deprecation" })
+	@Override
     public void t_() {
         K();
         BlockPosition blockposition = new BlockPosition(locX, locY, locZ);

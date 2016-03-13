@@ -1,6 +1,7 @@
 package io.github.podshot.WorldWar.players;
 
 import io.github.podshot.WorldWar.WorldWar;
+import io.github.podshot.WorldWar.api.WorldWarTeam;
 import io.github.podshot.WorldWar.files.PlayerDataYAML;
 import io.github.podshot.WorldWar.handlers.PlayerHandler;
 
@@ -90,8 +91,8 @@ public class PlayerSorter {
 	public static void switchTeam(Player player1, Player player2) {
 		player1.removeMetadata("WorldWar.Team", plugin);
 		player2.removeMetadata("WorldWar.Team", plugin);
-		PlayerDataYAML.setPlayerToTeam(player1, "Red");
-		PlayerDataYAML.setPlayerToTeam(player2, "Blue");
+		PlayerDataYAML.setPlayerToTeam(player1, WorldWarTeam.RED);
+		PlayerDataYAML.setPlayerToTeam(player2, WorldWarTeam.BLUE);
 		player1.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Red"));
 		player2.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Blue"));
 		

@@ -25,13 +25,10 @@ import io.github.podshot.WorldWar.players.PlayerSorter;
 import java.io.File;
 import java.util.logging.Logger;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.xern.jogy34.xernutilities.handlers.ExtraConfigHandler;
@@ -93,9 +90,6 @@ public final class WorldWar extends JavaPlugin {
 		//if (Internals.isWarDeclared()) {
 		//this.setMetaData();
 		//}
-		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-			PlayerEvents.doReloadFix(player);
-		}
 		new PlayerSorter();
 		this.logger.info(PlayerSorter.getTeamWithMorePlayers());
 	}
@@ -119,13 +113,6 @@ public final class WorldWar extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		for (Player p : Bukkit.getOnlinePlayers()) {
-			for (MetadataValue data : p.getMetadata("WorldWar.Team")) {
-				if (data.getOwningPlugin().getName().equals("WorldWar")) {
-					PlayerDataYAML.setPlayerToTeam(p.getUniqueId(), data.asString());
-				}
-			}
-		}
 		if (WarHandler.isWarDeclared()) {
 			this.getConfig().set("War-Declared", true);
 		} else {
@@ -140,7 +127,6 @@ public final class WorldWar extends JavaPlugin {
 	}
 
 	public static WorldWar getInstance() {
-
 		return instance;
 	}
 }
