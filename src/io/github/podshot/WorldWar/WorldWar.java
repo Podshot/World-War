@@ -16,6 +16,7 @@ import io.github.podshot.WorldWar.events.guns.KeepGun;
 import io.github.podshot.WorldWar.events.registerers.BlockRegister;
 import io.github.podshot.WorldWar.events.registerers.GuiRegister;
 import io.github.podshot.WorldWar.events.registerers.GunRegister;
+import io.github.podshot.WorldWar.events.structures.Flag;
 import io.github.podshot.WorldWar.files.PlayerDataYAML;
 import io.github.podshot.WorldWar.files.ReadConfig;
 import io.github.podshot.WorldWar.files.StructureYAML;
@@ -25,10 +26,7 @@ import io.github.podshot.WorldWar.players.PlayerSorter;
 import java.io.File;
 import java.util.logging.Logger;
 
-import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.xern.jogy34.xernutilities.handlers.ExtraConfigHandler;
@@ -55,6 +53,9 @@ public final class WorldWar extends JavaPlugin {
 			this.generateFiles();
 		}
 		ExtraConfigHandler.initalize(this);
+		FileConfiguration config = this.getConfig();
+		WarHandler.setWarDeclared(config.getBoolean("War-Declared"));
+		ReadConfig.loadConfig();
 
 		this.getCommand("worldwar").setExecutor(new WorldWarCommand());
 		this.getCommand("worldwar").setTabCompleter(new WorldWarCommandTabCompleter());
@@ -67,6 +68,10 @@ public final class WorldWar extends JavaPlugin {
 			this.getCommand("test").setExecutor(new TestCommand());
 		}
 		
+		StructureYAML.loadYAML();
+		PlayerDataYAML.loadYAML();
+		SquadAPI.loadYAML();
+		
 		GunRegister.register(this);
 		GuiRegister.register(this);
 		BlockRegister.register(this);
@@ -78,14 +83,9 @@ public final class WorldWar extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new GunSwitch(), this);
 		this.getServer().getPluginManager().registerEvents(new KeepGun(), this);
 		this.getServer().getPluginManager().registerEvents(new BattleStatistics(), this);
-
-		StructureYAML.loadYAML();
-		PlayerDataYAML.loadYAML();
-		SquadAPI.loadYAML();
-
-		FileConfiguration config = this.getConfig();
-		ReadConfig.loadConfig();
-		WarHandler.setWarDeclared(config.getBoolean("War-Declared"));
+		
+		//this.getServer().getPluginManager().registerEvents(new Flag(), this);
+		this.getServer().getPluginManager().registerEvents(new WarTimer(this), this);
 
 		//if (Internals.isWarDeclared()) {
 		//this.setMetaData();
@@ -99,16 +99,6 @@ public final class WorldWar extends JavaPlugin {
 		this.saveDefaultConfig();
 		File playerInventoriesFolder = new File(this.getDataFolder() + this.fileSep + "Player-Inventory-Backup");
 		playerInventoriesFolder.mkdir();
-	}
-
-	private void setMetaData() {
-		Location blueFlag = StructureYAML.getFlagPostition("Blue");
-		Block blue = blueFlag.getBlock();
-		blue.setMetadata("WorldWar.TeamFlag", new FixedMetadataValue(instance, "Blue"));
-
-		Location redFlag = StructureYAML.getFlagPostition("Red");
-		Block red = redFlag.getBlock();
-		red.setMetadata("WorldWar.TeamFlag", new FixedMetadataValue(instance, "Red"));
 	}
 
 	@Override

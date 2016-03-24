@@ -21,10 +21,12 @@ public class WorldWarCommand implements CommandExecutor {
 		if (label.equalsIgnoreCase("worldwar")) {
 			if (sender instanceof Player) {
 				Player player = (Player) sender;
-				if (args[0].equalsIgnoreCase("start")) {
-					if (player.hasPermission("worldwar.war.start")) {
-						toReturn = true;
-						WarHandler.startWar(player.getWorld());
+				if (args.length > 0) {
+					if (args[0].equalsIgnoreCase("start")) {
+						if (player.hasPermission("worldwar.war.start")) {
+							toReturn = true;
+							WarHandler.startWar(player.getWorld());
+						}
 					}
 				}
 			}

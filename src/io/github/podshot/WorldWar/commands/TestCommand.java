@@ -1,5 +1,7 @@
 package io.github.podshot.WorldWar.commands;
 
+import java.util.Collection;
+
 import io.github.podshot.WorldWar.WorldWar;
 import io.github.podshot.WorldWar.api.GunType;
 import io.github.podshot.WorldWar.api.PlayerAPI;
@@ -22,6 +24,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
+import org.inventivetalent.bossbar.BossBar;
+import org.inventivetalent.bossbar.BossBarAPI;
 
 public class TestCommand implements CommandExecutor {
 
@@ -107,6 +111,14 @@ public class TestCommand implements CommandExecutor {
 				case "ammo":
 					toReturn = true;
 					player.sendMessage(ChatColor.YELLOW + "" + PlayerAPI.getAmmoAmount(player, GunType.RIFLE));
+					break;
+				case "bar":
+					toReturn = true;
+					if (args.length == 2) {
+						Collection<BossBar> bars = BossBarAPI.getBossBars(player);
+						BossBar bar = (BossBar) bars.toArray()[0];
+						bar.setProgress(((float)Integer.parseInt(args[1])) / 120f);
+					}
 					break;
 				default:
 					toReturn = false;

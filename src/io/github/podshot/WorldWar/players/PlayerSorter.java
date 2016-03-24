@@ -11,7 +11,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.metadata.FixedMetadataValue;
 
 public class PlayerSorter {
 
@@ -41,20 +40,20 @@ public class PlayerSorter {
 		return null;
 	}
 
-	public static void addPlayer(UUID uniqueId, String string) {
+	public static void addPlayer(UUID uniqueId, WorldWarTeam team) {
 		FileConfiguration config = plugin.getConfig();
-		int playerTeam = config.getInt("Teams."+string+".Amount");
-		if (string.equals("Blue")) {
+		int playerTeam = config.getInt("Teams." + team.toString() + ".Amount");
+		if (team == WorldWarTeam.BLUE) {
 			blueAmount = playerTeam + 1;
 			config.set("Teams.Blue.Amount", blueAmount);
-		} else if (string.equals("Red")) {
+		} else if (team == WorldWarTeam.RED) {
 			redAmount = playerTeam + 1;
 			config.set("Teams.Red.Amount", redAmount);
 		}
 		plugin.saveConfig();
 	}
 
-	public static void transerPlayer(Player player, String team) {
+	public static void transerPlayer(Player player, WorldWarTeam team) {
 		String teamWithMorePlayers = getTeamWithMorePlayers();
 		switch (teamWithMorePlayers) {
 		default:
@@ -89,12 +88,8 @@ public class PlayerSorter {
 	 * @param player2 Player that was on Red Team (Switched to Blue)
 	 */
 	public static void switchTeam(Player player1, Player player2) {
-		player1.removeMetadata("WorldWar.Team", plugin);
-		player2.removeMetadata("WorldWar.Team", plugin);
 		PlayerDataYAML.setPlayerToTeam(player1, WorldWarTeam.RED);
 		PlayerDataYAML.setPlayerToTeam(player2, WorldWarTeam.BLUE);
-		player1.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Red"));
-		player2.setMetadata("WorldWar.Team", new FixedMetadataValue(plugin, "Blue"));
 		
 		player1.sendMessage("You have been switched to the "+ChatColor.RED+"Red"+ChatColor.RESET+" team");
 		player2.sendMessage("You have been switched to the "+ChatColor.BLUE+"Blue"+ChatColor.RESET+" team");

@@ -8,5 +8,4 @@ public class BlockRegister {
 	public static void register(WorldWar plugin) {
 		plugin.getServer().getPluginManager().registerEvents(new Mortar(), plugin);
 	}
-
 }

@@ -26,17 +26,7 @@ public class PlayerDataYAML {
 
 	/**
 	 * Constructor that creates a file named "PlayerData.yml" uses Jogy34's ExtraConfigHandler
-	 */
-	@Deprecated
-	public PlayerDataYAML() {
-		File playerDataYaml = new File(plugin.getDataFolder() + plugin.fileSep + "PlayerData");
-		if (!playerDataYaml.exists()) {
-			ExtraConfigHandler.getConfig(plugin.fileSep + "PlayerData");
-			ExtraConfigHandler.saveConfig(plugin.fileSep + "PlayerData");
-		}
-		config = ExtraConfigHandler.getConfig(plugin.fileSep + "PlayerData");
-	}
-	
+	 */	
 	public static void loadYAML() {
 		File playerDataYaml = new File(plugin.getDataFolder() + plugin.fileSep + "PlayerData");
 		if (!playerDataYaml.exists()) {
@@ -131,6 +121,7 @@ public class PlayerDataYAML {
 	 * @param player The player to get the inventory for
 	 * @return A string to be de-serialized by {@link InventoryManager}
 	 */
+	@Deprecated
 	public static String getInventoryFromFile(Player player) {
 		String inventory = config.getString("Players." + player.getUniqueId().toString() + ".Inventory");
 		return inventory;
@@ -158,46 +149,5 @@ public class PlayerDataYAML {
 	public static void setPlayerToTeam(UUID uuid, String team) {
 		config.set("Players." + uuid.toString() + ".Team", team);
 		ExtraConfigHandler.saveConfig(plugin.fileSep + "PlayerData");
-	}
-	
-	/**
-	 * Same method as @see {@link #getPlayerTeam(Player)} just with UUID compatibility
-	 * @param uuid
-	 * @return
-	 */
-	@Deprecated
-	public String getPlayerTeam(UUID uuid) {
-		String team = config.getString("Players." + uuid.toString() + ".Team");
-		return team;
-	}
-	
-	/**
-	 * Same method as @see {@link #isPlayerOnTeam(Player)} just with UUID compatibility
-	 * @param uuid
-	 * @return
-	 */
-	public boolean isPlayerOnTeam(UUID uuid) {
-		boolean contained = config.contains("Players." + uuid.toString() + ".Team");
-		return contained;
-	}
-	
-	/**
-	 * Same method as @see {@link #saveInventoryToFile(Player, String)} just with UUID compatibility
-	 * @param uuid
-	 * @param inv
-	 */
-	public static void saveInventoryToFile(UUID uuid, String inv) {
-		config.set("Players." + uuid.toString() + ".Inventory", inv);
-		ExtraConfigHandler.saveConfig("PlayerData");
-	}
-	
-	/**
-	 * Same method as @see {@link #getInventoryFromFile(Player)} just with UUID compatibility
-	 * @param uuid
-	 * @return
-	 */
-	public static String getInventoryFromFile(UUID uuid) {
-		String inventory = config.getString("Players." + uuid.toString() + ".Inventory");
-		return inventory;
 	}
 }

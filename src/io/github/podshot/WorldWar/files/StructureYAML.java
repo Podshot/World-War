@@ -1,6 +1,7 @@
 package io.github.podshot.WorldWar.files;
 
 import io.github.podshot.WorldWar.WorldWar;
+import io.github.podshot.WorldWar.api.WorldWarTeam;
 import io.github.podshot.WorldWar.entities.VehicleType;
 
 import java.io.File;
@@ -20,19 +21,6 @@ public class StructureYAML {
 	private static FileConfiguration config;
 	private static List<String> list = new ArrayList<String>();
 	private static boolean loaded;
-	
-	@Deprecated
-	public StructureYAML() {
-		File structures = new File(plugin.getDataFolder() + plugin.fileSep + "Structures");
-		if (!structures.exists()) {
-			ExtraConfigHandler.getConfig("Structures");
-			ExtraConfigHandler.saveConfig("Structures");
-			config = ExtraConfigHandler.getConfig("Structures");
-			addConfigValues();
-		} else {
-			config = ExtraConfigHandler.getConfig("Structures");
-		}
-	}
 	
 	public static void loadYAML() {
 		File structures = new File(plugin.getDataFolder() + plugin.fileSep + "Structures");
@@ -86,11 +74,11 @@ public class StructureYAML {
 		return loc;
 	}
 
-	public static Location getFlagPostition(String team) {
-		int x = config.getInt("Structure.Flag." + team + ".X");
-		int y = config.getInt("Structure.Flag." + team + ".Y");
-		int z = config.getInt("Structure.Flag." + team + ".Z");
-		String name = config.getString("Structure.Flag." + team + ".World");
+	public static Location getFlagPostition(WorldWarTeam team) {
+		int x = config.getInt("Structure.Flag." + team.toString() + ".X");
+		int y = config.getInt("Structure.Flag." + team.toString() + ".Y");
+		int z = config.getInt("Structure.Flag." + team.toString() + ".Z");
+		String name = config.getString("Structure.Flag." + team.toString() + ".World");
 		plugin.logger.info("World Name: " + name);
 		World world = Bukkit.getServer().getWorld(name);
 		Location loc = new Location(world, x, y, z);

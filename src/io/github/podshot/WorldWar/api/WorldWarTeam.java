@@ -14,4 +14,14 @@ public enum WorldWarTeam {
 	public String toString() {
 		return team;
 	}
+	
+	public WorldWarTeam fromString(String str) {
+		if (str.equals("Blue")) {
+			return WorldWarTeam.BLUE;
+		} else if (str.equals("Red")) {
+			return WorldWarTeam.RED;
+		} else {
+			return null;
+		}
+	}
 }

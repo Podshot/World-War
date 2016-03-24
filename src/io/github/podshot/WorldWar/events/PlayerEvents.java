@@ -11,13 +11,17 @@ import io.github.podshot.WorldWar.handlers.WarHandler;
 import io.github.podshot.WorldWar.players.PlayerSorter;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
+import org.bukkit.Color;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 public class PlayerEvents implements Listener {
 
@@ -32,7 +36,7 @@ public class PlayerEvents implements Listener {
 				if (WarHandler.isWarDeclared()) {
 					Player player = evt.getPlayer();
 					String memberOfTeam = PlayerDataYAML.getPlayerTeam(player);
-					plugin.logger.info("Cheking to see if username is already stored");
+					plugin.logger.info("Checking to see if username is already stored");
 					if (memberOfTeam == null) {
 						plugin.logger.info("Name is not present in the player file");
 						player.openInventory(TeamChooser.getTeamChooserGui());
@@ -44,12 +48,12 @@ public class PlayerEvents implements Listener {
 						if (memberOfTeam.equals("Blue")) {
 							plugin.logger.info("Player's team is Blue");
 							PlayerAPI.setTeam(player, WorldWarTeam.BLUE);
-							PlayerSorter.addPlayer(player.getUniqueId(), "Blue");
+							PlayerSorter.addPlayer(player.getUniqueId(), WorldWarTeam.BLUE);
 						} else if (memberOfTeam.equals("Red")) {
 							plugin.logger.info("Player's team is Red");
 							PlayerAPI.setTeam(player, WorldWarTeam.RED);
 						}
-						
+
 						if (SquadAPI.inSquad(player.getUniqueId()))
 							plugin.logger.info(SquadAPI.getSquadForPlayer(player.getUniqueId()).getSquadName());
 						//plugin.logger.info(SquadAPI.getSquadForPlayer(player.getUniqueId()).getSquadName() + ":" + SquadAPI.isLeader(player.getUniqueId()));
@@ -81,7 +85,7 @@ public class PlayerEvents implements Listener {
 								}
 							}
 						}
-						*/
+						 */
 					}
 				}
 			}
@@ -106,6 +110,29 @@ public class PlayerEvents implements Listener {
 	}
 
 	@EventHandler
+	public void onDeEquipArmor(InventoryClickEvent evt) {
+		if (!(WarHandler.isWarDeclared())) {
+			return;
+		}
+
+		if (!(evt.getSlotType() == SlotType.ARMOR)) {
+			return;
+		}
+
+		Player player = (Player) evt.getWhoClicked();
+		if (evt.getSlot() == 39) {
+			ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
+			LeatherArmorMeta meta = (LeatherArmorMeta) helmet.getItemMeta();
+			meta.spigot().setUnbreakable(true);
+			meta.setColor(Color.BLUE);
+			helmet.setItemMeta(meta);		
+			player.getEquipment().setHelmet(helmet);
+			evt.setCancelled(true);
+		}
+	}
+
+	/*
+	@EventHandler
 	public void onPlayerMoveEvent(PlayerMoveEvent evt) {
 		if (WarHandler.isWarDeclared()) {
 			if (evt.getTo().getBlockX() == evt.getFrom().getBlockX() && evt.getTo().getBlockY() == evt.getFrom().getBlockY() && evt.getTo().getBlockZ() == evt.getFrom().getBlockZ()) return;
@@ -120,4 +147,5 @@ public class PlayerEvents implements Listener {
 		}
 		return;
 	}
+	 */
 }
