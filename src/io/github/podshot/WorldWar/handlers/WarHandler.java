@@ -1,8 +1,8 @@
 package io.github.podshot.WorldWar.handlers;
 
 import io.github.podshot.WorldWar.WorldWar;
-import io.github.podshot.WorldWar.api.WarEndCause;
-import io.github.podshot.WorldWar.api.events.WarDeclaredEvent;
+//import io.github.podshot.WorldWar.api.WarEndCause;
+//import io.github.podshot.WorldWar.api.events.WarDeclaredEvent;
 import io.github.podshot.WorldWar.files.BackUp;
 import io.github.podshot.WorldWar.structures.StructureGeneration;
 
@@ -38,7 +38,7 @@ public class WarHandler {
 			BackUp.copyWorld(worldSource, target);
 		}
 		
-		plugin.getServer().getPluginManager().callEvent(new WarDeclaredEvent());
+		//plugin.getServer().getPluginManager().callEvent(new WarDeclaredEvent());
 		//int x = randomCoords(1000, 100000);
 		//int z = randomCoords(1000, 100000);
 		int x = randomCoords(0, 30);
@@ -88,5 +88,9 @@ public class WarHandler {
 	
 	public static void setWarDeclared(boolean bool) {
 		warDeclared = bool;
+	}
+	
+	public enum WarEndCause {
+		FLAG_CAPTURED, TIME_RAN_OUT;
 	}
 }
