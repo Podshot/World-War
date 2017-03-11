@@ -2,16 +2,16 @@ package com.stirante.MoreProjectiles.projectile;
 
 import com.stirante.MoreProjectiles.TypedRunnable;
 import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
-import net.minecraft.server.v1_8_R3.*;
+import net.minecraft.server.v1_10_R1.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R3.block.CraftBlock;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_10_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_10_R1.block.CraftBlock;
+import org.bukkit.craftbukkit.v1_10_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_10_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Explosive;
 import org.bukkit.entity.LivingEntity;
@@ -46,7 +46,7 @@ public class TNTProjectile extends EntityTNTPrimed implements CustomProjectile<T
     public TNTProjectile(String name, Location loc, LivingEntity shooter, float power) {
         super(((CraftWorld) loc.getWorld()).getHandle(), loc.getX(), loc.getY(), loc.getZ(), ((CraftLivingEntity) shooter).getHandle());
         this.name = name;
-        this.fuseTicks = 20;
+        this.setFuseTicks(20);
         this.a(0.25F, 0.25F);
         setPositionRotation(loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
         locX -= (MathHelper.cos(yaw / 180.0F * 3.1415927F) * 0.16F);
@@ -77,7 +77,7 @@ public class TNTProjectile extends EntityTNTPrimed implements CustomProjectile<T
     public TNTProjectile(String name, LivingEntity shooter, float power) {
         super(((CraftLivingEntity) shooter).getHandle().world, shooter.getLocation().getX(), shooter.getLocation().getX(), shooter.getLocation().getX(), ((CraftLivingEntity) shooter).getHandle());
         this.name = name;
-        this.fuseTicks = 20;
+        this.setFuseTicks(20);
         this.a(0.25F, 0.25F);
         setPositionRotation(shooter.getLocation().getX(), shooter.getLocation().getY() + shooter.getEyeHeight(), shooter.getLocation().getZ(), shooter.getLocation().getYaw(), shooter.getLocation().getPitch());
         locX -= (MathHelper.cos(yaw / 180.0F * 3.1415927F) * 0.16F);
@@ -113,8 +113,10 @@ public class TNTProjectile extends EntityTNTPrimed implements CustomProjectile<T
         motY = d1;
         motZ = d2;
         float f3 = MathHelper.sqrt(d0 * d0 + d2 * d2);
-        lastYaw = yaw = (float) (Math.atan2(d0, d2) * 180.0D / 3.1415927410125732D);
-        lastPitch = pitch = (float) (Math.atan2(d1, f3) * 180.0D / 3.1415927410125732D);
+        //lastYaw = yaw = (float) (Math.atan2(d0, d2) * 180.0D / 3.1415927410125732D);
+        //lastPitch = pitch = (float) (Math.atan2(d1, f3) * 180.0D / 3.1415927410125732D);
+        lastYaw = yaw = (float) (Math.atan2(d0, d2) * 180.0D / Math.PI);
+        lastPitch = pitch = (float) (Math.atan2(d1, f3) * 180.0D / Math.PI);
     }
 
     @Override
@@ -137,16 +139,15 @@ public class TNTProjectile extends EntityTNTPrimed implements CustomProjectile<T
         return name;
     }
 
-    @SuppressWarnings({ "rawtypes", "deprecation" })
-	@Override
-    public void t_() {
-        K();
-        if (this.fuseTicks-- <= 0) {
-            if (!(this.world.isClientSide)) {
-                explode();
-            }
+    @Override
+    public void m() {
+        U();
+        int t = getFuseTicks();
+        if (t - 1 <= 0) {
+            explode();
             die();
         } else {
+            setFuseTicks(t - 1);
             this.world.addParticle(EnumParticle.SMOKE_LARGE, this.locX, this.locY + 0.5D, this.locZ, 0.0D, 0.0D, 0.0D);
         }
         BlockPosition blockposition = new BlockPosition(locX, locY, locZ);
@@ -154,7 +155,7 @@ public class TNTProjectile extends EntityTNTPrimed implements CustomProjectile<T
         Block block = iblockdata.getBlock();
 
         if (!ignoredMaterials.contains(Material.getMaterial(Block.getId(block)))) {
-            AxisAlignedBB axisalignedbb = block.a(world, blockposition, iblockdata);
+            AxisAlignedBB axisalignedbb = iblockdata.c(world, blockposition);
 
             if ((axisalignedbb != null) && (axisalignedbb.a(new Vec3D(locX, locY, locZ)))) {
                 float damageMultiplier = MathHelper.sqrt(motX * motX + motY * motY + motZ * motZ);
@@ -173,20 +174,20 @@ public class TNTProjectile extends EntityTNTPrimed implements CustomProjectile<T
         vec3d = new Vec3D(locX, locY, locZ);
         vec3d1 = new Vec3D(locX + motX, locY + motY, locZ + motZ);
         if (movingobjectposition != null) {
-            vec3d1 = new Vec3D(movingobjectposition.pos.a, movingobjectposition.pos.b, movingobjectposition.pos.c);
+            vec3d1 = new Vec3D(movingobjectposition.pos.x, movingobjectposition.pos.y, movingobjectposition.pos.z);
         }
 
         Entity entity = null;
-        List list = world.getEntities(this, getBoundingBox().a(motX, motY, motZ).grow(1.0D, 1.0D, 1.0D));
+        List<Entity> list = world.getEntities(this, getBoundingBox().a(motX, motY, motZ).grow(1.0D, 1.0D, 1.0D));
         double d0 = 0.0D;
 
         for (Object aList : list) {
             Entity entity1 = (Entity) aList;
 
-            if ((entity1.ad()) && ((entity1 != getSource()) || (age >= 5))) {
+            if ((entity1.isCollidable()) && ((entity1 != getSource()) || (age >= 5))) {
                 float f1 = 0.3F;
                 AxisAlignedBB axisalignedbb1 = entity1.getBoundingBox().grow(f1, f1, f1);
-                MovingObjectPosition movingobjectposition1 = axisalignedbb1.a(vec3d, vec3d1);
+                MovingObjectPosition movingobjectposition1 = axisalignedbb1.b(vec3d, vec3d1);
 
                 if (movingobjectposition1 != null) {
                     double d1 = vec3d.distanceSquared(movingobjectposition1.pos);
@@ -228,15 +229,15 @@ public class TNTProjectile extends EntityTNTPrimed implements CustomProjectile<T
                 }
             } else if (movingobjectposition.a() != null) {
                 if (!ignoredMaterials.contains(Material.getMaterial(Block.getId(block)))) {
-                    motX = ((float) (movingobjectposition.pos.a - locX));
-                    motY = ((float) (movingobjectposition.pos.b - locY));
-                    motZ = ((float) (movingobjectposition.pos.c - locZ));
+                    motX = ((float) (movingobjectposition.pos.x - locX));
+                    motY = ((float) (movingobjectposition.pos.y - locY));
+                    motZ = ((float) (movingobjectposition.pos.z - locZ));
                     float f3 = MathHelper.sqrt(motX * motX + motY * motY + motZ * motZ);
                     locX -= motX / f3 * 0.0500000007450581D;
                     locY -= motY / f3 * 0.0500000007450581D;
                     locZ -= motZ / f3 * 0.0500000007450581D;
                     float damageMultiplier = MathHelper.sqrt(motX * motX + motY * motY + motZ * motZ);
-                    CustomProjectileHitEvent event = new CustomProjectileHitEvent(this, damageMultiplier, world.getWorld().getBlockAt((int) movingobjectposition.pos.a, (int) movingobjectposition.pos.b, (int) movingobjectposition.pos.c), CraftBlock.notchToBlockFace(movingobjectposition.direction));
+                    CustomProjectileHitEvent event = new CustomProjectileHitEvent(this, damageMultiplier, world.getWorld().getBlockAt((int) movingobjectposition.pos.x, (int) movingobjectposition.pos.y, (int) movingobjectposition.pos.z), CraftBlock.notchToBlockFace(movingobjectposition.direction));
                     Bukkit.getPluginManager().callEvent(event);
                     if (!event.isCancelled()) {
                         die();

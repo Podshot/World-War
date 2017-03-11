@@ -3,15 +3,15 @@ package com.stirante.MoreProjectiles.projectile;
 import com.stirante.MoreProjectiles.TypedRunnable;
 import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
 import com.stirante.MoreProjectiles.event.ItemProjectileHitEvent;
-import net.minecraft.server.v1_8_R3.*;
+import net.minecraft.server.v1_10_R1.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R3.block.CraftBlock;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_10_R1.block.CraftBlock;
+import org.bukkit.craftbukkit.v1_10_R1.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_10_R1.inventory.CraftItemStack;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
@@ -49,7 +49,7 @@ public class ItemProjectile extends EntityItem implements IProjectile, CustomPro
         super(((CraftWorld) loc.getWorld()).getHandle(), loc.getX(), loc.getY(), loc.getZ(), null);
         if (CraftItemStack.asNMSCopy(itemstack) != null) setItemStack(CraftItemStack.asNMSCopy(itemstack));
         else
-            setItemStack(new net.minecraft.server.v1_8_R3.ItemStack(Item.getById(itemstack.getTypeId()), itemstack.getAmount(), itemstack.getData().getData()));
+            setItemStack(new net.minecraft.server.v1_10_R1.ItemStack(Item.getById(itemstack.getTypeId()), itemstack.getAmount(), itemstack.getData().getData()));
         if (itemstack.getTypeId() == 0) System.out.println("You cannot shoot air!");
         this.name = name;
         this.pickupDelay = Integer.MAX_VALUE;
@@ -107,16 +107,15 @@ public class ItemProjectile extends EntityItem implements IProjectile, CustomPro
         }
     }
 
-    @SuppressWarnings({ "rawtypes", "deprecation" })
-	@Override
-    public void t_() {
-        K();
+    @Override
+    public void m() {
+        U();
         BlockPosition blockposition = new BlockPosition(locX, locY, locZ);
         IBlockData iblockdata = world.getType(blockposition);
         Block block = iblockdata.getBlock();
 
         if (!ignoredMaterials.contains(Material.getMaterial(Block.getId(block)))) {
-            AxisAlignedBB axisalignedbb = block.a(world, blockposition, iblockdata);
+            AxisAlignedBB axisalignedbb = iblockdata.c(world, blockposition);
 
             if ((axisalignedbb != null) && (axisalignedbb.a(new Vec3D(locX, locY, locZ)))) {
                 float damageMultiplier = MathHelper.sqrt(motX * motX + motY * motY + motZ * motZ);
@@ -135,20 +134,20 @@ public class ItemProjectile extends EntityItem implements IProjectile, CustomPro
         vec3d = new Vec3D(locX, locY, locZ);
         vec3d1 = new Vec3D(locX + motX, locY + motY, locZ + motZ);
         if (movingobjectposition != null) {
-            vec3d1 = new Vec3D(movingobjectposition.pos.a, movingobjectposition.pos.b, movingobjectposition.pos.c);
+            vec3d1 = new Vec3D(movingobjectposition.pos.x, movingobjectposition.pos.y, movingobjectposition.pos.z);
         }
 
         Entity entity = null;
-        List list = world.getEntities(this, getBoundingBox().a(motX, motY, motZ).grow(1.0D, 1.0D, 1.0D));
+        List<Entity> list = world.getEntities(this, getBoundingBox().a(motX, motY, motZ).grow(1.0D, 1.0D, 1.0D));
         double d0 = 0.0D;
 
         for (Object aList : list) {
             Entity entity1 = (Entity) aList;
 
-            if ((entity1.ad()) && ((entity1 != shooter) || (age >= 5))) {
+            if ((entity1.isCollidable()) && ((entity1 != shooter) || (age >= 5))) {
                 float f1 = 0.3F;
                 AxisAlignedBB axisalignedbb1 = entity1.getBoundingBox().grow(f1, f1, f1);
-                MovingObjectPosition movingobjectposition1 = axisalignedbb1.a(vec3d, vec3d1);
+                MovingObjectPosition movingobjectposition1 = axisalignedbb1.b(vec3d, vec3d1);
 
                 if (movingobjectposition1 != null) {
                     double d1 = vec3d.distanceSquared(movingobjectposition1.pos);
@@ -185,15 +184,15 @@ public class ItemProjectile extends EntityItem implements IProjectile, CustomPro
                 }
             } else if (movingobjectposition.a() != null) {
                 if (!ignoredMaterials.contains(Material.getMaterial(Block.getId(block)))) {
-                    motX = ((float) (movingobjectposition.pos.a - locX));
-                    motY = ((float) (movingobjectposition.pos.b - locY));
-                    motZ = ((float) (movingobjectposition.pos.c - locZ));
+                    motX = ((float) (movingobjectposition.pos.x - locX));
+                    motY = ((float) (movingobjectposition.pos.y - locY));
+                    motZ = ((float) (movingobjectposition.pos.z - locZ));
                     float f3 = MathHelper.sqrt(motX * motX + motY * motY + motZ * motZ);
                     locX -= motX / f3 * 0.0500000007450581D;
                     locY -= motY / f3 * 0.0500000007450581D;
                     locZ -= motZ / f3 * 0.0500000007450581D;
                     float damageMultiplier = MathHelper.sqrt(motX * motX + motY * motY + motZ * motZ);
-                    CustomProjectileHitEvent event = new ItemProjectileHitEvent(this, damageMultiplier, world.getWorld().getBlockAt((int) movingobjectposition.pos.a, (int) movingobjectposition.pos.b, (int) movingobjectposition.pos.c), CraftBlock.notchToBlockFace(movingobjectposition.direction), getItem());
+                    CustomProjectileHitEvent event = new ItemProjectileHitEvent(this, damageMultiplier, world.getWorld().getBlockAt((int) movingobjectposition.pos.x, (int) movingobjectposition.pos.y, (int) movingobjectposition.pos.z), CraftBlock.notchToBlockFace(movingobjectposition.direction), getItem());
                     Bukkit.getPluginManager().callEvent(event);
                     if (!event.isCancelled()) {
                         die();
@@ -244,8 +243,10 @@ public class ItemProjectile extends EntityItem implements IProjectile, CustomPro
         motZ = d2;
         float f3 = MathHelper.sqrt(d0 * d0 + d2 * d2);
 
-        lastYaw = yaw = (float) (Math.atan2(d0, d2) * 180.0D / 3.1415927410125732D);
-        lastPitch = pitch = (float) (Math.atan2(d1, f3) * 180.0D / 3.1415927410125732D);
+        //lastYaw = yaw = (float) (Math.atan2(d0, d2) * 180.0D / 3.1415927410125732D);
+        //lastPitch = pitch = (float) (Math.atan2(d1, f3) * 180.0D / 3.1415927410125732D);
+        lastYaw = yaw = (float) (Math.atan2(d0, d2) * 180.0D / Math.PI);
+        lastPitch = pitch = (float) (Math.atan2(d1, f3) * 180.0D / Math.PI);
     }
 
     @Override
@@ -326,16 +327,6 @@ public class ItemProjectile extends EntityItem implements IProjectile, CustomPro
     @Override
     public ArrayList<Material> getIgnoredBlocks() {
         return ignoredMaterials;
-    }
-
-    @Override
-    public net.minecraft.server.v1_8_R3.ItemStack getItemStack() {
-        net.minecraft.server.v1_8_R3.ItemStack itemstack = getDataWatcher().getItemStack(10);
-
-        if (itemstack == null) {
-            return new net.minecraft.server.v1_8_R3.ItemStack(Blocks.STONE);
-        }
-        return itemstack;
     }
 
     @Override

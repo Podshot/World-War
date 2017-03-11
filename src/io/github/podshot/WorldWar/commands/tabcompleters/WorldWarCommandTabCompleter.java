@@ -18,14 +18,14 @@ public class WorldWarCommandTabCompleter implements TabCompleter {
 		if (sender instanceof Player) {
 			if (cmd.getName().equalsIgnoreCase("worldwar")) {
 				if (args.length == 0) {
-					list.add("start");
+					list.add("declare");
 					list.add("debug");
 					
 					Collections.sort(list);
 					
 					return list;
 				} else if (args.length == 1) {
-					list.add("start");
+					list.add("declare");
 					list.add("debug");
 					
 					for (String s : list) {

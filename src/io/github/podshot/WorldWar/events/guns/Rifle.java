@@ -12,8 +12,12 @@ import io.github.podshot.WorldWar.handlers.WarHandler;
 
 import java.util.UUID;
 
+import net.md_5.bungee.api.ChatColor;
+import net.minecraft.server.v1_10_R1.NBTTagCompound;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_10_R1.inventory.CraftItemStack;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -30,6 +34,8 @@ import com.stirante.MoreProjectiles.projectile.ItemProjectile;
 public class Rifle implements IGun {
 	
 	private WorldWar plugin = WorldWar.getInstance();
+	
+	private static NBTTagCompound nbtTag = generateTag();
 
 	@EventHandler
 	public void onFireGun(PlayerInteractEvent e) {
@@ -56,20 +62,25 @@ public class Rifle implements IGun {
 		}
 
 		ItemStack gunIS = e.getItem();
-		if (gunIS.getType() == Material.MONSTER_EGG && gunIS.getDurability() == 51) {
+		//plugin.logger.warning(gunIS.getType().toString());
+		//plugin.logger.warning(gunIS.getData());
+		//if (gunIS.getType() == Material.MONSTER_EGG && gunIS.getDurability() == 51) {
+		if (gunIS.getType() == Material.MONSTER_EGG) {
+			//plugin.logger.info("?");
 			if (player.getLevel() > 0) {
 				String gun = gunIS.getItemMeta().getDisplayName().toString();
 				if (gun.equals("Standard Issue Rifle")) {
+					//plugin.logger.info("Using rifle");
 					/*
 					ItemProjectile bullet = new ItemProjectile("bullet-rifle", e.getPlayer(), new ItemStack(Material.STONE_BUTTON), 2.0F);
 					bullet.setIgnoreSomeBlocks(true);
 					bullet.boundingBox.shrink(2D, 2D, 2D);
 					*/
-					ItemProjectile bullet = Bullet.createRegularBullet("bullet-rifle", new ItemStack(Material.STONE_BUTTON), player, 2.0F);
+					ItemProjectile bullet = Bullet.createRegularBullet("bullet-rifle", new ItemStack(Material.STONE_BUTTON), player, 3F);
 					//OrbProjectile bullet = new OrbProjectile("bullet-rifle", e.getPlayer(), 2.0f);
 					//e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.FIREWORK_BLAST, 0.5f, 0.6f);
 					Sounds.playRifleSound(player);
-					bullet.getEntity().setVelocity(bullet.getEntity().getVelocity().multiply(3));
+					//bullet.getBukkitEntity().setVelocity(bullet.getBukkitEntity().getVelocity().multiply(1.75));
 					int lvl = player.getLevel() - 1;
 					float progress = (float) lvl/Rifle.getMagSize();
 					this.plugin.logger.info("Progress: " + progress);
@@ -88,6 +99,8 @@ public class Rifle implements IGun {
 						
 					}, 20L);
 				}
+			} else {
+				player.sendMessage(ChatColor.RED + "You don't have enough ammo to use this gun!");
 			}
 		}
 		return;
@@ -114,7 +127,8 @@ public class Rifle implements IGun {
 		}
 
 		ItemStack gunIS = e.getItem();
-		if (gunIS.getType() == Material.MONSTER_EGG && gunIS.getDurability() == 51) {
+		//if (gunIS.getType() == Material.MONSTER_EGG && gunIS.getDurability() == 51) {
+		if (gunIS.getType() == Material.MONSTER_EGG) {
 			if (gunIS.getItemMeta().getDisplayName().equals("Standard Issue Rifle")) {
 				player.setLevel(Rifle.getMagSize());
 				float progress = Rifle.getMagSize() / Rifle.getMagSize();
@@ -130,10 +144,13 @@ public class Rifle implements IGun {
 
 	public static ItemStack getGun() {
 		ItemStack gun = new ItemStack(Material.MONSTER_EGG);
-		gun.setDurability((short) 51);
-		ItemMeta gunIM = gun.getItemMeta();
-		gunIM.setDisplayName("Standard Issue Rifle");
-		gun.setItemMeta(gunIM);
+		//gun.setDurability((short) 51);
+		//ItemMeta gunIM = gun.getItemMeta();
+		//gunIM.setDisplayName("Standard Issue Rifle");
+		//gun.setItemMeta(gunIM);
+		net.minecraft.server.v1_10_R1.ItemStack nmsGun = CraftItemStack.asNMSCopy(gun);
+		nmsGun.setTag(nbtTag);
+		gun = CraftItemStack.asBukkitCopy(nmsGun);
 		return gun;
 	}
 
@@ -175,5 +192,19 @@ public class Rifle implements IGun {
 	@Override
 	public double getAnimalDamage() {
 		return this.getPlayerDamage();
+	}
+	
+	public static NBTTagCompound generateTag() {
+		NBTTagCompound tag = new NBTTagCompound();
+		NBTTagCompound entityTag = new NBTTagCompound();
+		NBTTagCompound displayTag = new NBTTagCompound();
+		
+		entityTag.setString("id", "Skeleton");
+		displayTag.setString("Name", "Standard Issue Rifle");
+		
+		tag.set("EntityTag", entityTag);
+		tag.set("display", displayTag);
+		
+		return tag;
 	}
 }

@@ -1,5 +1,6 @@
 package io.github.podshot.WorldWar.internals;
 
+@Deprecated
 public class ConfigInternals {
 
 	private static boolean aatoe;

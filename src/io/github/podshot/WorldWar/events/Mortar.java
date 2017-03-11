@@ -58,11 +58,11 @@ public class Mortar implements Listener, ISpecialBlock {
 			if (!(evt.getPlayer().isSneaking())) {
 				final Location landing_loc = this.getLandingLocation(evt.getClickedBlock());
 				plugin.getLogger().info("Firing Mortar....");
-				evt.getPlayer().playSound(evt.getClickedBlock().getLocation(), Sound.FIREWORK_BLAST, 1, 1);
+				evt.getPlayer().playSound(evt.getClickedBlock().getLocation(), Sound.ENTITY_FIREWORK_BLAST, 1, 1);
 				for (Entity entity : evt.getPlayer().getNearbyEntities(10, 10, 10)) {
 					if (entity.getType() == EntityType.PLAYER) {
 						Player p = (Player) entity;
-						p.playSound(evt.getClickedBlock().getLocation(), Sound.FIREWORK_BLAST, 1, 1);
+						p.playSound(evt.getClickedBlock().getLocation(), Sound.ENTITY_FIREWORK_BLAST, 1, 1);
 					}
 				}
 				BlockHandler.MortarHandler.addCooldown(evt.getClickedBlock().getLocation());

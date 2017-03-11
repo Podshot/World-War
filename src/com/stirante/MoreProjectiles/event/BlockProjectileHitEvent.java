@@ -10,6 +10,7 @@ import org.bukkit.entity.LivingEntity;
  * BlockProjectileHitEvent is fired when falling block projectile hits entity or
  * block.
  */
+@SuppressWarnings("rawtypes")
 public class BlockProjectileHitEvent extends CustomProjectileHitEvent {
 
     private final Material mat;
@@ -24,7 +25,6 @@ public class BlockProjectileHitEvent extends CustomProjectileHitEvent {
      * @param mat  block id
      * @param data damage value of block
      */
-    @SuppressWarnings("rawtypes")
 	public BlockProjectileHitEvent(CustomProjectile pro, float damageMultiplier, Block b, BlockFace f, Material mat, int data) {
         super(pro, damageMultiplier, b, f);
         this.mat = mat;
@@ -39,8 +39,7 @@ public class BlockProjectileHitEvent extends CustomProjectileHitEvent {
      * @param mat  block id
      * @param data damage value of block
      */
-    @SuppressWarnings("rawtypes")
-	public BlockProjectileHitEvent(CustomProjectile pro, float damageMultiplier, LivingEntity ent, Material mat, int data) {
+    public BlockProjectileHitEvent(CustomProjectile pro, float damageMultiplier, LivingEntity ent, Material mat, int data) {
         super(pro, damageMultiplier, ent);
         this.mat = mat;
         this.data = data;

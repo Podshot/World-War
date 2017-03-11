@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 /**
  * ItemProjectileHitEvent is fired when item projectile hits entity or block.
  */
+@SuppressWarnings("rawtypes")
 public class ItemProjectileHitEvent extends CustomProjectileHitEvent {
 
     private final ItemStack item;
@@ -21,7 +22,6 @@ public class ItemProjectileHitEvent extends CustomProjectileHitEvent {
      * @param f    block face
      * @param item item
      */
-    @SuppressWarnings("rawtypes")
 	public ItemProjectileHitEvent(CustomProjectile pro, float damageMultiplier, Block b, BlockFace f, ItemStack item) {
         super(pro, damageMultiplier, b, f);
         this.item = item;
@@ -34,8 +34,7 @@ public class ItemProjectileHitEvent extends CustomProjectileHitEvent {
      * @param ent  hit entity
      * @param item item
      */
-    @SuppressWarnings("rawtypes")
-	public ItemProjectileHitEvent(CustomProjectile pro, float damageMultiplier, LivingEntity ent, ItemStack item) {
+    public ItemProjectileHitEvent(CustomProjectile pro, float damageMultiplier, LivingEntity ent, ItemStack item) {
         super(pro, damageMultiplier, ent);
         this.item = item;
     }

@@ -4,26 +4,26 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.server.v1_8_R3.AxisAlignedBB;
-import net.minecraft.server.v1_8_R3.Block;
-import net.minecraft.server.v1_8_R3.BlockPosition;
-import net.minecraft.server.v1_8_R3.Entity;
-import net.minecraft.server.v1_8_R3.EntityFallingBlock;
-import net.minecraft.server.v1_8_R3.EntityHuman;
-import net.minecraft.server.v1_8_R3.EntityLiving;
-import net.minecraft.server.v1_8_R3.IBlockData;
-import net.minecraft.server.v1_8_R3.IProjectile;
-import net.minecraft.server.v1_8_R3.MathHelper;
-import net.minecraft.server.v1_8_R3.MovingObjectPosition;
-import net.minecraft.server.v1_8_R3.Vec3D;
+import net.minecraft.server.v1_10_R1.AxisAlignedBB;
+import net.minecraft.server.v1_10_R1.Block;
+import net.minecraft.server.v1_10_R1.BlockPosition;
+import net.minecraft.server.v1_10_R1.Entity;
+import net.minecraft.server.v1_10_R1.EntityFallingBlock;
+import net.minecraft.server.v1_10_R1.EntityHuman;
+import net.minecraft.server.v1_10_R1.EntityLiving;
+import net.minecraft.server.v1_10_R1.IBlockData;
+import net.minecraft.server.v1_10_R1.IProjectile;
+import net.minecraft.server.v1_10_R1.MathHelper;
+import net.minecraft.server.v1_10_R1.MovingObjectPosition;
+import net.minecraft.server.v1_10_R1.Vec3D;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R3.block.CraftBlock;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_10_R1.block.CraftBlock;
+import org.bukkit.craftbukkit.v1_10_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 
@@ -130,8 +130,10 @@ public class BlockProjectile extends EntityFallingBlock implements CustomProject
         motY = d1;
         motZ = d2;
         float f3 = MathHelper.sqrt(d0 * d0 + d2 * d2);
-        lastYaw = yaw = (float) (Math.atan2(d0, d2) * 180.0D / 3.1415927410125732D);
-        lastPitch = pitch = (float) (Math.atan2(d1, f3) * 180.0D / 3.1415927410125732D);
+        //lastYaw = yaw = (float) (Math.atan2(d0, d2) * 180.0D / 3.1415927410125732D);
+        //lastPitch = pitch = (float) (Math.atan2(d1, f3) * 180.0D / 3.1415927410125732D);
+        lastYaw = yaw = (float) (Math.atan2(d0, d2) * 180.0D / Math.PI);
+        lastPitch = pitch = (float) (Math.atan2(d1, f3) * 180.0D / Math.PI);
     }
 
     @Override
@@ -149,16 +151,15 @@ public class BlockProjectile extends EntityFallingBlock implements CustomProject
         return (LivingEntity) shooter.getBukkitEntity();
     }
 
-    @SuppressWarnings({ "rawtypes", "deprecation" })
-	@Override
-    public void t_() {
-        K();
+    @Override
+    public void m() {
+        U();
         BlockPosition blockposition = new BlockPosition(locX, locY, locZ);
         IBlockData iblockdata = world.getType(blockposition);
         Block block = iblockdata.getBlock();
 
         if (!ignoredMaterials.contains(Material.getMaterial(Block.getId(block)))) {
-            AxisAlignedBB axisalignedbb = block.a(world, blockposition, iblockdata);
+            AxisAlignedBB axisalignedbb = iblockdata.c(world, blockposition);
 
             if ((axisalignedbb != null) && (axisalignedbb.a(new Vec3D(locX, locY, locZ)))) {
                 float damageMultiplier = MathHelper.sqrt(motX * motX + motY * motY + motZ * motZ);
@@ -177,20 +178,20 @@ public class BlockProjectile extends EntityFallingBlock implements CustomProject
         vec3d = new Vec3D(locX, locY, locZ);
         vec3d1 = new Vec3D(locX + motX, locY + motY, locZ + motZ);
         if (movingobjectposition != null) {
-            vec3d1 = new Vec3D(movingobjectposition.pos.a, movingobjectposition.pos.b, movingobjectposition.pos.c);
+            vec3d1 = new Vec3D(movingobjectposition.pos.x, movingobjectposition.pos.y, movingobjectposition.pos.z);
         }
 
         Entity entity = null;
-        List list = world.getEntities(this, getBoundingBox().a(motX, motY, motZ).grow(2.0D, 2.0D, 2.0D));
+        List<Entity> list = world.getEntities(this, getBoundingBox().a(motX, motY, motZ).grow(2.0D, 2.0D, 2.0D));
         double d0 = 0.0D;
 
         for (Object aList : list) {
             Entity entity1 = (Entity) aList;
 
-            if ((entity1.ad()) && ((entity1 != shooter) || (age >= 5))) {
+            if ((entity1.isCollidable()) && ((entity1 != shooter) || (age >= 5))) {
                 float f1 = 0.3F;
                 AxisAlignedBB axisalignedbb1 = entity1.getBoundingBox().grow(f1, f1, f1);
-                MovingObjectPosition movingobjectposition1 = axisalignedbb1.a(vec3d, vec3d1);
+                MovingObjectPosition movingobjectposition1 = axisalignedbb1.b(vec3d, vec3d1);
 
                 if (movingobjectposition1 != null) {
                     double d1 = vec3d.distanceSquared(movingobjectposition1.pos);
@@ -232,15 +233,15 @@ public class BlockProjectile extends EntityFallingBlock implements CustomProject
                 }
             } else if (movingobjectposition.a() != null) {
                 if (!ignoredMaterials.contains(Material.getMaterial(Block.getId(block)))) {
-                    motX = ((float) (movingobjectposition.pos.a - locX));
-                    motY = ((float) (movingobjectposition.pos.b - locY));
-                    motZ = ((float) (movingobjectposition.pos.c - locZ));
+                    motX = ((float) (movingobjectposition.pos.x - locX));
+                    motY = ((float) (movingobjectposition.pos.y - locY));
+                    motZ = ((float) (movingobjectposition.pos.z - locZ));
                     float f3 = MathHelper.sqrt(motX * motX + motY * motY + motZ * motZ);
                     locX -= motX / f3 * 0.0500000007450581D;
                     locY -= motY / f3 * 0.0500000007450581D;
                     locZ -= motZ / f3 * 0.0500000007450581D;
                     float damageMultiplier = MathHelper.sqrt(motX * motX + motY * motY + motZ * motZ);
-                    CustomProjectileHitEvent event = new BlockProjectileHitEvent(this, damageMultiplier, world.getWorld().getBlockAt((int) movingobjectposition.pos.a, (int) movingobjectposition.pos.b, (int) movingobjectposition.pos.c), CraftBlock.notchToBlockFace(movingobjectposition.direction), getMaterial(), getData());
+                    CustomProjectileHitEvent event = new BlockProjectileHitEvent(this, damageMultiplier, world.getWorld().getBlockAt((int) movingobjectposition.pos.x, (int) movingobjectposition.pos.y, (int) movingobjectposition.pos.z), CraftBlock.notchToBlockFace(movingobjectposition.direction), getMaterial(), getData());
                     Bukkit.getPluginManager().callEvent(event);
                     if (!event.isCancelled()) {
                         die();

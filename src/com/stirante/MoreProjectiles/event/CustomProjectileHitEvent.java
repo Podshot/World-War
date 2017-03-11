@@ -13,10 +13,10 @@ import org.bukkit.event.HandlerList;
  * CustomProjectileHitEvent is fired when custom projectile hits entity or
  * block.
  */
+@SuppressWarnings("rawtypes")
 public class CustomProjectileHitEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
-    @SuppressWarnings("rawtypes")
 	private final CustomProjectile projectile;
     private final float damageMultiplier;
     private LivingEntity entity;
@@ -30,8 +30,7 @@ public class CustomProjectileHitEvent extends Event implements Cancellable {
      * @param pro projectile
      * @param ent hit entity
      */
-    @SuppressWarnings("rawtypes")
-	public CustomProjectileHitEvent(CustomProjectile pro, float damageMultiplier, LivingEntity ent) {
+    public CustomProjectileHitEvent(CustomProjectile pro, float damageMultiplier, LivingEntity ent) {
         projectile = pro;
         entity = ent;
         this.damageMultiplier = damageMultiplier;
@@ -44,8 +43,7 @@ public class CustomProjectileHitEvent extends Event implements Cancellable {
      * @param b   hit block
      * @param f   block face
      */
-    @SuppressWarnings("rawtypes")
-	public CustomProjectileHitEvent(CustomProjectile pro, float damageMultiplier, Block b, BlockFace f) {
+    public CustomProjectileHitEvent(CustomProjectile pro, float damageMultiplier, Block b, BlockFace f) {
         projectile = pro;
         block = b;
         face = f;
@@ -71,8 +69,7 @@ public class CustomProjectileHitEvent extends Event implements Cancellable {
      *
      * @return projectile
      */
-    @SuppressWarnings("rawtypes")
-	public CustomProjectile getProjectile() {
+    public CustomProjectile getProjectile() {
         return projectile;
     }
 

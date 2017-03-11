@@ -2,7 +2,6 @@ package io.github.podshot.WorldWar.files;
 
 import io.github.podshot.WorldWar.WorldWar;
 import io.github.podshot.WorldWar.api.WorldWarTeam;
-import io.github.podshot.WorldWar.entities.VehicleType;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -61,14 +60,22 @@ public class StructureYAML {
 	}
 	
 	public static void setTeamSpawnpoint(Location loc, String team) {
+		int x = loc.getBlockX();
+		int y = loc.getBlockY();
+		int z = loc.getBlockZ();
+		World world = loc.getWorld();
 		
+		config.set("Structure.Spawnpoint." + team + ".X", x);
+		config.set("Structure.Spawnpoint." + team + ".Y", y);
+		config.set("Structure.Spawnpoint." + team + ".Z", z);
+		config.set("Structure.Spawnpoint." + team + ".World", world.getName());
 	}
 	
 	public static Location getTeamSpawnpoint(String team) {
-		int x = config.getInt("Structure."+team+".Spawnpoint.X");
-		int y = config.getInt("Structure."+team+".Spawnpoint.Y");
-		int z = config.getInt("Structure."+team+".Spawnpoint.Z");
-		String name = config.getString("Structure."+team+".Spawnpoint.World");
+		int x = config.getInt("Structure.Spawnpoint."+team+".X");
+		int y = config.getInt("Structure.Spawnpoint."+team+".Y");
+		int z = config.getInt("Structure.Spawnpoint."+team+".Z");
+		String name = config.getString("Structure.Spawnpoint."+team+".World");
 		World world = Bukkit.getWorld(name);
 		Location loc = new Location(world, x, y, z);
 		return loc;
@@ -79,6 +86,9 @@ public class StructureYAML {
 		int y = config.getInt("Structure.Flag." + team.toString() + ".Y");
 		int z = config.getInt("Structure.Flag." + team.toString() + ".Z");
 		String name = config.getString("Structure.Flag." + team.toString() + ".World");
+		if (name == null) {
+			name = Bukkit.getServer().getWorlds().get(0).getName();
+		}
 		plugin.logger.info("World Name: " + name);
 		World world = Bukkit.getServer().getWorld(name);
 		Location loc = new Location(world, x, y, z);
@@ -99,28 +109,6 @@ public class StructureYAML {
 		
 	}
 	
-	public static void setVehiclePad(Location loc, VehicleType type) {
-		
-		int x = loc.getBlockX();
-		int y = loc.getBlockY();
-		int z = loc.getBlockZ();
-		World world = loc.getWorld();
-		
-		//String name = x + ":" + y + ":" + z;
-		
-		String format = x + ":" + y + ":" + z + ":" + world.getName() + ":" + type;
-		list.add(format);
-		
-		config.set("Structures.Vehicles", list);
-		/*
-		config.set("Structure.Vehicle." + name + "X", x);
-		config.set("Structure.Vehicle." + name + "Y", y);
-		config.set("Structure.Vehicle." + name + "Z", z);
-		config.set("Structure.Vehicle." + name + "World", world.getName());
-		config.set("Structure.Vehicle." + name + "Type", type);
-		*/
-		
-	}
 	
 	public static void saveMortar(List<Location> mortars) {
 		String strLoc;

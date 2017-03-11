@@ -58,7 +58,7 @@ public class NormalGrenade implements Listener, IGrenade {
 							for (Entity nearby : o.getEntity().getNearbyEntities(7.0D, 7.0D, 7.0D)) {
 								if (nearby.getType() == EntityType.PLAYER) {
 									Player player = (Player) nearby;
-									player.playSound(o.getEntity().getLocation(), Sound.FUSE, 2F, 0F);
+									player.playSound(o.getEntity().getLocation(), Sound.ENTITY_TNT_PRIMED, 2F, 0F);
 								}
 							}
 						}
